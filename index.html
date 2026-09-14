@@ -910,41 +910,43 @@ h2 .word{
 .form-status.is-error{color:var(--red);}
 
 /* ---------- Toast (Erfolgs-Hinweis) ---------- */
-/* Ersetzt den frueheren blauen Inline-Text bei Erfolg (schlecht lesbar) --
-   stattdessen eine dezente, zum Wegklicken gedachte Meldung unten rechts,
-   die zusaetzlich nach ein paar Sekunden von selbst verschwindet. Fehler/
+/* Ersetzt den frueheren blauen Inline-Text bei Erfolg (schlecht lesbar).
+   Wird per JS in die jeweils betroffene Box (.kontakt-form oder
+   .booking-card, dafuer beide jetzt position:relative) verschoben und dort
+   als helle, mittig liegende Karte über einem abgedunkelten Hintergrund
+   gezeigt -- soll auffallen statt in einer Ecke unterzugehen. Fehler/
    Ladezustand bleiben bewusst als Inline-Text direkt am Formular (siehe
-   .form-status), weil die Nutzerin/der Nutzer die dort im Kontext braucht
-   (z.B. um es nochmal zu versuchen) -- nur die "fertig, alles gut"-Meldung
-   passt als kurzer Pop-up-Hinweis. */
+   .form-status), weil man die dort im Kontext braucht (z.B. um es nochmal
+   zu versuchen) -- nur die "fertig, alles gut"-Meldung passt als Pop-up. */
+.kontakt-form, .booking-card{ position:relative; }
 .toast{
-  position:fixed; right:1.5rem; bottom:1.5rem; z-index:200;
-  display:flex; align-items:flex-start; gap:0.7rem; max-width:min(360px, calc(100vw - 3rem));
-  padding:1rem 1.1rem; border-radius:12px;
-  background:var(--bg2); border:1px solid var(--line);
-  box-shadow:0 20px 44px rgba(0,0,0,0.35);
-  opacity:0; transform:translateY(12px);
-  transition:opacity .3s ease, transform .3s ease;
+  position:absolute; inset:0; z-index:20; border-radius:8px;
+  display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  background:rgba(11,15,23,0.6);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease;
 }
 .toast[hidden]{ display:none; }
-.toast.is-visible{ opacity:1; transform:translateY(0); }
+.toast.is-visible{ opacity:1; pointer-events:auto; }
+.toast-card{
+  display:flex; align-items:flex-start; gap:0.7rem; max-width:100%;
+  padding:1.1rem 1.2rem; border-radius:12px;
+  background:#F4F6F8; box-shadow:0 20px 44px rgba(0,0,0,0.4);
+}
 .toast-icon{
   flex:0 0 auto; width:22px; height:22px; border-radius:50%; margin-top:0.1rem;
   display:flex; align-items:center; justify-content:center;
-  background:color-mix(in srgb, var(--accent) 18%, transparent); color:var(--accent);
+  background:color-mix(in srgb, #2952CC 16%, transparent); color:#2952CC;
 }
 .toast-icon svg{ width:13px; height:13px; }
-.toast-text{ flex:1; color:var(--ink); font-size:0.92rem; font-weight:500; line-height:1.5; }
+.toast-text{ flex:1; color:#0B0F17; font-size:0.92rem; font-weight:500; line-height:1.5; }
 .toast-close{
   flex:0 0 auto; background:none; border:none; padding:0.15rem; margin:-0.15rem -0.15rem 0 0;
-  color:var(--muted); cursor:pointer; border-radius:4px;
+  color:#525C6B; cursor:pointer; border-radius:4px;
   transition:color .2s ease;
 }
 .toast-close svg{ width:16px; height:16px; display:block; }
-.toast-close:hover{ color:var(--ink); }
-@media (max-width:600px){
-  .toast{ left:1rem; right:1rem; bottom:1rem; max-width:none; }
-}
+.toast-close:hover{ color:#0B0F17; }
 @media (max-width:900px){
   /* Formular und Booking-Karte laufen mobil nicht mehr untereinander,
      sondern als zwei Panels EINER gemeinsamen Box (die Karten-Optik --
@@ -1378,13 +1380,15 @@ h2 .word{
 <div id="smooth-spacer"></div>
 
 <div class="toast" id="site-toast" role="status" aria-live="polite" hidden>
-  <span class="toast-icon" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-  </span>
-  <span class="toast-text" id="site-toast-text"></span>
-  <button type="button" class="toast-close" id="site-toast-close" aria-label="Schließen">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
+  <div class="toast-card">
+    <span class="toast-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+    </span>
+    <span class="toast-text" id="site-toast-text"></span>
+    <button type="button" class="toast-close" id="site-toast-close" aria-label="Schließen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
 </div>
 
 <script>
@@ -1895,9 +1899,13 @@ h2 .word{
     clearTimeout(hideTimer);
     setTimeout(function(){ toast.hidden = true; }, 300);
   }
-  window.showToast = function(message){
+  window.showToast = function(message, container){
     clearTimeout(hideTimer);
     text.textContent = message;
+    // In die jeweils betroffene Box verschieben (.kontakt-form oder
+    // .booking-card, siehe Aufrufstellen) -- appendChild verschiebt das
+    // bestehende Element, statt es zu duplizieren.
+    (container || document.body).appendChild(toast);
     toast.hidden = false;
     // Reflow erzwingen, damit die Einblend-Transition auch greift, wenn der
     // Toast unmittelbar zuvor schon mal (aus-)geblendet wurde.
@@ -1940,7 +1948,7 @@ h2 .word{
       });
     }).then(function(){
       status.hidden = true;
-      window.showToast('Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.');
+      window.showToast('Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.', form);
       form.reset();
     }).catch(function(err){
       status.className = 'form-status is-error';
@@ -2083,7 +2091,7 @@ h2 .word{
       confirmForm.hidden = true;
       confirmForm.reset();
       statusEl.hidden = true;
-      window.showToast('Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.');
+      window.showToast('Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.', document.querySelector('.booking-card'));
       selectedSlotId = null;
       selectConfirmBtn.disabled = true;
       loadBookedSlots();
