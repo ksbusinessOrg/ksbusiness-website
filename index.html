@@ -826,7 +826,7 @@ h2 .word{
    Button liegen, sondern das Nachricht-Feld selbst waechst. Eigenes
    Sub-Flex auf dem Feld-Wrapper, damit auch die Textarea (sonst nur
    min-height) den vollen Wrapper ausfuellt. */
-.field-grow{flex:1; display:flex; margin-bottom:2rem;}
+.field-grow{flex:1; display:flex; margin-bottom:3rem;}
 .field-grow textarea{flex:1; min-height:110px;}
 .kontakt-submit{
   display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:999px;
@@ -862,12 +862,13 @@ h2 .word{
    als Hinweis, dass da noch mehr Tage kommen (per Mask, nicht Overlay --
    faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). */
 .booking-days{
-  display:flex; gap:0.5rem; overflow-x:auto;
+  display:flex; gap:0.5rem; overflow-x:auto; cursor:grab;
   scrollbar-width:none; -ms-overflow-style:none;
   mask-image:linear-gradient(to right, black 85%, transparent 100%);
   -webkit-mask-image:linear-gradient(to right, black 85%, transparent 100%);
 }
 .booking-days::-webkit-scrollbar{ display:none; }
+.booking-days.is-dragging{ cursor:grabbing; user-select:none; }
 .booking-day{
   flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid var(--line);
   background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
@@ -891,7 +892,7 @@ h2 .word{
    letzte Element in einer Flex-Column-Karte ist) -- hier sitzt der Button
    aber MITTEN im Ablauf von .booking-cal, das haette sonst den ganzen
    Freiraum vor sich aufgesaugt und alles Folgende nach unten gedrueckt. */
-#booking-select-confirm{margin-top:0.8rem;}
+#booking-select-confirm{margin-top:1.8rem;}
 #booking-select-confirm[hidden]{display:none;}
 .booking-confirm{display:flex; flex-direction:column; gap:0.8rem;}
 /* Eigene display:flex-Regel oben schlaegt sonst per Cascade-Reihenfolge
@@ -2031,6 +2032,36 @@ h2 .word{
       // Belegungen, statt den ganzen Bereich zu blockieren.
     });
   }
+
+  // Tage-Leiste per Maus ziehbar machen -- overflow-x:auto allein reagiert
+  // nur auf Touch/Trackpad-Wischen bzw. Mausrad, nicht auf Klicken+Ziehen.
+  // Pointer Events statt Maus-Events, aber nur fuer pointerType "mouse"
+  // verdrahtet, damit echtes Touch-Scrollen unangetastet nativ bleibt.
+  (function(){
+    var isDown = false, startX = 0, scrollStart = 0, moved = false;
+    daysEl.addEventListener('pointerdown', function(e){
+      if (e.pointerType !== 'mouse') return;
+      isDown = true; moved = false;
+      startX = e.clientX; scrollStart = daysEl.scrollLeft;
+      daysEl.classList.add('is-dragging');
+    });
+    window.addEventListener('pointermove', function(e){
+      if (!isDown) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      daysEl.scrollLeft = scrollStart - dx;
+    });
+    window.addEventListener('pointerup', function(){
+      isDown = false;
+      daysEl.classList.remove('is-dragging');
+    });
+    // Capture-Phase, damit das VOR dem Klick-Handler des jeweiligen
+    // Tag-Buttons greift -- sonst wuerde ein Ziehen ueber einen Chip
+    // hinweg am Ende versehentlich diesen Tag auswaehlen.
+    daysEl.addEventListener('click', function(e){
+      if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+    }, true);
+  })();
 
   renderDays();
   renderTimes();
