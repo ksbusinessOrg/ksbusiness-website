@@ -781,6 +781,15 @@ h2 .word{
 .kontakt-tabs{ display:none; }
 .kontakt-form, .booking-card{
   height:100%; box-sizing:border-box; border-radius:8px; padding:2.2rem;
+  /* min-width:0 -- Grid-Items haben per Default min-width:auto, das
+     verhindert das Schrumpfen unter die eigene Inhaltsbreite. Die
+     Tages-Chips-Reihe (10 Stueck, white-space:nowrap) hat dadurch die
+     rechte Spalte staendig breiter als 50% gedrueckt, obwohl
+     grid-template-columns 1fr 1fr sagt -- .booking-days' overflow-x:auto
+     kam so nie zum Einsatz, weil die Spalte sich einfach mitgeweitet hat.
+     Mit min-width:0 greifen jetzt sowohl die 50/50-Aufteilung als auch
+     der Scroll bei den Chips. */
+  min-width:0;
   /* Flex-Column in beiden Boxen, Button per margin-top:auto ganz unten
      angepinnt -- so landen "Nachricht senden" und "Termin buchen" trotz
      unterschiedlich langem Inhalt auf derselben Höhe. */
