@@ -908,7 +908,43 @@ h2 .word{
 .booking-back:hover{color:var(--ink);}
 .form-status{font-size:0.88rem; margin:0; font-family:var(--font);}
 .form-status.is-error{color:var(--red);}
-.form-status.is-success{color:var(--accent);}
+
+/* ---------- Toast (Erfolgs-Hinweis) ---------- */
+/* Ersetzt den frueheren blauen Inline-Text bei Erfolg (schlecht lesbar) --
+   stattdessen eine dezente, zum Wegklicken gedachte Meldung unten rechts,
+   die zusaetzlich nach ein paar Sekunden von selbst verschwindet. Fehler/
+   Ladezustand bleiben bewusst als Inline-Text direkt am Formular (siehe
+   .form-status), weil die Nutzerin/der Nutzer die dort im Kontext braucht
+   (z.B. um es nochmal zu versuchen) -- nur die "fertig, alles gut"-Meldung
+   passt als kurzer Pop-up-Hinweis. */
+.toast{
+  position:fixed; right:1.5rem; bottom:1.5rem; z-index:200;
+  display:flex; align-items:flex-start; gap:0.7rem; max-width:min(360px, calc(100vw - 3rem));
+  padding:1rem 1.1rem; border-radius:12px;
+  background:var(--bg2); border:1px solid var(--line);
+  box-shadow:0 20px 44px rgba(0,0,0,0.35);
+  opacity:0; transform:translateY(12px);
+  transition:opacity .3s ease, transform .3s ease;
+}
+.toast[hidden]{ display:none; }
+.toast.is-visible{ opacity:1; transform:translateY(0); }
+.toast-icon{
+  flex:0 0 auto; width:22px; height:22px; border-radius:50%; margin-top:0.1rem;
+  display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--accent) 18%, transparent); color:var(--accent);
+}
+.toast-icon svg{ width:13px; height:13px; }
+.toast-text{ flex:1; color:var(--ink); font-size:0.92rem; font-weight:500; line-height:1.5; }
+.toast-close{
+  flex:0 0 auto; background:none; border:none; padding:0.15rem; margin:-0.15rem -0.15rem 0 0;
+  color:var(--muted); cursor:pointer; border-radius:4px;
+  transition:color .2s ease;
+}
+.toast-close svg{ width:16px; height:16px; display:block; }
+.toast-close:hover{ color:var(--ink); }
+@media (max-width:600px){
+  .toast{ left:1rem; right:1rem; bottom:1rem; max-width:none; }
+}
 @media (max-width:900px){
   /* Formular und Booking-Karte laufen mobil nicht mehr untereinander,
      sondern als zwei Panels EINER gemeinsamen Box (die Karten-Optik --
@@ -1340,6 +1376,16 @@ h2 .word{
   </footer>
 </div>
 <div id="smooth-spacer"></div>
+
+<div class="toast" id="site-toast" role="status" aria-live="polite" hidden>
+  <span class="toast-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+  </span>
+  <span class="toast-text" id="site-toast-text"></span>
+  <button type="button" class="toast-close" id="site-toast-close" aria-label="Schließen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
 
 <script>
 (function(){
@@ -1834,6 +1880,36 @@ h2 .word{
 </script>
 
 <script>
+// Gemeinsamer Toast fuer Erfolgsmeldungen (Kontaktformular + Terminbuchung),
+// window.showToast() global verfuegbar, damit beide Scripte unten darauf
+// zugreifen koennen, ohne das Element doppelt anzulegen.
+(function(){
+  var toast = document.getElementById('site-toast');
+  var text = document.getElementById('site-toast-text');
+  var closeBtn = document.getElementById('site-toast-close');
+  if (!toast) return;
+  var hideTimer;
+
+  function hide(){
+    toast.classList.remove('is-visible');
+    clearTimeout(hideTimer);
+    setTimeout(function(){ toast.hidden = true; }, 300);
+  }
+  window.showToast = function(message){
+    clearTimeout(hideTimer);
+    text.textContent = message;
+    toast.hidden = false;
+    // Reflow erzwingen, damit die Einblend-Transition auch greift, wenn der
+    // Toast unmittelbar zuvor schon mal (aus-)geblendet wurde.
+    void toast.offsetWidth;
+    toast.classList.add('is-visible');
+    hideTimer = setTimeout(hide, 6000);
+  };
+  closeBtn.addEventListener('click', hide);
+})();
+</script>
+
+<script>
 (function(){
   // Kontaktformular: echter Versand statt des bisherigen Platzhalter-
   // Submits (kein action/method -- hing bisher komplett in der Luft).
@@ -1863,8 +1939,8 @@ h2 .word{
         throw new Error(data.error || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.');
       });
     }).then(function(){
-      status.className = 'form-status is-success';
-      status.textContent = 'Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.';
+      status.hidden = true;
+      window.showToast('Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.');
       form.reset();
     }).catch(function(err){
       status.className = 'form-status is-error';
@@ -2006,8 +2082,8 @@ h2 .word{
     }).then(function(){
       confirmForm.hidden = true;
       confirmForm.reset();
-      statusEl.className = 'form-status is-success';
-      statusEl.textContent = 'Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.';
+      statusEl.hidden = true;
+      window.showToast('Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.');
       selectedSlotId = null;
       selectConfirmBtn.disabled = true;
       loadBookedSlots();
