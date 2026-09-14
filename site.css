@@ -1,0 +1,1103 @@
+:root{
+  --bg:#0B0F17;
+  --bg2:#131A26;
+  --ink:#F4F6F8;
+  --muted:#9AA7B8;
+  --accent:#4C7EFF;
+  --red:#C4453D;
+  --line:#232E3F;
+  --font:'Manrope','Segoe UI',Arial,sans-serif;
+}
+/* Echter Hell-Dunkel-Wechsel pro Section (wie hut8.com: fast Schwarz vs.
+   fast Weiß, kein Ton-in-Ton) — überschreibt die Tokens lokal, alle
+   Kind-Elemente greifen weiterhin auf dieselben var()-Namen zu. */
+.theme-light{
+  --bg:#F3F5F8; --bg2:#E7EBF1; --ink:#0B0F17; --muted:#525C6B; --line:#D6DCE4;
+  /* Blau/Rot müssen auf hellem Grund dunkler sein, sonst reicht der
+     Kontrast nicht (WCAG AA) — auf Dunkel sind die helleren Grundtöne ok. */
+  --accent:#2952CC; --red:#A93830;
+  /* WICHTIG: color hier explizit setzen, nicht nur die Variable. Reine
+     CSS-Vererbung gibt an Kind-Elemente die bereits FERTIG BERECHNETE
+     Body-Farbe weiter, nicht die Variable selbst — Kinder ohne eigene
+     color-Regel (z.B. .layer h3) blieben sonst bei der dunklen Body-Farbe
+     hängen, obwohl --ink hier lokal auf Dunkel-auf-Hell umgestellt ist. */
+  color:var(--ink);
+}
+/* Leicht "geknickte" Trennlinie statt gerader border-top — echtes Detail
+   von hut8.com (eigene "AngledDivider"-Komponente im Original). */
+.section-divider{display:block; width:100%; height:6px; overflow:visible;}
+.section-divider polyline{fill:none; stroke:var(--line); stroke-width:1;}
+*{box-sizing:border-box;}
+/* scroll-behavior:smooth gilt für natives Scrollen (Mobile — dort läuft
+   seit dem Umbau nur noch echtes Browser-Scrollen, kein eigenes Lerp mehr)
+   UND für jeden programmatischen scrollTo/scrollIntoView-Aufruf OHNE
+   explizites behavior — deshalb erzwingt der Desktop-Klick-Handler unten
+   bei seinem window.scrollTo() ausdrücklich behavior:'instant': Desktop hat
+   sein eigenes Lerp-Scrolling, das den sichtbaren Inhalt bereits weich
+   nachziehen lässt — zwei Smoothing-Systeme übereinander würden sich sonst
+   gegenseitig stören (zäher, doppelt gebremster Sprung). */
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+#smooth-content{position:fixed; top:0; left:0; width:100%; will-change:transform;}
+#smooth-spacer{width:1px;}
+.hero-inner{will-change:transform, opacity;}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font);
+  font-weight:300; margin:0; line-height:1.5; font-size:17px; overflow-x:hidden;
+}
+h1,h2,h3{font-family:var(--font); font-weight:700; margin:0;}
+p{margin:0;}
+a{color:inherit; text-decoration:none;}
+/* Sichtbarer Fokus-Ring für Tastaturnutzung — WCAG 2.4.7. Ersetzt den
+   Browser-Default statt ihn nur zu entfernen (siehe .field input:focus). */
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
+section[id]{scroll-margin-top:110px;}
+@media (max-width:900px){ section[id]{scroll-margin-top:90px;} }
+
+.note{
+  /* Ausgeblendet für den Klaus-Freigabelink -- interner Dev-Hinweis,
+     nicht für den Kunden gedacht. */
+  display:none;
+  position:fixed; bottom:0; left:0; right:0; z-index:99;
+  background:#1a1a1a; color:#aaa; font-size:0.78rem; padding:0.6rem 1.2rem;
+  border-top:1px solid var(--line); text-align:center;
+}
+.note strong{color:var(--accent);}
+
+/* ---------- Nav ---------- */
+/* WICHTIG: .nav liegt im DOM außerhalb aller .theme-light-Sections, bekommt
+   also nie deren lokal umgeschaltete --ink/--muted-Werte per CSS-Vererbung.
+   Früher deshalb ein fester, immer-dunkler Hintergrund (siehe Notiz zum
+   CSS-Vererbungsbug in der Projekt-Memory). Jetzt bewusst umgekehrt: die
+   Pill soll je nachdem, ob gerade eine helle oder dunkle Section darunter
+   durchscrollt, selbst hell/dunkel wechseln (fast reiner Blur, wenig
+   eigene Deckkraft) — dafür setzt ein kleines JS-Snippet unten
+   (`updateNavTheme()`) die Klasse `.nav-on-light`, sobald der Punkt unter
+   der Pill in eine `.theme-light`-Section fällt. Die Farbwerte hier sind
+   deshalb 1:1 aus `.theme-light` übernommen (siehe dort), nicht neu erfunden.
+   Statt einer randlosen, vollbreiten Kopfleiste jetzt eine schwebende,
+   mittig angedockte Pill. Auf Mobile enthält sie (da die Links unten in der
+   Bottom-Nav leben) nur noch das Logo; auf Desktop Logo+Links zusammen in
+   derselben Pill, per dünner Trennlinie optisch gruppiert. */
+.nav{
+  position:fixed; top:1.5rem; left:50%; transform:translateX(-50%); z-index:50;
+  display:flex; align-items:center; gap:2.6rem;
+  padding:0.95rem 2.3rem;
+  border-radius:999px;
+  background:color-mix(in srgb, var(--bg) 60%, transparent);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  box-shadow:0 10px 30px rgba(0,0,0,0.16);
+  transition:background .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+.nav .brand{font-weight:800; font-size:1.3rem; letter-spacing:0.02em; color:var(--ink); white-space:nowrap; transition:color .35s ease; display:flex; align-items:center;}
+/* Logo-SVGs (aus Assets/SVG) statt Text-Wortmarke -- currentColor auf den
+   Buchstaben-Pfaden übernimmt automatisch die Nav-Textfarbe (inkl.
+   Hell/Dunkel-Wechsel über .nav-on-light), das kleine Akzent-Quadrat
+   bleibt bewusst fest in --accent statt mitzuwechseln. */
+.logo-mark{ color:inherit; }
+.logo-mark-long{ display:block; height:22px; width:auto; }
+.logo-mark-short{ display:block; height:42px; width:auto; }
+.nav .brand:hover .logo-mark-long rect{ fill:var(--red); }
+/* Kleines Detail passend zum Claim ("...auf den Punkt"): der Punkt hinter
+   dem Markennamen wechselt beim Hover auf Rot. */
+.nav .brand .brand-dot{color:var(--accent); transition:color .3s ease;}
+.nav .brand:hover .brand-dot{color:var(--red);}
+.nav ul{
+  display:flex; gap:2.2rem; list-style:none; margin:0; padding-left:2.6rem;
+  border-left:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  transition:border-color .35s ease;
+}
+.nav a{font-size:0.95rem; font-weight:600; letter-spacing:0.02em; color:var(--muted); transition:color .2s ease; white-space:nowrap;}
+.nav a:hover{color:var(--ink);}
+/* Aktive Section in der schwebenden Nav hervorheben -- gleiches Prinzip
+   wie vorher schon bei der mobilen Bottom-Nav (is-active per Scrollspy/
+   IntersectionObserver), jetzt auch hier verdrahtet. */
+.nav a.is-active{color:var(--accent);}
+.nav.nav-on-light a.is-active{color:#2952CC;}
+/* Helle Section unter der Pill: Werte 1:1 aus .theme-light übernommen. */
+.nav.nav-on-light{
+  background:color-mix(in srgb, #F3F5F8 55%, transparent);
+  border-color:color-mix(in srgb, #D6DCE4 75%, transparent);
+  box-shadow:0 10px 30px rgba(15,23,35,0.10);
+}
+.nav.nav-on-light .brand{ color:#0B0F17; }
+.nav.nav-on-light ul{ border-left-color:color-mix(in srgb, #D6DCE4 75%, transparent); }
+.nav.nav-on-light a{ color:#525C6B; }
+.nav.nav-on-light a:hover{ color:#0B0F17; }
+
+/* ---------- Bottom-Nav (Mobile) ---------- */
+/* Ersetzt das alte Burger-Dropdown komplett: statt Hand-Strecken zum Öffnen
+   eines Menüs oben ist Navigation auf Mobile jetzt dauerhaft am unteren
+   Rand, mit dem Daumen erreichbar. Trägt jetzt auch das Logo (ersetzt den
+   früheren separaten "Start"-Eintrag) — dadurch braucht Mobile die
+   schwebende Pill oben gar nicht mehr, die bleibt rein Desktop (siehe
+   .nav-Regel unten, display:none auf Mobile). Gleicher Hell/Dunkel-
+   Farbwechsel wie die Pill (`.nav-on-light`-Pendant hier), aus denselben
+   Gründen: liegt außerhalb aller .theme-light-Sections, erbt deren Tokens
+   nie automatisch. */
+.bottom-nav{ display:none; }
+@media (max-width:900px){
+  .nav{ display:none; } /* Logo lebt jetzt unten in der Bottom-Nav, oben braucht Mobile nichts mehr */
+  .note{ display:none; } /* würde sich mit der Bottom-Nav am selben Rand überlappen */
+  body{ padding-bottom:64px; } /* Platz, damit Footer nicht unter der Bottom-Nav verschwindet */
+
+  .bottom-nav{
+    display:flex; align-items:stretch; justify-content:space-around;
+    position:fixed; bottom:0; left:0; right:0; z-index:50;
+    padding:0.3rem 0.2rem calc(0.3rem + env(safe-area-inset-bottom));
+    background:color-mix(in srgb, var(--bg) 94%, transparent);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);
+    transition:background .35s ease, border-color .35s ease;
+  }
+  .bottom-nav a{
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.25rem;
+    padding:0.35rem 0.1rem; color:var(--muted);
+    font-size:0.62rem; font-weight:600; letter-spacing:0.01em;
+    transition:color .15s ease;
+  }
+  .bottom-nav a svg{ width:21px; height:21px; transition:transform .15s ease; }
+  /* Höhere Spezifität nötig -- die generische ".bottom-nav a svg"-Regel
+     oben (21px) hätte sonst Vorrang vor der einfacheren .logo-mark-short-
+     Klasse und das "größere" Logo unsichtbar wieder auf 21px zurück-
+     gestutzt (genau das war der Bug: Größe stand im CSS, griff aber nie). */
+  .bottom-nav a.bottom-nav-brand .logo-mark-short{ width:auto; height:37px; }
+  .bottom-nav a.is-active{ color:var(--accent); }
+  .bottom-nav a.is-active svg{ transform:translateY(-2px); }
+  /* flex:0 0 auto statt der geerbten flex:1 -- das Logo ist deutlich
+     breiter als ein quadratisches Icon; mit flex:1 (gleicher Anteil wie
+     die anderen 4 Items) hätte es sich sonst zusammenquetschen können. */
+  .bottom-nav a.bottom-nav-brand{ flex:0 0 auto; padding-left:0.5rem; padding-right:0.5rem; font-size:0.66rem; font-weight:800; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
+  /* Helle Section unter der Bottom-Nav: Werte 1:1 aus .theme-light
+     übernommen (auch --accent, da dessen hellere Dark-Mode-Variante auf
+     hellem Grund zu wenig Kontrast hätte). */
+  .bottom-nav.nav-on-light{
+    background:color-mix(in srgb, #F3F5F8 88%, transparent);
+    border-color:#D6DCE4;
+  }
+  .bottom-nav.nav-on-light a{ color:#525C6B; }
+  .bottom-nav.nav-on-light a.bottom-nav-brand{ color:#0B0F17; }
+  .bottom-nav.nav-on-light a.is-active{ color:#2952CC; }
+}
+@media (prefers-reduced-motion: reduce){
+  .bottom-nav, .bottom-nav a, .bottom-nav a svg{ transition:none !important; }
+  .nav, .nav .brand, .nav ul{ transition:none !important; }
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  min-height:100vh; min-height:100svh; display:flex; align-items:center; position:relative;
+  padding:0 3rem; background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(76,126,255,0.08), transparent),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+  overflow:hidden;
+}
+/* Raster-Gestaltungsmuster für dunkle Sections (Hero, Arbeitsweise,
+   Kontakt -- siehe dort für die jeweiligen ::after-Regeln). Auf hellen
+   Sections (Leistungen, Referenzen) bewusst weggelassen.
+   WICHTIG: Grid-Linien UND die Punkt-Quadrate (.hero-dots) liegen jetzt im
+   selben Wrapper .hero-grid-layer und bekommen die Drift-Animation
+   gemeinsam -- dadurch bleiben die Quadrate dauerhaft exakt auf den
+   Linien, egal an welcher Stelle der Animation man gerade ist (anders als
+   vorher, wo nur der Hintergrund driftete und die Quadrate fix positioniert
+   waren -> liefen laufend auseinander). */
+.hero-grid-layer{
+  position:absolute; inset:0; pointer-events:none; z-index:1;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 120px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 120px);
+  opacity:0.6;
+  animation:gridDrift 40s linear infinite;
+}
+@keyframes gridDrift{
+  from{ transform:translate(0,0); }
+  to{ transform:translate(120px,60px); }
+}
+@media (prefers-reduced-motion: reduce){ .hero-grid-layer{ animation:none !important; } }
+/* Weich pulsierender Glow hinter dem Content — atmet langsam, statt statisch
+   zu stehen. */
+.hero-glow{
+  position:absolute; top:10%; left:50%; width:60vw; height:60vw; max-width:900px; max-height:900px;
+  transform:translateX(-50%); border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, rgba(76,126,255,0.16), transparent 70%);
+  filter:blur(20px);
+  animation:glowBreathe 9s ease-in-out infinite;
+}
+@keyframes glowBreathe{
+  0%,100%{ opacity:0.6; transform:translateX(-50%) scale(1); }
+  50%{ opacity:1; transform:translateX(-50%) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-glow{ animation:none !important; }
+}
+
+/* ---------- Hero: Portrait-Karte + Punkt-Akzente ---------- */
+/* Gleiches Karten-Prinzip wie bei Arbeitsweise (rote Fläche + Bild), hier
+   fürs Hero-Portrait -- plus ein rotes Mail-Quadrat (Link) und zwei reine
+   Deko-Quadrate, alle im "Punkt"-Motiv. */
+.hero-portrait-cluster{ position:absolute; z-index:1; top:10rem; right:9%; }
+/* Jedes Element jetzt zweigeteilt: AUSSEN trägt Position/Größe + das
+   einmalige Einflug-riseIn (wie Eyebrow/H1/Sub/CTA, gestaffelt danach),
+   INNEN trägt Optik + Hover-Lift bzw. Idle-Float. Pflicht, nicht Stil: eine
+   laufende CSS-Animation (Idle-Float) und ein :hover-transform auf
+   DEMSELBEN Element würden sich gegenseitig überschreiben -- gleiches
+   Prinzip wie bei .ref-card/.ref-card-surface und .layer. */
+.hero-portrait-card{
+  position:relative; width:230px; height:236px;
+  opacity:0; transform:translateY(28px);
+  animation:riseIn 1s cubic-bezier(.16,1,.3,1) .9s forwards;
+}
+.hero-portrait-surface{
+  display:block; width:100%; height:100%; border-radius:28px; overflow:hidden;
+  background:#F4F6F8; box-shadow:0 28px 56px rgba(0,0,0,0.32);
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
+}
+.hero-portrait-card:hover .hero-portrait-surface{
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 36px 64px rgba(0,0,0,0.4);
+}
+.hero-portrait-surface img{ display:block; width:100%; height:100%; object-fit:cover; }
+/* Diagonale Kaskade statt Nebeneinander: Mail überlappt die obere rechte
+   Ecke des Portraits, LinkedIn sitzt tiefer und weiter rechts versetzt,
+   das kleine Quadrat noch weiter unten -- freier verteilt über eine
+   größere Fläche statt eng gruppiert. */
+.hero-mail{
+  position:absolute; top:-3.6rem; left:260px; width:113px; height:113px;
+  opacity:0; transform:translateY(28px);
+  animation:riseIn 1s cubic-bezier(.16,1,.3,1) 1s forwards;
+}
+.hero-mail-inner{
+  width:100%; height:100%; border-radius:26px; background:#C4453D; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 14px 28px rgba(0,0,0,0.28);
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
+}
+.hero-mail-inner svg{ width:34%; height:34%; }
+.hero-mail:hover .hero-mail-inner{ transform:translateY(-6px) scale(1.05); box-shadow:0 20px 40px rgba(0,0,0,0.34); }
+.hero-linkedin{
+  position:absolute; top:264px; left:202px; width:82px; height:82px;
+  opacity:0; transform:translateY(28px);
+  animation:riseIn 1s cubic-bezier(.16,1,.3,1) 1.1s forwards;
+}
+.hero-linkedin-inner{
+  width:100%; height:100%; border-radius:18px; background:#4C7EFF; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 12px 26px rgba(0,0,0,0.26);
+  transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
+}
+.hero-linkedin-inner svg{ width:38%; height:38%; }
+.hero-linkedin:hover .hero-linkedin-inner{ transform:translateY(-6px) scale(1.05); box-shadow:0 18px 36px rgba(0,0,0,0.3); }
+.hero-accent-a{
+  position:absolute; top:363px; left:107px; width:30px; height:30px;
+  opacity:0; transform:translateY(28px);
+  animation:riseIn 1s cubic-bezier(.16,1,.3,1) 1.2s forwards;
+}
+.hero-accent-a-inner{
+  display:block; width:100%; height:100%; border-radius:8px; background:#fff;
+  box-shadow:0 10px 22px rgba(0,0,0,0.2);
+  animation:arbDotFloat 7.5s ease-in-out infinite;
+}
+/* Eigenständiges viertes Quadrat, weit weg vom Cluster auf der anderen
+   Seite (nahe der Headline) -- verstreuter statt alles an einer Stelle. */
+.hero-accent-far{
+  position:absolute; z-index:1; top:39.5%; left:13%; width:32px; height:32px;
+  opacity:0; transform:translateY(28px);
+  animation:riseIn 1s cubic-bezier(.16,1,.3,1) .7s forwards;
+}
+.hero-accent-far-inner{
+  display:block; width:100%; height:100%; border-radius:9px; background:#4C7EFF;
+  box-shadow:0 10px 22px rgba(0,0,0,0.22);
+  animation:arbDotFloat 8s ease-in-out infinite .3s;
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-portrait-card, .hero-mail, .hero-linkedin, .hero-accent-a, .hero-accent-far{
+    animation:none !important; opacity:1 !important; transform:none !important;
+  }
+  .hero-accent-a-inner, .hero-accent-far-inner{ animation:none !important; }
+}
+@media (max-width:1300px){ .hero-accent-far{ display:none; } }
+@media (max-width:1300px){ .hero-portrait-cluster{ display:none; } }
+/* Der einzelne kleine Deko-Punkt links bleibt bis 1650px ausgeblendet --
+   er landete sonst unter dem Fließtext der Headline; für so ein kleines
+   Deko-Element ist "erst ab breitem Desktop zeigen" ein akzeptabler
+   Kompromiss (anders als beim Bildcluster, das bekommt unten eine echte
+   Lösung statt nur Ausblenden). */
+@media (max-width:1650px){ .hero-accent-far{ display:none; } }
+
+.hero-inner{max-width:1400px; margin:0 auto; width:100%; position:relative; z-index:2;}
+.hero-eyebrow{
+  display:inline-block; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--accent); font-weight:700; margin-bottom:1.6rem;
+  opacity:0; transform:translateY(16px); animation:riseIn .8s cubic-bezier(.16,1,.3,1) .1s forwards;
+}
+.hero h1{
+  font-size:clamp(3rem,8vw,7rem); line-height:0.98; letter-spacing:-0.02em;
+  max-width:16ch;
+  /* Größerer Weg + längere Dauer + späterer Start = deutlich mehr Drama
+     beim Einflug, unabhängig von der zusätzlichen Scroll-Bewegung unten. */
+  opacity:0; transform:translateY(95px); animation:riseIn 1.5s cubic-bezier(.16,1,.3,1) .32s forwards;
+}
+/* Schmalere Laptop-Breiten (MacBook & Co, z.B. 1383px): Bildcluster bleibt
+   sichtbar statt zu verschwinden, wird aber verkleinert statt mit der
+   Headline zu kollidieren. transform-origin:top right verankert die Ecke,
+   an der das Cluster ohnehin per top/right positioniert ist -- alles
+   (Portrait + Icons) schrumpft von dort nach innen, wodurch gleichzeitig
+   der Überstand nach rechts UND die Reichweite nach links (Richtung
+   Headline) kleiner werden. Zusätzlich die Headline selbst etwas kleiner,
+   als extra Sicherheitsabstand. Muss NACH der Basis-.hero h1-Regel stehen,
+   sonst gewinnt die spätere, unbedingte Basis-Regel bei gleicher
+   Spezifität (war der eigentliche Bug: die Verkleinerung griff nie). */
+@media (min-width:1301px) and (max-width:1650px){
+  .hero-portrait-cluster{ transform:scale(0.62); transform-origin:top right; }
+  .hero h1{ font-size:clamp(3rem,6.5vw,5.5rem); }
+}
+.h1-parallax{display:inline-block; will-change:transform;}
+.hero .sub{
+  margin-top:2rem; font-size:1.2rem; color:var(--muted); max-width:52ch; font-weight:300;
+  opacity:0; transform:translateY(24px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .55s forwards;
+}
+.hero .cta{
+  margin-top:2.6rem; display:inline-flex; align-items:center; gap:0.6rem;
+  padding:1rem 2rem; border:1px solid var(--ink); border-radius:999px;
+  font-size:1rem; font-weight:700; letter-spacing:0.02em;
+  opacity:0; transform:translateY(20px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .75s forwards;
+  transition:background .25s ease, color .25s ease;
+}
+.hero .cta:hover{background:var(--ink); color:var(--bg);}
+@keyframes riseIn{ to{opacity:1; transform:translateY(0);} }
+
+.scroll-cue{
+  position:absolute; bottom:2.5rem; left:3rem; display:flex; align-items:center; gap:0.7rem;
+  font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted);
+  opacity:0; animation:riseIn .8s ease 1.1s forwards;
+}
+.scroll-cue .line{width:32px; height:1px; background:var(--muted); position:relative; overflow:hidden;}
+.scroll-cue .line::after{
+  content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--accent);
+  animation:scrollLine 1.8s ease-in-out infinite;
+}
+@keyframes scrollLine{ 50%{left:0;} 100%{left:100%;} }
+
+/* ---------- Section 2: Three Layers ---------- */
+.layers{padding:9rem 3rem; background:var(--bg2);}
+/* Kein Raster-Hintergrund hier: das Raster-Gestaltungsmuster gilt bewusst
+   nur für dunkle Sections (Hero, später Arbeitsweise/Kontakt) -- auf
+   hellen Sections wie dieser hier weggelassen. Der Spotlight-Umlauf durch
+   die Karten (.layer.is-lit, siehe unten) bleibt trotzdem bestehen, das
+   ist ein eigenständiges Muster. */
+.layers-inner{max-width:1400px; margin:0 auto; position:relative;}
+.layers-head{max-width:46ch; margin-bottom:5rem;}
+.layers-head .kicker{
+  display:block; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--accent); font-weight:700; margin-bottom:1.2rem;
+  /* wie .layer: kein CSS-transition, JS setzt opacity/transform pro Frame */
+  opacity:0; transform:translateY(30px);
+}
+.layers-head h2{
+  font-size:clamp(2rem,4vw,3.2rem); line-height:1.2; letter-spacing:-0.01em;
+}
+/* Wort-für-Wort-Reveal statt Block-Fade: jedes Wort startet gedimmt und
+   "leuchtet" einzeln auf, je tiefer man scrollt — kein CSS-transition,
+   JS setzt opacity pro Frame kontinuierlich anhand der Scrolltiefe. */
+/* Generisch für alle Section-Headlines, nicht nur Leistungen. */
+/* Dimmung jetzt über FARBE (grau -> volle Textfarbe), nicht über Opacity:
+   dunkler Text bei niedriger Deckkraft auf hellem Grund würde fast
+   verschwinden, während heller Text bei niedriger Deckkraft auf dunklem
+   Grund noch lesbar bleibt — mit reiner Opacity also je nach Section
+   unterschiedlich stark sichtbar. Farb-Crossfade funktioniert auf beiden. */
+h2 .word{
+  display:inline-block; color:var(--muted); transform:translateY(0.12em);
+  will-change:color, transform;
+}
+
+/* Umbau: echte Karten mit Abstand zueinander statt Spalten mit Trennlinie
+   -- keine Outlines mehr irgendwo, Kartenwirkung nur noch über Schatten
+   (Elevation), genau wie bei .ref-card-surface. Hover invertiert
+   vollflächig (dunkel, heller Text) statt eines hellblauen Farbtons --
+   Rebeccas Wunsch: kein "hellblaues Highlighting" mehr. */
+.layer-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;}
+.layer{
+  padding:2.5rem 2.2rem; border-radius:8px;
+  background:var(--bg); color:var(--ink);
+  box-shadow:0 2px 10px rgba(15,23,35,0.06);
+  /* Kein CSS-transition auf transform/opacity: die werden pro Frame direkt
+     von JS gesetzt (Scroll-Scrub, siehe updateReveals()) -- background/
+     color/box-shadow gehören JS nicht, die dürfen normal übergehen. */
+  opacity:0; transform:translateY(36px);
+  transition:background-color .3s ease, color .3s ease, box-shadow .3s ease;
+}
+/* Rebeccas Regel: Weiß hovert kräftig in Markenrot, nicht mehr dunkel-
+   invertiert (erst hellblau, dann auf Rot korrigiert) -- fest #C4453D
+   (dieselbe Rottöne wie Freisteller-Karte/"Punkt.") statt var(--red):
+   .theme-light schaltet --red hier auf ein dunkleres #A93830 um. */
+.layer:hover{
+  background:#C4453D; color:#fff;
+  box-shadow:0 24px 48px rgba(196,69,61,0.32);
+}
+.layer:hover .tag{ color:#fff; }
+.layer:hover p{ color:rgba(255,255,255,0.85); }
+/* Spotlight-Umlauf (Raster-Gestaltungsmuster, siehe Hero): die Karten
+   bleiben dauerhaft sichtbar, ein sanftes Aufleuchten läuft per JS
+   nacheinander durch sie durch (Script unten). Bewusst nur Schatten, keine
+   Farbtönung -- dezenter als der volle Hover-Invert, damit beide Zustände
+   unterscheidbar bleiben (gleiches Prinzip wie bei .ref-card-surface). */
+.layer.is-lit{ box-shadow:0 20px 40px rgba(15,23,35,0.16); }
+.layer.is-lit .tag{ color:var(--red); }
+.layer .tag{font-size:1.1rem; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; font-weight:700; transition:color .3s ease;}
+.layer h3{font-size:1.9rem; margin:1rem 0 1.1rem; letter-spacing:-0.01em;}
+.layer p{color:var(--muted); font-size:0.98rem; line-height:1.6; font-weight:300; transition:color .3s ease;}
+@media (max-width:900px){
+  .layer-grid{grid-template-columns:1fr; gap:1.25rem;}
+  .layer{padding:1.6rem 1.75rem;}
+}
+
+/* ---------- Section 3: Arbeitsweise ---------- */
+/* Umbau (Rebeccas "Design idee 1"): keine volle dunkle Section mehr,
+   sondern ein Karten-Cluster auf hellem Seitenhintergrund (wie
+   Leistungen/Referenzen), angelehnt an das sciventures.com-Motiv aus dem
+   Hero: eine dunkle Inhaltskarte + eine rote Foto-Karte, die deren untere
+   linke Ecke überlappt. Ersetzt die alte Bleed-zur-Kante-Lösung bewusst --
+   das war Rebeccas frühere Vorgabe für den ALTEN Vollbild-Ansatz, hier
+   ist der Freisteller Teil eines eigenständigen Karten-Motivs. */
+/* Gleicher Ton wie Leistungen/Referenzen (--bg2, nicht --bg) und keine
+   Section-Divider mehr davor/danach -- die drei hellen Sections sollen
+   nahtlos ineinander übergehen, kein sichtbarer Bruch mehr. */
+.arbeitsweise{ padding:9rem 3rem; background:var(--bg2); }
+.arbeitsweise-inner{ max-width:1400px; margin:0 auto; position:relative; }
+/* Kleine "Punkt"-Quadrate verstreut um das Karten-Cluster, gleiches Motiv
+   wie im Hero, hier aber ruhig (kein Erscheinen/Verschwinden) -- nur ein
+   sehr dezentes Idle-Float. */
+/* z-index:3 als Sicherheitsnetz -- Punkte sollen IMMER sichtbar über den
+   Karten liegen, nie dahinter verschwinden, selbst wenn sich Karten-Maße
+   künftig nochmal ändern.
+   Zweigeteilt wie beim Hero-Cluster: AUSSEN (.arb-dot-N, trägt zusätzlich
+   js-reveal) übernimmt Position/Größe + den Scroll-Einflug über das
+   bestehende .arbeitsweise .js-reveal/revealGroup()-System (gleiches
+   Muster wie Kicker/Absätze in dieser Section) -- INNEN (.arb-dot-inner)
+   trägt Optik + Idle-Float. Ein :hover/CSS-animation auf demselben
+   Element wie der Scroll-Scrub würde sich sonst gegenseitig
+   überschreiben. */
+.arb-dot{ position:absolute; z-index:3; }
+.arb-dot-inner{ display:block; width:100%; height:100%; border-radius:8px; animation:arbDotFloat 8s ease-in-out infinite; }
+@keyframes arbDotFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
+/* Deutlich mehr Abstand zu beiden Karten: 1+2 oben in der Lücke vor dem
+   Cluster, 3+4 rechts im freien Rand (Karte endet bei 24%+64%=88%). */
+.arb-dot-1{ top:-5.5rem; left:11.2%; width:32px; height:32px; }
+.arb-dot-1 .arb-dot-inner{ background:#fff; animation-duration:7s; }
+/* Sitzt jetzt links neben der roten Foto-Karte (statt zusätzlich oben
+   drüber) -- deutlich negativer left-Wert als die Foto-Karte selbst
+   (-54%), damit er sichtbar links daneben schwebt statt im Bild. */
+.arb-dot-2{ top:45%; left:-14.2%; width:22px; height:22px; }
+.arb-dot-2 .arb-dot-inner{ background:#0B0F17; animation-duration:9s; animation-delay:.4s; }
+.arb-dot-3{ top:10rem; right:-14.2%; width:56px; height:56px; }
+.arb-dot-3 .arb-dot-inner{ background:#131A26; animation-duration:8.5s; animation-delay:.2s; }
+.arb-dot-4{ top:18rem; right:-9.2%; width:26px; height:26px; }
+.arb-dot-4 .arb-dot-inner{ background:#fff; animation-duration:7.5s; animation-delay:.7s; }
+@media (prefers-reduced-motion: reduce){ .arb-dot-inner{ animation:none !important; } }
+.arbeitsweise-cluster{ position:relative; width:70%; max-width:980px; margin-left:29.2%; }
+/* Dunkle Karte: eigener, lokaler Dark-Token-Satz (wie .theme-light, nur
+   umgekehrt) -- unabhängig davon, dass die Section jetzt hell ist. */
+.arbeitsweise-card{
+  --bg:#0B0F17; --bg2:#131A26; --ink:#F4F6F8; --muted:#9AA7B8; --accent:#4C7EFF; --red:#C4453D; --line:#232E3F;
+  position:relative; z-index:1; overflow:hidden; border-radius:32px;
+  /* Links etwas mehr Platz lassen als die Foto-Karte hineinragt (siehe
+     .arbeitsweise-photo-card: rechte Kante bei -54%+63%=9%) -- sonst
+     überlappt das Foto den Text statt nur die leere Ecke der Karte. */
+  padding:6rem 5.5rem 6rem 20%;
+  background:var(--bg); color:var(--ink);
+  box-shadow:0 32px 64px rgba(11,15,23,0.18);
+}
+/* Statisches (kein Drift) Raster in der Karte -- bei einer so kleinen,
+   abgerundeten Fläche würde eine wandernde Linie unruhig wirken, die
+   Bewegung bleibt dem Hero als "großer" Auftritt vorbehalten. */
+.arbeitsweise-card::after{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 120px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 120px);
+}
+.arbeitsweise-card > *{ position:relative; z-index:1; }
+.arbeitsweise-card .kicker{
+  display:block; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--accent); font-weight:700; margin-bottom:1.2rem;
+}
+.arbeitsweise-card h2{
+  font-size:clamp(1.8rem,3.4vw,2.6rem); line-height:1.2; letter-spacing:-0.01em;
+  max-width:22ch; margin-bottom:1.6rem;
+}
+.arbeitsweise-card p{
+  color:var(--muted); font-size:1.02rem; line-height:1.65; font-weight:300;
+  margin-bottom:1.1rem; max-width:56ch;
+}
+.arbeitsweise-card p:first-of-type{color:var(--ink); font-size:1.12rem;}
+/* Rote Foto-Karte: überlappt die untere linke Ecke der dunklen Karte,
+   bricht bewusst aus dem Cluster nach links/unten aus (wie im sciventures-
+   Vorbild) statt sauber im Raster zu bleiben. */
+/* Rote Fläche und Freisteller sind jetzt getrennte, unabhängig positionierte
+   Elemente (nicht mehr Karte+Kind mit overflow:hidden) -- nur so kann das
+   Foto oben über die Kante der roten Fläche hinausragen, statt an ihr
+   beschnitten zu werden. Die rote Fläche bleibt als Farbfläche darunter
+   sichtbar (kürzer als das Foto, unten/seitlich als Rahmen erkennbar). */
+.arbeitsweise-photo-card{
+  position:absolute; z-index:2; left:-54%; width:63%; top:12%; bottom:-6%;
+  background:#C4453D; border-radius:28px;
+  box-shadow:0 28px 56px rgba(0,0,0,0.3);
+}
+/* Randlos, kein Innenabstand -- und oben deutlich über die rote Fläche
+   hinaus (top hier kleiner als bei .arbeitsweise-photo-card). Sobald ein
+   echter Freisteller mit transparentem Hintergrund da ist, wirkt das noch
+   deutlich stärker (freistehende Figur statt Rechteck, das übersteht).
+   WICHTIG: .arbeitsweise-photo ist ein <div>-Wrapper, nicht direkt das
+   <img> -- bei absolut positionierten <img>-Elementen mit eigenem
+   Seitenverhältnis berechnet der Browser die Höhe teils aus dem
+   Bildverhältnis statt aus der top+bottom-Streckung, auch wenn beide
+   gesetzt sind (Ergebnis: unten stimmte die Kante nicht mit der roten
+   Fläche überein). Ein normales <div> hat kein eigenes Seitenverhältnis,
+   streckt sich zuverlässig zwischen top/bottom; das <img> darin füllt es
+   einfach zu 100% mit object-fit:cover. */
+.arbeitsweise-photo{
+  position:absolute; z-index:3; left:-54%; width:63%; top:1%; bottom:-6%;
+  border-radius:28px; overflow:hidden;
+}
+.arbeitsweise-photo img{ display:block; width:100%; height:100%; object-fit:cover; }
+@media (max-width:900px){
+  /* Kein Section-Padding mehr auf beiden Seiten -- die dunkle Karte soll
+     jetzt komplett randlos volle Breite einnehmen, keine abgerundeten
+     Ecken mehr (Rebeccas Korrektur der vorherigen Links-Bleed-Version).
+     Deutlich weniger Luft zur Section davor/danach als der Desktop-Wert
+     (9rem) -- wird unterhalb 600px nochmal reduziert, siehe Override nach
+     dem gemeinsamen 600px-Block weiter unten. */
+  .arbeitsweise{ padding-left:0; padding-right:0; padding-top:5rem; padding-bottom:5rem; }
+  .arbeitsweise-cluster{
+    width:100%; max-width:none; margin-left:0; position:relative;
+  }
+  /* Deutlich mehr Bodenabstand -- der Freisteller braucht darin komplett
+     Platz (inkl. Poke-oben), OHNE den Text zu berühren. Volle Breite,
+     keine Rundung mehr. */
+  /* Seitliches Padding 1.5rem statt 1.75rem -- gleicher Wert wie das
+     restliche Mobile-Seitenpolster (Leistungen etc.), .arbeitsweise selbst
+     hat ja bewusst kein eigenes Section-Padding mehr (Karte läuft randlos),
+     die Karte muss den Textabstand also komplett allein tragen. */
+  .arbeitsweise-card{ padding:2.5rem 1.5rem 17rem 1.5rem; border-radius:0; }
+  /* Rote Fläche + Freisteller wieder als zwei separate, überlappende
+     Ebenen (wie am Desktop) statt einer verschmolzenen Fläche.
+     Bleedet jetzt wieder LINKS aus der Seite (wie ursprünglich), rechts
+     bleibt Rand zum Seitenrand -- Klaus (rechts im Foto) war beim
+     rechtsbündigen Versuch sonst abgeschnitten. Beide Ebenen teilen sich
+     denselben bottom-Wert (Unterkanten richtig aligned); der Poke-Effekt
+     kommt jetzt über eine andere aspect-ratio bei .arbeitsweise-photo
+     (etwas höher als die rote Fläche bei gleicher Breite), nicht mehr
+     über einen eigenen bottom-Versatz. */
+  .arbeitsweise-photo-card{
+    display:block; position:absolute; z-index:2;
+    /* width:min(...) statt reinem % -- sonst wächst das Bild auf breiteren
+       Tablet-Breiten über die Fläche hinaus, für die padding-bottom auf
+       der Karte Platz vorsieht, und läuft wieder in den Text. 330px ist
+       der Wert, für den der Textabstand geprüft ist (bei ~375px Breite
+       entspricht das den 88%). */
+    left:-1.5rem; width:min(88%, 330px); height:auto; aspect-ratio:4/3; top:auto; bottom:-3rem;
+    background:#C4453D; border-radius:20px;
+  }
+  /* .arbeitsweise-photo trägt js-reveal/arb-box-reveal, das JS setzt pro
+     Scroll-Frame per Inline-Style transform -- ein eigener CSS-transform
+     hier würde sofort überschrieben (siehe frühere Notiz). Deshalb Poke
+     über aspect-ratio statt transform/margin. */
+  .arbeitsweise-photo{
+    position:absolute; z-index:3;
+    left:-1.5rem; width:min(88%, 330px); height:auto; aspect-ratio:4/3.55; top:auto; bottom:-3rem;
+    border-radius:20px; overflow:hidden;
+  }
+  /* object-position deutlich nach rechts verschoben -- beim engen 4:3-
+     Ausschnitt fiel Klaus (steht im Originalfoto weiter rechts) sonst aus
+     dem sichtbaren Bereich, es war fast nur noch der Kollege zu sehen. */
+  .arbeitsweise-photo img{ object-position:85% center; }
+  /* Mobile: Einfachheit vor Deko (siehe Projektprinzip) -- die verstreuten
+     Punkt-Quadrate brauchen Platz, den es hier nicht gibt. */
+  .arb-dot{ display:none; }
+}
+/* Tablet-Stufe (601-900px): 3rem statt 1.5rem Seitenpolster in der Karte
+   -- gleicher Wert, den .layers (Leistungen) in diesem Bereich schon
+   automatisch hat (Desktop-Wert, dort nie extra reduziert). Sonst wirkt
+   der Text in der Arbeitsweise-Karte auf Tablet-Breite enger eingerückt
+   als bei Leistungen/Referenzen daneben. */
+@media (min-width:601px) and (max-width:900px){
+  .arbeitsweise-card{ padding-left:3rem; padding-right:3rem; }
+}
+
+/* ---------- Section 4: Referenzen ---------- */
+/* Umbau (09/26): zweispaltiges Karten-Masonry mit Tempo-Unterschied
+   zwischen den Spalten, inspiriert von app-mail.webflow.io — plus Hover-
+   Lift+Schatten auf den Karten (wejam.ai-Idee). Kein CSS position:sticky
+   für den Kopf: #smooth-content läuft auf Desktop als position:fixed +
+   JS-transform (siehe Script unten), sticky würde sich mit diesem
+   Fake-Scroll nicht zuverlässig vertragen — der Tempo-Unterschied kommt
+   stattdessen komplett aus JS (updateReveals -> .ref-col-Transform),
+   konsistent mit allem anderen in diesem Script. */
+.referenzen{padding:9rem 3rem; background:var(--bg2); overflow:hidden;}
+.referenzen-inner{
+  max-width:1400px; margin:0 auto; display:grid;
+  grid-template-columns:0.44fr 1fr; gap:4rem; align-items:start;
+  position:relative;
+}
+.referenzen-head{max-width:38ch;}
+.ref-grid{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;}
+/* Kein Raster-Hintergrund hier (siehe .layers-inner-Kommentar -- gilt
+   bewusst nur für dunkle Sections). Tempo-Unterschied zwischen den Spalten
+   und der Spotlight-Umlauf (.ref-card-surface.is-lit) bleiben bestehen. */
+.ref-col{display:flex; flex-direction:column; gap:1.5rem; will-change:transform;}
+/* Zweite Spalte startet tiefer versetzt -> Masonry-Look statt Reihen-Raster. */
+.ref-col-b{margin-top:3.5rem;}
+/* .ref-card bleibt der reine JS-Reveal-Träger (opacity/transform pro Frame,
+   wie überall sonst hier) — die Optik inkl. Hover-Lift sitzt auf einem
+   inneren Wrapper. Ein CSS-Hover-transform direkt auf .ref-card würde vom
+   Scroll-Scrub sonst jeden Frame zurücküberschrieben. */
+/* Kein Rahmen mehr -- Kartenwirkung jetzt rein über Schatten (Elevation)
+   statt Outline. Hover invertiert vollflächig statt nur die Randfarbe zu
+   wechseln (Rebeccas Wunsch: "vollflächig und dunkler"). */
+.ref-card-surface{
+  border:none; border-radius:8px; padding:2rem; height:100%;
+  background:var(--bg); color:var(--ink);
+  box-shadow:0 2px 10px rgba(15,23,35,0.06);
+  transition:background-color .3s ease, color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
+}
+/* Gleiche Regel wie bei den Leistungen-Karten: Weiß hovert kräftig in
+   Markenrot statt dunkel-invertiert -- fest #C4453D, siehe Kommentar bei
+   .layer:hover. */
+.ref-card:hover .ref-card-surface{
+  background:#C4453D; color:#fff;
+  box-shadow:0 24px 48px rgba(196,69,61,0.32);
+  transform:translateY(-8px);
+}
+.ref-card:hover .ref-card-surface .ref-tag{ color:#fff; border-color:rgba(255,255,255,0.4); }
+.ref-card:hover .ref-card-surface p{ color:rgba(255,255,255,0.9); }
+.ref-card:hover .ref-card-surface .who{ color:rgba(255,255,255,0.8); }
+/* Spotlight-Umlauf (Raster-Gestaltungsmuster, siehe Hero/Leistungen):
+   reine Farb-/Schatten-Änderung, kein transform -- kollidiert dadurch
+   nicht mit dem Hover-Lift oben oder dem js-reveal auf .ref-card. Bewusst
+   dezenter als der Hover (Tönung statt Vollinvertierung), damit beide
+   Zustände klar unterscheidbar bleiben. */
+.ref-card-surface.is-lit{ box-shadow:0 16px 32px rgba(15,23,35,0.12); }
+.ref-card-surface .ref-tag{
+  display:inline-block; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
+  color:var(--muted); border:1px dashed var(--line); border-radius:3px;
+  padding:0.15rem 0.5rem; margin-bottom:1rem;
+  transition:color .3s ease, border-color .3s ease;
+}
+.ref-card-surface p{font-size:1rem; color:var(--ink); line-height:1.6; font-weight:300; transition:color .3s ease;}
+.ref-card-surface .who{margin-top:1rem; font-size:0.82rem; color:var(--muted); font-weight:600; transition:color .3s ease;}
+/* Pagination-Punkte unter dem mobilen Slider -- auf Desktop unsichtbar,
+   dort bleibt das zweispaltige Masonry-Grid bestehen. */
+.ref-pagination{ display:none; justify-content:center; gap:0.5rem; margin-top:1.5rem; }
+.ref-dot{ width:8px; height:8px; border-radius:50%; background:var(--line); transition:background-color .25s ease, transform .25s ease; }
+.ref-dot.is-active{ background:var(--accent); transform:scale(1.3); }
+@media (max-width:900px){
+  /* .referenzen bekommt hier bewusst KEIN eigenes Padding mehr -- soll
+     genau wie .layers (Leistungen) laufen: 3rem vom Desktop-Wert bis
+     600px, danach 1.5rem über die gemeinsame Regel weiter unten. Die
+     -1.5rem-Margin auf .ref-grid (für den Karten-Bleed) wird für den
+     Tablet-Bereich separat auf -3rem korrigiert, siehe Tablet-Stufe unten
+     -- sonst bliebe dort wieder ein ungewolltes Polster stehen. */
+  .referenzen-inner{grid-template-columns:1fr;}
+  .referenzen-head{max-width:none; margin-bottom:0.8rem;}
+  /* Statt zweispaltigem Masonry-Grid: horizontaler Swipe-Slider mit
+     Scroll-Snap (nativ, ohne eigene Touch-/Drag-Logik) -- passt zu
+     Rebeccas Mobile-Grundsatz "Einfachheit vor Animation". .ref-col
+     bekommt display:contents, damit seine 2 Karten direkt zu Flex-Items
+     von .ref-grid werden (sonst wäre pro Spalte ein eigener, ungewollter
+     Slide nötig). */
+  .ref-grid{
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:1rem;
+    /* Seitliches Padding (1.5rem, gleicher Wert wie das restliche Mobile-
+       Seitenpolster) -- erste/letzte Karte bekommen dadurch beim Einrasten
+       sauberen Randabstand statt bündig an der Kante zu kleben; die 85%-
+       Kartenbreite lässt trotzdem noch genug Platz für den Peek der
+       nächsten Karte rechts. Oben/unten großzügig Padding (2rem/3rem) --
+       overflow-x:auto zwingt (CSS-Spec, gepaarte Achsen) overflow-y
+       ebenfalls auf "auto", ein Scroll-Container clippt also IMMER exakt
+       an seiner Padding-Box. Der einzige Weg, den Spotlight-/Hover-
+       Schatten (bis zu 0 24px 48px) trotzdem nicht abzuschneiden, ist
+       genug Padding als Sicherheitszone -- reines overflow:visible geht
+       hier nicht, das wird vom Browser ignoriert/zurück auf auto gezwungen. */
+    margin:0 -1.5rem; padding:2rem 1.5rem 3rem;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  .ref-grid::-webkit-scrollbar{ display:none; }
+  .ref-col{ display:contents; }
+  .ref-card{ flex:0 0 85%; scroll-snap-align:center; scroll-snap-stop:always; }
+  .ref-pagination{ display:flex; margin-top:0.4rem; }
+}
+/* Eigene Stufe nur für Tablet-Breiten (601-900px) -- auf echten Handys
+   (<=600px) bleibt die einfache "eine Karte fast volle Breite"-Variante
+   von oben bestehen. Hier: schmalere, zentrierte Karte, damit links UND
+   rechts die nächste/vorherige Karte angeschnitten hereinschaut. vw statt
+   %, damit die Rechnung (Padding + Kartenbreite + Padding = 100%) nicht
+   verschachtelt neu aufgelöst wird (Padding ist % vom Container, Karte
+   wäre sonst % von einem bereits durch das Padding verkleinerten Bereich).
+   Padding auf .ref-grid wirkt dabei automatisch als Rand für die
+   Scroll-Snap-Zentrierung: bei der ersten/letzten Karte bleibt er als
+   Abstand zum Seitenrand sichtbar, bei mittleren Karten ist er beim
+   Zentrieren längst weggescrollt -- die laufen dadurch optisch bis zum
+   Rand, wie gewünscht. */
+@media (min-width:601px) and (max-width:900px){
+  /* margin:-3rem statt der geerbten -1.5rem -- .referenzen hat in diesem
+     Bereich jetzt (wie .layers) wieder 3rem Section-Padding, das muss die
+     Bleed-Margin exakt ausgleichen, sonst bleibt erneut ein Rest-Polster
+     stehen (siehe Notiz weiter oben bei .referenzen). */
+  .ref-grid{ margin:0 -3rem; padding-left:18vw; padding-right:18vw; }
+  .ref-card{ flex:0 0 64vw; width:64vw; }
+}
+
+/* ---------- Section 5: Kontakt ---------- */
+/* Bewusst NICHT nur ein weißes/neutrales Formular — farbig getönter
+   Verlauf im Hintergrund, wie im ursprünglichen Entwurf gefordert. */
+.kontakt{
+  padding:9rem 3rem; position:relative; overflow:hidden;
+  background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 16%, var(--bg)) 0%, var(--bg) 60%);
+}
+/* Gleiches Raster-Gestaltungsmuster wie Hero/Arbeitsweise. */
+.kontakt::after{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 120px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 120px);
+  opacity:0.6;
+  animation:gridDrift 40s linear infinite;
+}
+@media (prefers-reduced-motion: reduce){ .kontakt::after{ animation:none !important; } }
+.kontakt-inner{max-width:1400px; margin:0 auto; position:relative; z-index:1;}
+.kontakt-head{max-width:46ch; margin-bottom:3rem;}
+.kontakt-grid{display:grid; grid-template-columns:1fr 1fr; gap:3rem;}
+/* .kontakt-tab-track ist auf Desktop unsichtbar für das Layout
+   (display:contents) -- Formular/Booking-Karte bleiben direkte Grid-Items
+   von .kontakt-grid, genau wie vorher ohne den Wrapper. Erst mobil (siehe
+   @media unten) wird daraus die Slide-Track für die Tabs. */
+.kontakt-tab-track{ display:contents; }
+.kontakt-tabs{ display:none; }
+.kontakt-form, .booking-card{
+  height:100%; box-sizing:border-box; border-radius:8px; padding:2.2rem;
+  /* min-width:0 -- Grid-Items haben per Default min-width:auto, das
+     verhindert das Schrumpfen unter die eigene Inhaltsbreite. Die
+     Tages-Chips-Reihe (10 Stueck, white-space:nowrap) hat dadurch die
+     rechte Spalte staendig breiter als 50% gedrueckt, obwohl
+     grid-template-columns 1fr 1fr sagt -- .booking-days' overflow-x:auto
+     kam so nie zum Einsatz, weil die Spalte sich einfach mitgeweitet hat.
+     Mit min-width:0 greifen jetzt sowohl die 50/50-Aufteilung als auch
+     der Scroll bei den Chips. */
+  min-width:0;
+  /* Flex-Column in beiden Boxen, Button per margin-top:auto ganz unten
+     angepinnt -- so landen "Nachricht senden" und "Termin buchen" trotz
+     unterschiedlich langem Inhalt auf derselben Höhe. */
+  display:flex; flex-direction:column;
+  /* Nochmal heller (72% -> 80%) und mit einem Schuss Accent-Blau statt
+     reinem --bg2-Grauton gemischt (erst bg2+accent, dann das Ganze gegen
+     transparent) -- wirkt dadurch heller UND sichtbar blauer statt nur
+     grau, ohne den dunklen Look zu verlieren. */
+  background:color-mix(in srgb, color-mix(in srgb, var(--bg2) 88%, var(--accent) 12%) 80%, transparent);
+  box-shadow:0 20px 44px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+}
+.kontakt-form:hover, .booking-card:hover{
+  transform:translateY(-4px) scale(1.015);
+  box-shadow:0 28px 56px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
+}
+.field{margin-bottom:1.2rem;}
+/* Kein sichtbarer Rahmen mehr -- Feldgrenze stattdessen über einen inset-
+   Box-Shadow (schafft auf --bg auf beiden Themes >3:1, erfüllt WCAG 1.4.11
+   Non-text Contrast genau wie vorher der --muted-Rahmen, nur ohne Outline-
+   Optik). Fokus/Hover heben den Ring zusätzlich an statt die Randfarbe zu
+   wechseln. */
+.field input, .field textarea{
+  width:100%; background:var(--bg); border:none; border-radius:6px;
+  padding:0.8rem 1rem; color:var(--ink); font-family:var(--font); font-size:0.98rem;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 4px rgba(0,0,0,0.2);
+  transition:box-shadow .2s ease;
+}
+.field input:hover, .field textarea:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.28), inset 0 1px 4px rgba(0,0,0,0.2);}
+.field input:focus, .field textarea:focus{box-shadow:inset 0 0 0 2px var(--accent);}
+.field textarea{resize:vertical; min-height:110px;}
+/* Wenn die Box durch den Kalender rechts hoeher wird (Grid-Stretch, siehe
+   .kontakt-grid), soll der zusaetzliche Platz nicht als Leerraum vor dem
+   Button liegen, sondern das Nachricht-Feld selbst waechst. Eigenes
+   Sub-Flex auf dem Feld-Wrapper, damit auch die Textarea (sonst nur
+   min-height) den vollen Wrapper ausfuellt. */
+.field-grow{flex:1; display:flex; margin-bottom:3rem;}
+.field-grow textarea{flex:1; min-height:110px;}
+.kontakt-submit{
+  display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:999px;
+  border:1px solid var(--ink); text-align:center; text-decoration:none;
+  background:var(--ink); color:var(--bg); font-weight:700; font-size:1.05rem; line-height:1.2; cursor:pointer;
+  margin-top:auto; font-family:var(--font);
+  transition:background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+/* Hover jetzt mit echtem Farbwechsel statt nur Opacity -- hellblau (Accent)
+   mit weißer statt dunkler Schrift, deutlich sichtbarer als das alte
+   Abdimmen. */
+.kontakt-submit:hover{
+  background:#4C7EFF; border-color:#4C7EFF; color:#fff;
+}
+.kontakt-submit:disabled{ opacity:0.4; cursor:not-allowed; background:var(--ink); border-color:var(--ink); color:var(--bg); }
+.booking-card{gap:1.2rem;}
+/* Text-Block ist jetzt nur noch die kompakte Einleitung ueber dem
+   Slot-Kalender (frueher: einziger Inhalt neben dem Buchen-Button, daher
+   damals flex:1 + vertikal zentriert -- das brauchte es mit dem Kalender
+   darunter nicht mehr). */
+.booking-copy{display:flex; flex-direction:column; gap:0.6rem;}
+.booking-icon{
+  width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  background:var(--accent); color:#fff; margin-bottom:0.2rem;
+}
+.booking-icon svg{width:20px; height:20px;}
+.booking-card h3{font-size:1.3rem;}
+.booking-card p{color:var(--muted); font-size:0.98rem; font-weight:300;}
+
+/* ---------- Booking-Kalender ---------- */
+.booking-cal{flex:1; display:flex; flex-direction:column; gap:1rem; min-height:0;}
+/* Kein sichtbarer Scrollbalken -- stattdessen ein Ausfaden an den Raendern
+   als Hinweis, dass da noch mehr Tage kommen (per Mask, nicht Overlay --
+   faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). Das Mask-Image
+   selbst wird per JS gesetzt (siehe updateDaysFade() im Script unten), weil
+   es vom Scroll-Stand abhaengt: links nur ausfaden, wenn schon gescrollt
+   wurde, rechts nur, solange noch was folgt -- der erste/letzte Eintrag
+   soll nie im Fade stehen. */
+.booking-days{
+  display:flex; gap:0.5rem; overflow-x:auto; cursor:grab;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.booking-days::-webkit-scrollbar{ display:none; }
+.booking-days.is-dragging{ cursor:grabbing; user-select:none; }
+.booking-day{
+  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid var(--line);
+  background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
+  white-space:nowrap; cursor:pointer;
+  transition:background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.booking-day:hover{color:var(--ink); border-color:var(--muted);}
+.booking-day.is-active{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+.booking-times{display:flex; flex-wrap:wrap; gap:0.6rem;}
+.booking-time{
+  flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:0.7rem 0.8rem; border-radius:8px;
+  border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:var(--font);
+  font-size:0.92rem; font-weight:600; cursor:pointer; text-align:center;
+  transition:background-color .2s ease, border-color .2s ease, opacity .2s ease;
+}
+.booking-time:hover{border-color:var(--accent);}
+.booking-time.is-active{background:var(--accent); border-color:var(--accent); color:#fff;}
+.booking-time.is-booked{opacity:0.4; cursor:not-allowed; color:var(--muted);}
+.booking-time.is-booked:hover{border-color:var(--line);}
+/* .kontakt-submit bringt margin-top:auto mit (fuer den Fall, dass es das
+   letzte Element in einer Flex-Column-Karte ist) -- hier sitzt der Button
+   aber MITTEN im Ablauf von .booking-cal, das haette sonst den ganzen
+   Freiraum vor sich aufgesaugt und alles Folgende nach unten gedrueckt. */
+#booking-select-confirm{margin-top:1.8rem;}
+#booking-select-confirm[hidden]{display:none;}
+.booking-confirm{display:flex; flex-direction:column; gap:0.8rem;}
+/* Eigene display:flex-Regel oben schlaegt sonst per Cascade-Reihenfolge
+   die UA-Default-Regel "[hidden]{display:none}" -- das Formular blieb
+   dadurch trotz hidden-Attribut sichtbar. Explizit zurueckgesetzt. */
+.booking-confirm[hidden]{display:none;}
+.booking-back{
+  background:none; border:none; color:var(--muted); font-family:var(--font); font-size:0.85rem;
+  cursor:pointer; text-align:left; padding:0; text-decoration:underline; text-underline-offset:2px;
+}
+.booking-back:hover{color:var(--ink);}
+.form-status{font-size:0.88rem; margin:0; font-family:var(--font);}
+.form-status.is-error{color:var(--red);}
+
+/* ---------- Toast (Erfolgs-Hinweis) ---------- */
+/* Ersetzt den frueheren blauen Inline-Text bei Erfolg (schlecht lesbar).
+   Wird per JS in die jeweils betroffene Box (.kontakt-form oder
+   .booking-card, dafuer beide jetzt position:relative) verschoben und dort
+   als helle, mittig liegende Karte über einem abgedunkelten Hintergrund
+   gezeigt -- soll auffallen statt in einer Ecke unterzugehen. Fehler/
+   Ladezustand bleiben bewusst als Inline-Text direkt am Formular (siehe
+   .form-status), weil man die dort im Kontext braucht (z.B. um es nochmal
+   zu versuchen) -- nur die "fertig, alles gut"-Meldung passt als Pop-up. */
+.kontakt-form, .booking-card{ position:relative; }
+.toast{
+  position:absolute; inset:0; z-index:20; border-radius:8px;
+  display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  background:rgba(11,15,23,0.6);
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease;
+}
+.toast[hidden]{ display:none; }
+.toast.is-visible{ opacity:1; pointer-events:auto; }
+.toast-card{
+  display:flex; align-items:flex-start; gap:0.7rem; max-width:100%;
+  padding:1.1rem 1.2rem; border-radius:12px;
+  background:#F4F6F8; box-shadow:0 20px 44px rgba(0,0,0,0.4);
+}
+.toast-icon{
+  flex:0 0 auto; width:22px; height:22px; border-radius:50%; margin-top:0.1rem;
+  display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, #2952CC 16%, transparent); color:#2952CC;
+}
+.toast-icon svg{ width:13px; height:13px; }
+.toast-text{ flex:1; color:#0B0F17; font-size:0.92rem; font-weight:500; line-height:1.5; }
+.toast-close{
+  flex:0 0 auto; background:none; border:none; padding:0.15rem; margin:-0.15rem -0.15rem 0 0;
+  color:#525C6B; cursor:pointer; border-radius:4px;
+  transition:color .2s ease;
+}
+.toast-close svg{ width:16px; height:16px; display:block; }
+.toast-close:hover{ color:#0B0F17; }
+@media (max-width:900px){
+  /* Formular und Booking-Karte laufen mobil nicht mehr untereinander,
+     sondern als zwei Panels EINER gemeinsamen Box (die Karten-Optik --
+     Hintergrund/Schatten/Radius -- sitzt jetzt auf .kontakt-tab-track
+     selbst statt auf den beiden Panels einzeln). Swipen läuft über
+     natives Scroll-Snap (kein eigener Touch-Schwellenwert mehr, gleiche
+     Technik wie der Referenzen-Slider oben) -- fühlt sich dadurch wie ein
+     echter, einrastender Slider an. Die Tabs bleiben zusätzlich klickbar
+     und scrollen den Track programmatisch zum jeweiligen Panel. */
+  .kontakt-grid{ display:block; }
+  .kontakt-tabs{
+    display:flex; gap:0.4rem; margin-bottom:1.5rem;
+    background:var(--bg2); border-radius:999px; padding:0.3rem;
+  }
+  .kontakt-tab{
+    flex:1; padding:0.7rem 1rem; border:1px solid transparent; border-radius:999px;
+    background:transparent; color:var(--muted); font-family:var(--font);
+    font-weight:700; font-size:0.9rem; cursor:pointer;
+    transition:background-color .25s ease, color .25s ease, border-color .25s ease;
+  }
+  /* Outline-Stil statt Vollfläche -- gleiche Optik wie der Hero-Button
+     (.hero .cta): Rahmen statt Farbfüllung. */
+  .kontakt-tab.is-active{ background:transparent; color:var(--ink); border-color:var(--ink); }
+  /* CSS Grid statt Flex für die Spur: Grids Default-Stretch über
+     Spalten hinweg ist der exakt gleiche, bereits bewährte Mechanismus
+     wie beim Desktop-.kontakt-grid (display:grid) -- damit landen beide
+     Panels zuverlässig auf gleicher Höhe. Mit display:flex blieb ein
+     Panel bei seiner eigenen Inhaltshöhe hängen statt sich zu strecken
+     (Button-Reihen dadurch nicht mehr aligned). */
+  .kontakt-tab-track{
+    display:grid; grid-auto-flow:column; grid-auto-columns:100%;
+    /* overflow-y explizit hidden -- sonst wird bei nur gesetztem
+       overflow-x der Browser die andere Achse implizit auch auf "auto"
+       schalten (CSS-Overflow-Spec-Regel für gepaarte Achsen), wodurch die
+       Box zusätzlich vertikal scrollbar wurde, obwohl das nie gewollt war. */
+    overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; width:100%;
+    border-radius:8px;
+    background:color-mix(in srgb, color-mix(in srgb, var(--bg2) 88%, var(--accent) 12%) 80%, transparent);
+    box-shadow:0 20px 44px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+    scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch;
+  }
+  .kontakt-tab-track::-webkit-scrollbar{ display:none; }
+  /* Panels selbst jetzt "nackt" (kein eigener Hintergrund/Schatten/Radius
+     mehr, die trägt der Track) -- nur noch Snap-Punkt, Breite/Höhe kommt
+     vom Grid. */
+  .kontakt-tab-track .kontakt-form, .kontakt-tab-track .booking-card{
+    box-sizing:border-box;
+    scroll-snap-align:start; scroll-snap-stop:always;
+    background:none; box-shadow:none;
+  }
+  .kontakt-tab-track:hover, .kontakt-tab-track .kontakt-form:hover, .kontakt-tab-track .booking-card:hover{
+    transform:none; box-shadow:0 20px 44px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+}
+
+/* Richtiger Footer statt der einzeiligen Platzhalter-Leiste -- Aufbau
+   angelehnt an sciventures.com (Marke+Social links, Navigation rechts,
+   schmale Copyright-Zeile unten), Farben/Punkte-Motiv 1:1 aus dem Rest der
+   Seite übernommen statt neu erfunden. */
+.footer-main{
+  background:var(--bg); color:var(--muted); position:relative; overflow:hidden;
+  padding:6rem 3rem 2.5rem;
+}
+.footer-dot{position:absolute; border-radius:16px; background:var(--accent); opacity:0.12; pointer-events:none;}
+/* Eigener kleiner Punkt pro Spalte statt Seiten-relativer Deko-Blobs --
+   so sitzt er zuverlässig mittig über der jeweiligen Überschrift, unabhängig
+   von Viewport-Breite (Rebeccas Korrektur: vorher zufällig positioniert,
+   nicht auf "Navigation" ausgerichtet). */
+.footer-inner{max-width:1400px; margin:0 auto; position:relative; z-index:1;}
+.footer-top{
+  display:grid; grid-template-columns:1.4fr 1fr; gap:3rem;
+  padding-bottom:3.5rem; border-bottom:1px solid var(--line);
+}
+.footer-brand{max-width:34ch;}
+.footer-brand .brand{font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:1rem; display:block;}
+.footer-brand p{font-size:0.95rem; line-height:1.6; font-weight:300;}
+.footer-social{display:flex; gap:0.8rem; margin-top:1.5rem;}
+.footer-social a{
+  width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg2); color:var(--muted);
+  transition:background-color .25s ease, color .25s ease, transform .25s ease;
+}
+.footer-social a:hover{background:var(--accent); color:#fff; transform:translateY(-3px);}
+.footer-social svg{width:18px; height:18px;}
+.footer-col h4{font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink); font-weight:700; margin-bottom:1.2rem;}
+/* margin/padding:0 -- Browser-Default-Einzug bei <ul> bleibt sonst auch
+   mit list-style:none bestehen, dadurch standen die Links sichtbar weiter
+   rechts eingerückt als die "Navigation"-Überschrift darüber. */
+.footer-col ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7rem;}
+.footer-col a{color:var(--muted); text-decoration:none; font-size:0.92rem; transition:color .2s ease;}
+.footer-col a:hover{color:var(--ink);}
+.footer-bottom{
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  padding-top:1.8rem; font-size:0.82rem;
+}
+.footer-bottom a{color:var(--muted); margin-left:1.2rem; text-decoration:none;}
+.footer-bottom a:hover{color:var(--ink);}
+/* War vorher nur max-width:700px -- dieselbe Grenze wie überall sonst im
+   Mobile-Layout (900px, siehe .nav/.bottom-nav-Umschaltung). Zwischen
+   701-900px lief der Footer bis eben noch im Desktop-Zweispalten-Grid mit
+   den unveränderten Deko-Punkten weiter, das war der Bug: bei dieser
+   Tablet-Breite passte das 2-Spalten-Grid nicht mehr sauber, wodurch
+   rechts dunkler Body-Hintergrund statt des hellen Footers durchschien
+   und die Deko-Punkte über den Rand hinausliefen. */
+@media (max-width:900px){
+  .footer-top{grid-template-columns:1fr;}
+  .footer-main{padding:4.5rem 1.5rem 2rem;}
+  /* Die Deko-Punkte sind für die Desktop-Zweispalten-Position getunt --
+     im einspaltigen Mobile-Layout landet der kleine blaue eher mal hinter
+     dem Fließtext statt frei daneben. Einfacher/robuster, sie hier
+     auszublenden statt für jede schmale Breite neu zu positionieren. */
+  .footer-dot{ display:none; }
+}
+
+/* Gemeinsame Basis für alle neuen, JS-gesteuerten Einfliegen-Elemente
+   (Arbeitsweise/Referenzen/Kontakt) — gleiches Prinzip wie .layer:
+   kein CSS-transition, JS setzt opacity/transform pro Frame. */
+.js-reveal{opacity:0; transform:translateY(36px);}
+
+/* ---------- Mobiles Layout ---------- */
+/* Die 9rem/3rem-Abstände sind fürs Desktop-Grid gedacht — auf schmalen
+   Screens fressen sie zu viel Platz und die Hero-Headline stößt bei sehr
+   schmalen Geräten (320–375px) fast an den Rand. Eine Stufe bei 900px
+   (Grid-Umbruch, bereits vorhanden) reicht dafür nicht, deshalb eine
+   zweite, engere Stufe für Abstände/Typografie. */
+@media (max-width:600px){
+  .nav .brand{font-size:1.05rem;}
+  .hero{padding:0 1.5rem;}
+  .hero h1{font-size:clamp(2.3rem,11vw,3.2rem); max-width:14ch;}
+  .hero .sub{font-size:1.05rem; margin-top:1.5rem;}
+  .hero .cta{padding:0.85rem 1.6rem; font-size:0.85rem;}
+  .scroll-cue{left:1.5rem; bottom:1.5rem;}
+  .layers, .arbeitsweise, .referenzen, .kontakt{padding:5.5rem 1.5rem;}
+  .layers-head, .referenzen-head, .kontakt-head{margin-bottom:3rem;}
+  .layer{padding-top:1.6rem; padding-bottom:1.6rem;}
+  .layer h3{font-size:1.6rem;}
+  .arbeitsweise-inner{gap:2.5rem;}
+  .kontakt-grid{gap:2rem;}
+  .kontakt-form, .booking-card{padding:1.6rem;}
+  footer{padding:2rem 1.5rem;}
+}
+
+/* Muss NACH dem gemeinsamen 600px-Block oben stehen: dessen Sammel-Regel
+   ".layers, .arbeitsweise, .referenzen, .kontakt{padding:5.5rem 1.5rem}"
+   würde padding-left sonst zurück auf 1.5rem setzen (Bleed-Effekt weg) und
+   .referenzen-head auf 3rem margin-bottom zurücksetzen. */
+@media (max-width:600px){
+  .arbeitsweise{ padding-left:0; padding-right:0; padding-top:3.5rem; padding-bottom:3.5rem; }
+  .referenzen-head{ margin-bottom:0.6rem; }
+  .ref-pagination{ margin-top:0.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important;}
+  .hero-eyebrow, .hero h1, .hero .sub, .hero .cta, .scroll-cue, .layer, .js-reveal, .word{
+    opacity:1 !important; transform:none !important;
+  }
+  h2 .word:not([data-target-color]){ color:var(--ink) !important; }
+}
