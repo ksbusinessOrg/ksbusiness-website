@@ -812,6 +812,13 @@ h2 .word{
 .field input:hover, .field textarea:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.28), inset 0 1px 4px rgba(0,0,0,0.2);}
 .field input:focus, .field textarea:focus{box-shadow:inset 0 0 0 2px var(--accent);}
 .field textarea{resize:vertical; min-height:110px;}
+/* Wenn die Box durch den Kalender rechts hoeher wird (Grid-Stretch, siehe
+   .kontakt-grid), soll der zusaetzliche Platz nicht als Leerraum vor dem
+   Button liegen, sondern das Nachricht-Feld selbst waechst. Eigenes
+   Sub-Flex auf dem Feld-Wrapper, damit auch die Textarea (sonst nur
+   min-height) den vollen Wrapper ausfuellt. */
+.field-grow{flex:1; display:flex;}
+.field-grow textarea{flex:1; min-height:110px;}
 .kontakt-submit{
   display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:999px;
   border:1px solid var(--ink); text-align:center; text-decoration:none;
@@ -825,6 +832,7 @@ h2 .word{
 .kontakt-submit:hover{
   background:#4C7EFF; border-color:#4C7EFF; color:#fff;
 }
+.kontakt-submit:disabled{ opacity:0.4; cursor:not-allowed; background:var(--ink); border-color:var(--ink); color:var(--bg); }
 .booking-card{gap:1.2rem;}
 /* Text-Block ist jetzt nur noch die kompakte Einleitung ueber dem
    Slot-Kalender (frueher: einziger Inhalt neben dem Buchen-Button, daher
@@ -1241,7 +1249,7 @@ h2 .word{
           <div class="field">
             <input type="email" id="kontakt-email" name="email" placeholder="ihre@email.de" aria-label="E-Mail" required>
           </div>
-          <div class="field">
+          <div class="field field-grow">
             <textarea id="kontakt-nachricht" name="nachricht" placeholder="Worum geht es?" aria-label="Nachricht" required></textarea>
           </div>
           <button type="submit" class="kontakt-submit">Nachricht senden</button>
@@ -1256,7 +1264,7 @@ h2 .word{
           <div class="booking-cal" id="booking-cal">
             <div class="booking-days" id="booking-days" role="tablist" aria-label="Tag waehlen"></div>
             <div class="booking-times" id="booking-times" role="tablist" aria-label="Uhrzeit waehlen"></div>
-            <button type="button" class="kontakt-submit" id="booking-select-confirm" hidden>Diesen Termin auswählen →</button>
+            <button type="button" class="kontakt-submit" id="booking-select-confirm" disabled>Diesen Termin auswählen →</button>
             <form class="booking-confirm" id="booking-confirm" hidden>
               <div class="field">
                 <input type="text" id="booking-name" placeholder="Ihr Name" aria-label="Name" required>
@@ -1900,7 +1908,7 @@ h2 .word{
       btn.addEventListener('click', function(){
         selectedDayIndex = i;
         selectedSlotId = null;
-        selectConfirmBtn.hidden = true;
+        selectConfirmBtn.disabled = true;
         confirmForm.hidden = true;
         renderDays();
         renderTimes();
@@ -1927,12 +1935,13 @@ h2 .word{
           // Zeit nur auswaehlen/markieren -- NICHT sofort das Formular
           // aufklappen. Erst der eigene "Diesen Termin auswaehlen"-Button
           // fuehrt weiter, damit man sich die Wahl nochmal anschauen kann,
-          // bevor man zur Eingabe von Name/E-Mail kommt.
-          selectedSlotId = slotId;
+          // bevor man zur Eingabe von Name/E-Mail kommt. Erneuter Klick auf
+          // die bereits aktive Pille waehlt wieder ab.
+          selectedSlotId = (slotId === selectedSlotId) ? null : slotId;
           renderTimes();
           statusEl.hidden = true;
           confirmForm.hidden = true;
-          selectConfirmBtn.hidden = false;
+          selectConfirmBtn.disabled = !selectedSlotId;
         });
       }
       timesEl.appendChild(btn);
@@ -1940,14 +1949,13 @@ h2 .word{
   }
 
   selectConfirmBtn.addEventListener('click', function(){
-    selectConfirmBtn.hidden = true;
     confirmForm.hidden = false;
     document.getElementById('booking-name').focus();
   });
 
   backBtn.addEventListener('click', function(){
     selectedSlotId = null;
-    selectConfirmBtn.hidden = true;
+    selectConfirmBtn.disabled = true;
     confirmForm.hidden = true;
     renderTimes();
   });
@@ -1980,11 +1988,13 @@ h2 .word{
       statusEl.className = 'form-status is-success';
       statusEl.textContent = 'Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.';
       selectedSlotId = null;
+      selectConfirmBtn.disabled = true;
       loadBookedSlots();
     }).catch(function(err){
       statusEl.className = 'form-status is-error';
       statusEl.textContent = err.message || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.';
       selectedSlotId = null;
+      selectConfirmBtn.disabled = true;
       loadBookedSlots();
     }).finally(function(){
       submitBtn.disabled = false;
