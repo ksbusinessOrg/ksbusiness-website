@@ -110,6 +110,18 @@ section[id]{scroll-margin-top:110px;}
 }
 .nav a{font-size:0.95rem; font-weight:600; letter-spacing:0.02em; color:var(--muted); transition:color .2s ease; white-space:nowrap;}
 .nav a:hover{color:var(--ink);}
+/* Sprachumschalter (DE/EN): eigene kleine Pille statt Listeneintrag, damit
+   sie sich sichtbar vom Seiten-Navigationslink unterscheidet. Verlinkt
+   1:1 auf die jeweils andere Sprachdatei (index.html <-> index-en.html). */
+.nav .lang-switch{
+  font-size:0.82rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
+  padding:0.35rem 0.7rem; border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  transition:color .2s ease, border-color .2s ease;
+}
+.nav .lang-switch:hover{ color:var(--ink); border-color:var(--muted); }
+.nav.nav-on-light .lang-switch{ border-color:color-mix(in srgb, #D6DCE4 75%, transparent); color:#525C6B; }
+.nav.nav-on-light .lang-switch:hover{ color:#0B0F17; }
 /* Aktive Section in der schwebenden Nav hervorheben -- gleiches Prinzip
    wie vorher schon bei der mobilen Bottom-Nav (is-active per Scrollspy/
    IntersectionObserver), jetzt auch hier verdrahtet. */

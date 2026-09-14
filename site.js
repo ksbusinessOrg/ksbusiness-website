@@ -7,6 +7,7 @@ var SITE_LANG = window.SITE_LANG === 'en' ? 'en' : 'de';
 var SITE_STR = {
   de: {
     weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+    slotLabels: { '1600': '16:00', '1630': '16:30', '1700': '17:00', '1730': '17:30' },
     booked: ' · belegt',
     sending: 'Wird gesendet…',
     sendSuccess: 'Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.',
@@ -16,6 +17,7 @@ var SITE_STR = {
   },
   en: {
     weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    slotLabels: { '1600': '4:00 PM', '1630': '4:30 PM', '1700': '5:00 PM', '1730': '5:30 PM' },
     booked: ' · booked',
     sending: 'Sending…',
     sendSuccess: 'Thanks! Your message has arrived, Klaus will get back to you.',
@@ -595,7 +597,7 @@ var SITE_STR = {
   if (!daysEl || !timesEl) return;
 
   var SLOT_TIMES = ['1600', '1630', '1700', '1730'];
-  var SLOT_LABELS = { '1600': '16:00', '1630': '16:30', '1700': '17:00', '1730': '17:30' };
+  var SLOT_LABELS = SITE_STR.slotLabels;
   var WEEKDAY_SHORT = SITE_STR.weekdaysShort;
 
   function pad(n){ return String(n).padStart(2, '0'); }
