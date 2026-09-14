@@ -826,7 +826,7 @@ h2 .word{
    Button liegen, sondern das Nachricht-Feld selbst waechst. Eigenes
    Sub-Flex auf dem Feld-Wrapper, damit auch die Textarea (sonst nur
    min-height) den vollen Wrapper ausfuellt. */
-.field-grow{flex:1; display:flex;}
+.field-grow{flex:1; display:flex; margin-bottom:2rem;}
 .field-grow textarea{flex:1; min-height:110px;}
 .kontakt-submit{
   display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:999px;
@@ -858,7 +858,16 @@ h2 .word{
 
 /* ---------- Booking-Kalender ---------- */
 .booking-cal{flex:1; display:flex; flex-direction:column; gap:1rem; min-height:0;}
-.booking-days{display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.3rem;}
+/* Kein sichtbarer Scrollbalken -- stattdessen ein Ausfaden am rechten Rand
+   als Hinweis, dass da noch mehr Tage kommen (per Mask, nicht Overlay --
+   faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). */
+.booking-days{
+  display:flex; gap:0.5rem; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none;
+  mask-image:linear-gradient(to right, black 85%, transparent 100%);
+  -webkit-mask-image:linear-gradient(to right, black 85%, transparent 100%);
+}
+.booking-days::-webkit-scrollbar{ display:none; }
 .booking-day{
   flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid var(--line);
   background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
@@ -882,7 +891,7 @@ h2 .word{
    letzte Element in einer Flex-Column-Karte ist) -- hier sitzt der Button
    aber MITTEN im Ablauf von .booking-cal, das haette sonst den ganzen
    Freiraum vor sich aufgesaugt und alles Folgende nach unten gedrueckt. */
-#booking-select-confirm{margin-top:0;}
+#booking-select-confirm{margin-top:0.8rem;}
 #booking-select-confirm[hidden]{display:none;}
 .booking-confirm{display:flex; flex-direction:column; gap:0.8rem;}
 /* Eigene display:flex-Regel oben schlaegt sonst per Cascade-Reihenfolge
