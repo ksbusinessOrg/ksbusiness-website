@@ -772,7 +772,7 @@ h2 .word{
 @media (prefers-reduced-motion: reduce){ .kontakt::after{ animation:none !important; } }
 .kontakt-inner{max-width:1400px; margin:0 auto; position:relative; z-index:1;}
 .kontakt-head{max-width:46ch; margin-bottom:3rem;}
-.kontakt-grid{display:grid; grid-template-columns:1.6fr 1fr; gap:3rem;}
+.kontakt-grid{display:grid; grid-template-columns:1fr 1fr; gap:3rem;}
 /* .kontakt-tab-track ist auf Desktop unsichtbar für das Layout
    (display:contents) -- Formular/Booking-Karte bleiben direkte Grid-Items
    von .kontakt-grid, genau wie vorher ohne den Wrapper. Erst mobil (siehe
@@ -861,6 +861,12 @@ h2 .word{
 .booking-time.is-active{background:var(--accent); border-color:var(--accent); color:#fff;}
 .booking-time.is-booked{opacity:0.4; cursor:not-allowed; color:var(--muted);}
 .booking-time.is-booked:hover{border-color:var(--line);}
+/* .kontakt-submit bringt margin-top:auto mit (fuer den Fall, dass es das
+   letzte Element in einer Flex-Column-Karte ist) -- hier sitzt der Button
+   aber MITTEN im Ablauf von .booking-cal, das haette sonst den ganzen
+   Freiraum vor sich aufgesaugt und alles Folgende nach unten gedrueckt. */
+#booking-select-confirm{margin-top:0;}
+#booking-select-confirm[hidden]{display:none;}
 .booking-confirm{display:flex; flex-direction:column; gap:0.8rem;}
 /* Eigene display:flex-Regel oben schlaegt sonst per Cascade-Reihenfolge
    die UA-Default-Regel "[hidden]{display:none}" -- das Formular blieb
@@ -1250,6 +1256,7 @@ h2 .word{
           <div class="booking-cal" id="booking-cal">
             <div class="booking-days" id="booking-days" role="tablist" aria-label="Tag waehlen"></div>
             <div class="booking-times" id="booking-times" role="tablist" aria-label="Uhrzeit waehlen"></div>
+            <button type="button" class="kontakt-submit" id="booking-select-confirm" hidden>Diesen Termin auswählen →</button>
             <form class="booking-confirm" id="booking-confirm" hidden>
               <div class="field">
                 <input type="text" id="booking-name" placeholder="Ihr Name" aria-label="Name" required>
@@ -1849,6 +1856,7 @@ h2 .word{
   // siehe get-slots.js).
   var daysEl = document.getElementById('booking-days');
   var timesEl = document.getElementById('booking-times');
+  var selectConfirmBtn = document.getElementById('booking-select-confirm');
   var confirmForm = document.getElementById('booking-confirm');
   var backBtn = document.getElementById('booking-back');
   var statusEl = document.getElementById('booking-status');
@@ -1892,6 +1900,7 @@ h2 .word{
       btn.addEventListener('click', function(){
         selectedDayIndex = i;
         selectedSlotId = null;
+        selectConfirmBtn.hidden = true;
         confirmForm.hidden = true;
         renderDays();
         renderTimes();
@@ -1915,19 +1924,30 @@ h2 .word{
       btn.textContent = SLOT_LABELS[timeCode] + (booked ? ' · belegt' : '');
       if (!btn.disabled) {
         btn.addEventListener('click', function(){
+          // Zeit nur auswaehlen/markieren -- NICHT sofort das Formular
+          // aufklappen. Erst der eigene "Diesen Termin auswaehlen"-Button
+          // fuehrt weiter, damit man sich die Wahl nochmal anschauen kann,
+          // bevor man zur Eingabe von Name/E-Mail kommt.
           selectedSlotId = slotId;
           renderTimes();
           statusEl.hidden = true;
-          confirmForm.hidden = false;
-          document.getElementById('booking-name').focus();
+          confirmForm.hidden = true;
+          selectConfirmBtn.hidden = false;
         });
       }
       timesEl.appendChild(btn);
     });
   }
 
+  selectConfirmBtn.addEventListener('click', function(){
+    selectConfirmBtn.hidden = true;
+    confirmForm.hidden = false;
+    document.getElementById('booking-name').focus();
+  });
+
   backBtn.addEventListener('click', function(){
     selectedSlotId = null;
+    selectConfirmBtn.hidden = true;
     confirmForm.hidden = true;
     renderTimes();
   });
