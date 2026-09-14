@@ -4,11 +4,11 @@
 // personenbezogene Daten oeffentlich abrufbar sind. Der Kalender im Frontend
 // berechnet die moeglichen Slots (naechste Werktage) selbst und blendet nur
 // die hier gelisteten IDs als "belegt" aus.
-const { getStore } = require('@netlify/blobs');
+const { bookingsStore } = require('./bookings-store');
 
 exports.handler = async function () {
   try {
-    const store = getStore('bookings');
+    const store = bookingsStore();
     const booked = (await store.get('booked-slots', { type: 'json' })) || [];
     const slotIds = booked.map((entry) => entry.slotId);
 

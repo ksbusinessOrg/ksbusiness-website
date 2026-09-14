@@ -2,7 +2,7 @@
 // belegt (nur die Slot-ID + Zeitstempel -- Name/E-Mail der Buchenden werden
 // NICHT dauerhaft gespeichert, siehe Notiz in get-slots.js) und verschickt
 // die Buchungsmail an Klaus ueber Resend.
-const { getStore } = require('@netlify/blobs');
+const { bookingsStore } = require('./bookings-store');
 const { Resend } = require('resend');
 
 const SLOT_ID_PATTERN = /^\d{4}-\d{2}-\d{2}_(1600|1630|1700|1730)$/;
@@ -59,7 +59,7 @@ exports.handler = async function (event) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Bitte eine gueltige E-Mail-Adresse angeben.' }) };
   }
 
-  const store = getStore('bookings');
+  const store = bookingsStore();
   const booked = (await store.get('booked-slots', { type: 'json' })) || [];
 
   if (booked.some((entry) => entry.slotId === slotId)) {
