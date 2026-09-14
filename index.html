@@ -1679,6 +1679,27 @@ h2 .word{
     }
     requestAnimationFrame(raf);
   }
+
+  // Cross-Page-Anker: kommt man z.B. von impressum.html mit
+  // index.html#kontakt an, greift der Klick-Handler oben nicht (der
+  // reagiert nur auf Klicks INNERHALB dieser Seite) -- und der native
+  // Browser-Sprung zum Fragment landet bei #smooth-content (Desktop:
+  // position:fixed) sowieso ins Leere, siehe Notiz dort. Deshalb hier
+  // einmalig beim Laden dasselbe Offset-Scrollto nachholen, sobald Layout
+  // (inkl. Web-Font-Nachmessen) sich beruhigt hat -- Funktion so simpel wie
+  // moeglich gehalten, sie muss nur den einen initialen Fall abdecken, kein
+  // hashchange-Listener noetig, weil #smooth-content-Klicks das eh selbst
+  // regeln.
+  if (location.hash) {
+    var scrollToInitialHash = function(){
+      var targetEl = document.getElementById(location.hash.slice(1));
+      if (!targetEl) return;
+      var offset = 110;
+      var desiredScrollY = window.scrollY + targetEl.getBoundingClientRect().top - offset;
+      window.scrollTo({ top: Math.max(0, desiredScrollY), left: 0, behavior: 'instant' });
+    };
+    requestAnimationFrame(function(){ setTimeout(scrollToInitialHash, 60); });
+  }
 })();
 </script>
 

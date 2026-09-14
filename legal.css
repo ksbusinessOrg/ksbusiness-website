@@ -72,30 +72,26 @@ body{
 }
 
 /* ---------- Tabs (Impressum <-> Datenschutz) ---------- */
-/* Gleiches Material/gleiche Farblogik wie .bottom-nav oben (blurred Bar,
-   gleichmaessig breite Items, Accent-Highlight fuer aktiv) statt einer
-   eigenen Pill-Optik -- Rebeccas Punkt: soll sich wie EINE Tab-Navi
-   anfuehlen, nicht wie zwei verschiedene Stile. Selektoren ueber
-   .legal-tabs verschachtelt, damit sie die generische ".legal-main a"-Regel
-   (Farbe/Unterstrich) unten in der Spezifitaet zuverlaessig schlagen. */
+/* 1:1 dieselbe Optik wie .kontakt-tabs/.kontakt-tab auf index.html (mobile
+   Formular/Direkt-sprechen-Umschalter) -- das ist im bestehenden Design
+   bereits die Komponente fuer "zwischen zwei Ansichten wechseln", also
+   dieselbe hier statt einer neu erfundenen Variante. Auf Legal-Seiten
+   immer sichtbar (nicht nur mobil wie dort), weil es hier kein
+   Desktop-Zweispalten-Pendant gibt. Selektoren ueber .legal-tabs
+   verschachtelt, damit sie die generische ".legal-main a"-Regel (Farbe/
+   Unterstrich) unten in der Spezifitaet zuverlaessig schlagen. */
 .legal-tabs{
   display:flex; gap:0.4rem; margin-bottom:2.5rem;
-  background:color-mix(in srgb, var(--bg2) 94%, transparent);
-  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-  border:1px solid var(--line); border-radius:14px; padding:0.4rem;
+  background:var(--bg2); border-radius:999px; padding:0.3rem;
 }
 .legal-tabs .legal-tab{
-  flex:1; text-align:center; padding:0.6rem 0.5rem; border-radius:10px;
-  font-size:0.85rem; font-weight:600; letter-spacing:0.01em;
-  color:var(--muted); text-decoration:none; transition:color .2s ease, background .2s ease;
+  flex:1; text-align:center; padding:0.7rem 1rem; border:1px solid transparent; border-radius:999px;
+  background:transparent; color:var(--muted); font-family:var(--font);
+  font-weight:700; font-size:0.9rem; text-decoration:none;
+  transition:background-color .25s ease, color .25s ease, border-color .25s ease;
 }
 .legal-tabs .legal-tab:hover{ color:var(--ink); }
-.legal-tabs .legal-tab.is-active{
-  /* gleiches Muster wie .legal-placeholder unten -- getoenter statt
-     voller Accent-Hintergrund, sonst reicht der Textkontrast nicht (AA). */
-  background:color-mix(in srgb, var(--accent) 16%, transparent);
-  color:var(--accent);
-}
+.legal-tabs .legal-tab.is-active{ background:transparent; color:var(--ink); border-color:var(--ink); }
 
 .legal-main{max-width:760px; margin:0 auto; padding:8rem 1.5rem 6rem;}
 .legal-main h1{
