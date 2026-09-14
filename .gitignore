@@ -1,0 +1,6 @@
+# Lokale Sicherheitskopien -- nicht Teil des deploybaren Stands
+Backups/
+
+# Alter Dateiname, wird lokal als Duplikat behalten (Preview-Server nutzt
+# ihn ggf. noch), index.html ist ab jetzt die eine Quelle der Wahrheit
+scroll-test.html
