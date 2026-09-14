@@ -858,14 +858,16 @@ h2 .word{
 
 /* ---------- Booking-Kalender ---------- */
 .booking-cal{flex:1; display:flex; flex-direction:column; gap:1rem; min-height:0;}
-/* Kein sichtbarer Scrollbalken -- stattdessen ein Ausfaden am rechten Rand
+/* Kein sichtbarer Scrollbalken -- stattdessen ein Ausfaden an den Raendern
    als Hinweis, dass da noch mehr Tage kommen (per Mask, nicht Overlay --
-   faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). */
+   faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). Das Mask-Image
+   selbst wird per JS gesetzt (siehe updateDaysFade() im Script unten), weil
+   es vom Scroll-Stand abhaengt: links nur ausfaden, wenn schon gescrollt
+   wurde, rechts nur, solange noch was folgt -- der erste/letzte Eintrag
+   soll nie im Fade stehen. */
 .booking-days{
   display:flex; gap:0.5rem; overflow-x:auto; cursor:grab;
   scrollbar-width:none; -ms-overflow-style:none;
-  mask-image:linear-gradient(to right, black 85%, transparent 100%);
-  -webkit-mask-image:linear-gradient(to right, black 85%, transparent 100%);
 }
 .booking-days::-webkit-scrollbar{ display:none; }
 .booking-days.is-dragging{ cursor:grabbing; user-select:none; }
@@ -2061,6 +2063,33 @@ h2 .word{
     daysEl.addEventListener('click', function(e){
       if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
     }, true);
+  })();
+
+  // Ausfaden links/rechts abhaengig vom Scroll-Stand -- am Anfang kein
+  // Fade links (sonst wuerde der allererste Tag halb ausgeblendet
+  // aussehen, obwohl es gar nichts davor gibt), am Ende entsprechend kein
+  // Fade rechts.
+  (function(){
+    var FADE = '28px';
+    function updateDaysFade(){
+      var atStart = daysEl.scrollLeft <= 1;
+      var atEnd = daysEl.scrollLeft + daysEl.clientWidth >= daysEl.scrollWidth - 1;
+      var mask;
+      if (atStart && atEnd) {
+        mask = 'none';
+      } else if (atStart) {
+        mask = 'linear-gradient(to right, black 0, black calc(100% - ' + FADE + '), transparent 100%)';
+      } else if (atEnd) {
+        mask = 'linear-gradient(to right, transparent 0, black ' + FADE + ', black 100%)';
+      } else {
+        mask = 'linear-gradient(to right, transparent 0, black ' + FADE + ', black calc(100% - ' + FADE + '), transparent 100%)';
+      }
+      daysEl.style.maskImage = mask;
+      daysEl.style.webkitMaskImage = mask;
+    }
+    daysEl.addEventListener('scroll', updateDaysFade, { passive: true });
+    window.addEventListener('resize', updateDaysFade);
+    updateDaysFade();
   })();
 
   renderDays();
