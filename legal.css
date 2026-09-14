@@ -93,15 +93,41 @@ body{
 .legal-tabs .legal-tab:hover{ color:var(--ink); }
 .legal-tabs .legal-tab.is-active{ background:transparent; color:var(--ink); border-color:var(--ink); }
 
-/* Seitlicher Rand jetzt wie im Rest der Seite (.hero/.layers/.arbeitsweise/
-   .kontakt: 3rem, erst ab 600px runter auf 1.5rem) statt einem eigenen Wert
-   -- Textspalte bleibt bewusst bei 760px (Lesbarkeit), nur der Gutter zum
-   Viewport-Rand ist jetzt derselbe wie ueberall sonst. */
-.legal-main{max-width:760px; margin:0 auto; padding:8rem 3rem 6rem;}
-.legal-main h1{
-  font-size:clamp(2rem,4vw,2.8rem); line-height:1.15; letter-spacing:-0.01em;
-  font-weight:800; margin:0 0 2.5rem;
+/* ---------- Head (Hero-Hintergrund fuer Impressum/Datenschutz) ---------- */
+/* 1:1 der Hintergrund von .hero auf index.html (Gradient + driftendes
+   Gitterraster) -- volle Breite wie dort, NICHT als 100vh-Hero (waere fuer
+   eine Textseite viel zu viel leerer Raum), sondern nur so hoch wie
+   Tabs+Ueberschrift brauchen. Traegt auch die Nav-Clearance (frueher auf
+   .legal-main), der Fliesstext darunter braucht die grosse obere Polsterung
+   dadurch nicht mehr. */
+.legal-head{
+  position:relative; overflow:hidden;
+  padding:8rem 3rem 3rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(76,126,255,0.08), transparent),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
 }
+.legal-head::after{
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 120px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 120px);
+  opacity:0.6;
+  animation:gridDrift 40s linear infinite;
+}
+@keyframes gridDrift{
+  from{ transform:translate(0,0); }
+  to{ transform:translate(120px,60px); }
+}
+@media (prefers-reduced-motion: reduce){ .legal-head::after{ animation:none !important; } }
+.legal-head-inner{ max-width:760px; margin:0 auto; position:relative; z-index:1; }
+.legal-head-inner .legal-tabs{ margin-bottom:2.5rem; }
+.legal-head-inner h1{
+  font-size:clamp(2rem,4vw,2.8rem); line-height:1.15; letter-spacing:-0.01em;
+  font-weight:800; margin:0;
+}
+
+.legal-main{max-width:760px; margin:0 auto; padding:3rem 3rem 6rem;}
 .legal-main h2{
   font-size:1.3rem; font-weight:700; letter-spacing:-0.005em;
   margin:2.5rem 0 1rem;
@@ -153,16 +179,18 @@ body{
 .footer-bottom a{color:var(--muted); margin-left:1.2rem; text-decoration:none;}
 .footer-bottom a:hover{color:var(--ink);}
 @media (max-width:900px){
-  /* Nur oben/unten -- Nav-Pill faellt hier weg (siehe .nav-Umschaltung
-     oben), braucht also keinen so grossen Abstand mehr nach oben. Der
+  /* Nur oben -- Nav-Pill faellt hier weg (siehe .nav-Umschaltung oben),
+     .legal-head braucht also keinen so grossen Abstand mehr nach oben. Der
      seitliche Rand bleibt bis 600px bei 3rem (siehe unten), genau wie bei
      .layers/.arbeitsweise/.kontakt auf index.html. */
-  .legal-main{padding-top:3rem; padding-bottom:4rem;}
+  .legal-head{padding-top:3rem;}
+  .legal-main{padding-bottom:4rem;}
   .footer-top{grid-template-columns:1fr;}
   .footer-main{padding:4.5rem 1.5rem 2rem;}
   .footer-dot{ display:none; }
 }
 @media (max-width:600px){
   /* Gleicher Bruch wie bei .layers/.arbeitsweise/.kontakt/.hero: 3rem -> 1.5rem. */
+  .legal-head{padding-left:1.5rem; padding-right:1.5rem;}
   .legal-main{padding-left:1.5rem; padding-right:1.5rem;}
 }
