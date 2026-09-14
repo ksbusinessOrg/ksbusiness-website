@@ -13,6 +13,30 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Nur die Fehlermeldungen ans Frontend sind sprachabhaengig -- die Mail an
+// Klaus bleibt IMMER Deutsch, siehe Notiz in book-slot.js.
+const MESSAGES = {
+  de: {
+    badRequest: 'Ungueltige Anfrage.',
+    needName: 'Bitte einen Namen angeben.',
+    needEmail: 'Bitte eine gueltige E-Mail-Adresse angeben.',
+    needMessage: 'Bitte eine Nachricht angeben.',
+    notConfigured: 'Versand ist noch nicht konfiguriert.',
+    sendFailed: 'Nachricht konnte nicht versendet werden.',
+  },
+  en: {
+    badRequest: 'Invalid request.',
+    needName: 'Please enter a name.',
+    needEmail: 'Please enter a valid email address.',
+    needMessage: 'Please enter a message.',
+    notConfigured: 'Sending is not configured yet.',
+    sendFailed: 'Message could not be sent.',
+  },
+};
+function msgsFor(data) {
+  return MESSAGES[data && data.lang === 'en' ? 'en' : 'de'];
+}
+
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
@@ -22,26 +46,27 @@ exports.handler = async function (event) {
   try {
     data = JSON.parse(event.body || '{}');
   } catch (err) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Ungueltige Anfrage.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: MESSAGES.de.badRequest }) };
   }
+  const msgs = msgsFor(data);
 
   const name = String(data.name || '').trim();
   const email = String(data.email || '').trim();
   const nachricht = String(data.nachricht || '').trim();
 
   if (!name || name.length > 200) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Bitte einen Namen angeben.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: msgs.needName }) };
   }
   if (!isValidEmail(email)) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Bitte eine gueltige E-Mail-Adresse angeben.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: msgs.needEmail }) };
   }
   if (!nachricht || nachricht.length > 5000) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Bitte eine Nachricht angeben.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: msgs.needMessage }) };
   }
 
   const notifyAddress = process.env.BOOKING_NOTIFY_EMAIL;
   if (!notifyAddress) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'Versand ist noch nicht konfiguriert.' }) };
+    return { statusCode: 500, body: JSON.stringify({ error: msgs.notConfigured }) };
   }
 
   try {
@@ -61,7 +86,7 @@ exports.handler = async function (event) {
       `,
     });
   } catch (err) {
-    return { statusCode: 502, body: JSON.stringify({ error: 'Nachricht konnte nicht versendet werden.' }) };
+    return { statusCode: 502, body: JSON.stringify({ error: msgs.sendFailed }) };
   }
 
   return {

@@ -8,6 +8,29 @@ const { Resend } = require('resend');
 const SLOT_ID_PATTERN = /^\d{4}-\d{2}-\d{2}_(1600|1630|1700|1730)$/;
 const WEEKDAYS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
 
+// Nur die Fehlermeldungen ans Frontend sind sprachabhaengig (SITE_LANG aus
+// site.js wird im body mitgeschickt) -- die Mail an Klaus bleibt IMMER
+// Deutsch, die liest schliesslich er, nicht die Website-Besucherin.
+const MESSAGES = {
+  de: {
+    badRequest: 'Ungueltige Anfrage.',
+    badSlot: 'Ungueltiger Termin-Slot.',
+    needName: 'Bitte einen Namen angeben.',
+    needEmail: 'Bitte eine gueltige E-Mail-Adresse angeben.',
+    conflict: 'Dieser Termin ist leider gerade eben vergeben worden.',
+  },
+  en: {
+    badRequest: 'Invalid request.',
+    badSlot: 'Invalid appointment slot.',
+    needName: 'Please enter a name.',
+    needEmail: 'Please enter a valid email address.',
+    conflict: 'Sorry, this slot was just taken by someone else.',
+  },
+};
+function msgsFor(data) {
+  return MESSAGES[data && data.lang === 'en' ? 'en' : 'de'];
+}
+
 function formatSlot(slotId) {
   const [datePart, timePart] = slotId.split('_');
   const [year, month, day] = datePart.split('-').map(Number);
@@ -42,28 +65,29 @@ exports.handler = async function (event) {
   try {
     data = JSON.parse(event.body || '{}');
   } catch (err) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Ungueltige Anfrage.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: MESSAGES.de.badRequest }) };
   }
+  const msgs = msgsFor(data);
 
   const slotId = String(data.slotId || '').trim();
   const name = String(data.name || '').trim();
   const email = String(data.email || '').trim();
 
   if (!SLOT_ID_PATTERN.test(slotId)) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Ungueltiger Termin-Slot.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: msgs.badSlot }) };
   }
   if (!name || name.length > 200) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Bitte einen Namen angeben.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: msgs.needName }) };
   }
   if (!isValidEmail(email)) {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Bitte eine gueltige E-Mail-Adresse angeben.' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: msgs.needEmail }) };
   }
 
   const store = bookingsStore();
   const booked = (await store.get('booked-slots', { type: 'json' })) || [];
 
   if (booked.some((entry) => entry.slotId === slotId)) {
-    return { statusCode: 409, body: JSON.stringify({ error: 'Dieser Termin ist leider gerade eben vergeben worden.' }) };
+    return { statusCode: 409, body: JSON.stringify({ error: msgs.conflict }) };
   }
 
   booked.push({ slotId, bookedAt: new Date().toISOString() });

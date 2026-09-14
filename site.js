@@ -1,3 +1,30 @@
+// Kleines i18n-Woerterbuch fuer die paar per JS erzeugten Texte (Wochentage,
+// Status-/Toast-Meldungen) -- der ganze Rest der Seite ist statisches HTML
+// pro Sprachdatei (index.html vs. index-en.html), das braucht keine
+// Uebersetzungstabelle. window.SITE_LANG wird inline im jeweiligen HTML-Kopf
+// gesetzt, BEVOR dieses (deferte) Script laeuft.
+var SITE_LANG = window.SITE_LANG === 'en' ? 'en' : 'de';
+var SITE_STR = {
+  de: {
+    weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+    booked: ' · belegt',
+    sending: 'Wird gesendet…',
+    sendSuccess: 'Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.',
+    requesting: 'Wird angefragt…',
+    bookSuccess: 'Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.',
+    genericError: 'Das hat leider nicht geklappt. Bitte später erneut versuchen.',
+  },
+  en: {
+    weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    booked: ' · booked',
+    sending: 'Sending…',
+    sendSuccess: 'Thanks! Your message has arrived, Klaus will get back to you.',
+    requesting: 'Requesting…',
+    bookSuccess: 'Appointment requested! Klaus will get back to you to confirm.',
+    genericError: 'Something went wrong. Please try again later.',
+  },
+}[SITE_LANG];
+
 (function(){
   // Scrollspy für die Bottom-Nav: markiert den Link zur Section, die gerade
   // im mittleren Band des Viewports liegt. Kein Öffnen/Schließen mehr nötig
@@ -524,7 +551,7 @@
     submitBtn.disabled = true;
     status.hidden = false;
     status.className = 'form-status';
-    status.textContent = 'Wird gesendet…';
+    status.textContent = SITE_STR.sending;
 
     fetch('/.netlify/functions/send-message', {
       method: 'POST',
@@ -533,19 +560,20 @@
         name: document.getElementById('kontakt-name').value,
         email: document.getElementById('kontakt-email').value,
         nachricht: document.getElementById('kontakt-nachricht').value,
+        lang: SITE_LANG,
       }),
     }).then(function(res){
       if (res.ok) return res.json();
       return res.json().catch(function(){ return {}; }).then(function(data){
-        throw new Error(data.error || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.');
+        throw new Error(data.error || SITE_STR.genericError);
       });
     }).then(function(){
       status.hidden = true;
-      window.showToast('Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.', form);
+      window.showToast(SITE_STR.sendSuccess, form);
       form.reset();
     }).catch(function(err){
       status.className = 'form-status is-error';
-      status.textContent = err.message || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.';
+      status.textContent = err.message || SITE_STR.genericError;
     }).finally(function(){
       submitBtn.disabled = false;
     });
@@ -568,7 +596,7 @@
 
   var SLOT_TIMES = ['1600', '1630', '1700', '1730'];
   var SLOT_LABELS = { '1600': '16:00', '1630': '16:30', '1700': '17:00', '1730': '17:30' };
-  var WEEKDAY_SHORT = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+  var WEEKDAY_SHORT = SITE_STR.weekdaysShort;
 
   function pad(n){ return String(n).padStart(2, '0'); }
   function dateKey(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
@@ -625,7 +653,7 @@
       btn.setAttribute('role', 'tab');
       btn.disabled = booked || past;
       btn.className = 'booking-time' + (btn.disabled ? ' is-booked' : '') + (slotId === selectedSlotId ? ' is-active' : '');
-      btn.textContent = SLOT_LABELS[timeCode] + (booked ? ' · belegt' : '');
+      btn.textContent = SLOT_LABELS[timeCode] + (booked ? SITE_STR.booked : '');
       if (!btn.disabled) {
         btn.addEventListener('click', function(){
           // Zeit nur auswaehlen/markieren -- NICHT sofort das Formular
@@ -663,7 +691,7 @@
     submitBtn.disabled = true;
     statusEl.hidden = false;
     statusEl.className = 'form-status';
-    statusEl.textContent = 'Wird angefragt…';
+    statusEl.textContent = SITE_STR.requesting;
 
     fetch('/.netlify/functions/book-slot', {
       method: 'POST',
@@ -672,23 +700,24 @@
         slotId: selectedSlotId,
         name: document.getElementById('booking-name').value,
         email: document.getElementById('booking-email').value,
+        lang: SITE_LANG,
       }),
     }).then(function(res){
       if (res.ok) return res.json();
       return res.json().catch(function(){ return {}; }).then(function(data){
-        throw new Error(data.error || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.');
+        throw new Error(data.error || SITE_STR.genericError);
       });
     }).then(function(){
       confirmForm.hidden = true;
       confirmForm.reset();
       statusEl.hidden = true;
-      window.showToast('Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.', document.querySelector('.booking-card'));
+      window.showToast(SITE_STR.bookSuccess, document.querySelector('.booking-card'));
       selectedSlotId = null;
       selectConfirmBtn.disabled = true;
       loadBookedSlots();
     }).catch(function(err){
       statusEl.className = 'form-status is-error';
-      statusEl.textContent = err.message || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.';
+      statusEl.textContent = err.message || SITE_STR.genericError;
       selectedSlotId = null;
       selectConfirmBtn.disabled = true;
       loadBookedSlots();
