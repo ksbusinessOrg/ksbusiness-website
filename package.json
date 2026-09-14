@@ -1,0 +1,9 @@
+{
+  "name": "ksbusiness-website",
+  "private": true,
+  "description": "Serverseitige Netlify Functions fuer Kontaktformular und Terminbuchung -- die eigentliche Website ist statisches HTML/CSS/JS, siehe index.html.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0",
+    "resend": "^4.0.1"
+  }
+}

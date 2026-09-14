@@ -825,12 +825,12 @@ h2 .word{
 .kontakt-submit:hover{
   background:#4C7EFF; border-color:#4C7EFF; color:#fff;
 }
-.booking-card{gap:1rem;}
-/* Text-Block (Icon+Überschrift+Absatz) bekommt den gesamten Platz über
-   dem Button (flex:1) und zentriert sich darin selbst vertikal -- vorher
-   klebte er oben an der Karte, während unten viel Leerraum vor dem Button
-   entstand. */
-.booking-copy{flex:1; display:flex; flex-direction:column; justify-content:center; gap:1rem;}
+.booking-card{gap:1.2rem;}
+/* Text-Block ist jetzt nur noch die kompakte Einleitung ueber dem
+   Slot-Kalender (frueher: einziger Inhalt neben dem Buchen-Button, daher
+   damals flex:1 + vertikal zentriert -- das brauchte es mit dem Kalender
+   darunter nicht mehr). */
+.booking-copy{display:flex; flex-direction:column; gap:0.6rem;}
 .booking-icon{
   width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
   background:var(--accent); color:#fff; margin-bottom:0.2rem;
@@ -838,6 +838,42 @@ h2 .word{
 .booking-icon svg{width:20px; height:20px;}
 .booking-card h3{font-size:1.3rem;}
 .booking-card p{color:var(--muted); font-size:0.98rem; font-weight:300;}
+
+/* ---------- Booking-Kalender ---------- */
+.booking-cal{flex:1; display:flex; flex-direction:column; gap:1rem; min-height:0;}
+.booking-days{display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.3rem;}
+.booking-day{
+  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid var(--line);
+  background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
+  white-space:nowrap; cursor:pointer;
+  transition:background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+.booking-day:hover{color:var(--ink); border-color:var(--muted);}
+.booking-day.is-active{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+.booking-times{display:flex; flex-wrap:wrap; gap:0.6rem;}
+.booking-time{
+  flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:0.7rem 0.8rem; border-radius:8px;
+  border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:var(--font);
+  font-size:0.92rem; font-weight:600; cursor:pointer; text-align:center;
+  transition:background-color .2s ease, border-color .2s ease, opacity .2s ease;
+}
+.booking-time:hover{border-color:var(--accent);}
+.booking-time.is-active{background:var(--accent); border-color:var(--accent); color:#fff;}
+.booking-time.is-booked{opacity:0.4; cursor:not-allowed; color:var(--muted);}
+.booking-time.is-booked:hover{border-color:var(--line);}
+.booking-confirm{display:flex; flex-direction:column; gap:0.8rem;}
+/* Eigene display:flex-Regel oben schlaegt sonst per Cascade-Reihenfolge
+   die UA-Default-Regel "[hidden]{display:none}" -- das Formular blieb
+   dadurch trotz hidden-Attribut sichtbar. Explizit zurueckgesetzt. */
+.booking-confirm[hidden]{display:none;}
+.booking-back{
+  background:none; border:none; color:var(--muted); font-family:var(--font); font-size:0.85rem;
+  cursor:pointer; text-align:left; padding:0; text-decoration:underline; text-underline-offset:2px;
+}
+.booking-back:hover{color:var(--ink);}
+.form-status{font-size:0.88rem; margin:0; font-family:var(--font);}
+.form-status.is-error{color:var(--red);}
+.form-status.is-success{color:var(--accent);}
 @media (max-width:900px){
   /* Formular und Booking-Karte laufen mobil nicht mehr untereinander,
      sondern als zwei Panels EINER gemeinsamen Box (die Karten-Optik --
@@ -1192,25 +1228,40 @@ h2 .word{
           <button type="button" class="kontakt-tab" data-tab="booking" role="tab" aria-selected="false">Direkt sprechen</button>
         </div>
         <div class="kontakt-tab-track">
-        <form class="kontakt-form js-reveal">
+        <form class="kontakt-form js-reveal" id="kontakt-form">
           <div class="field">
-            <input type="text" id="kontakt-name" name="name" placeholder="Ihr Name" aria-label="Name">
+            <input type="text" id="kontakt-name" name="name" placeholder="Ihr Name" aria-label="Name" required>
           </div>
           <div class="field">
-            <input type="email" id="kontakt-email" name="email" placeholder="ihre@email.de" aria-label="E-Mail">
+            <input type="email" id="kontakt-email" name="email" placeholder="ihre@email.de" aria-label="E-Mail" required>
           </div>
           <div class="field">
-            <textarea id="kontakt-nachricht" name="nachricht" placeholder="Worum geht es?" aria-label="Nachricht"></textarea>
+            <textarea id="kontakt-nachricht" name="nachricht" placeholder="Worum geht es?" aria-label="Nachricht" required></textarea>
           </div>
           <button type="submit" class="kontakt-submit">Nachricht senden</button>
+          <p class="form-status" id="kontakt-form-status" hidden></p>
         </form>
         <div class="booking-card js-reveal">
           <div class="booking-copy">
             <span class="booking-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
             <h3>Lieber direkt sprechen?</h3>
-            <p>Buchen Sie ein unverbindliches Erstgespräch — 20 Minuten, ohne Verpflichtung.</p>
+            <p>Buchen Sie ein unverbindliches Erstgespräch — 30 Minuten, Mo–Fr zwischen 16 und 18 Uhr.</p>
           </div>
-          <a href="#" class="kontakt-submit">Termin buchen →</a>
+          <div class="booking-cal" id="booking-cal">
+            <div class="booking-days" id="booking-days" role="tablist" aria-label="Tag waehlen"></div>
+            <div class="booking-times" id="booking-times" role="tablist" aria-label="Uhrzeit waehlen"></div>
+            <form class="booking-confirm" id="booking-confirm" hidden>
+              <div class="field">
+                <input type="text" id="booking-name" placeholder="Ihr Name" aria-label="Name" required>
+              </div>
+              <div class="field">
+                <input type="email" id="booking-email" placeholder="ihre@email.de" aria-label="E-Mail" required>
+              </div>
+              <button type="submit" class="kontakt-submit">Termin anfragen →</button>
+              <button type="button" class="booking-back" id="booking-back">← anderen Termin wählen</button>
+            </form>
+            <p class="form-status" id="booking-status" hidden></p>
+          </div>
         </div>
         </div>
       </div>
@@ -1743,5 +1794,198 @@ h2 .word{
     setTimeout(step, HOLD);
   }
   step();
+})();
+</script>
+
+<script>
+(function(){
+  // Kontaktformular: echter Versand statt des bisherigen Platzhalter-
+  // Submits (kein action/method -- hing bisher komplett in der Luft).
+  var form = document.getElementById('kontakt-form');
+  if (!form) return;
+  var status = document.getElementById('kontakt-form-status');
+  var submitBtn = form.querySelector('.kontakt-submit');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    submitBtn.disabled = true;
+    status.hidden = false;
+    status.className = 'form-status';
+    status.textContent = 'Wird gesendet…';
+
+    fetch('/.netlify/functions/send-message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('kontakt-name').value,
+        email: document.getElementById('kontakt-email').value,
+        nachricht: document.getElementById('kontakt-nachricht').value,
+      }),
+    }).then(function(res){
+      if (res.ok) return res.json();
+      return res.json().catch(function(){ return {}; }).then(function(data){
+        throw new Error(data.error || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.');
+      });
+    }).then(function(){
+      status.className = 'form-status is-success';
+      status.textContent = 'Danke! Ihre Nachricht ist angekommen, Klaus meldet sich bei Ihnen.';
+      form.reset();
+    }).catch(function(err){
+      status.className = 'form-status is-error';
+      status.textContent = err.message || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.';
+    }).finally(function(){
+      submitBtn.disabled = false;
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  // Terminbuchung: Tag waehlen -> freie Halbstunden-Slots (Mo-Fr, 16-18
+  // Uhr, naechste 10 Werktage) -> kurzes Formular -> Buchung per Netlify
+  // Function (siehe netlify/functions/book-slot.js). Belegte Slots kommen
+  // nur als IDs vom Server (keine Namen/E-Mails oeffentlich sichtbar,
+  // siehe get-slots.js).
+  var daysEl = document.getElementById('booking-days');
+  var timesEl = document.getElementById('booking-times');
+  var confirmForm = document.getElementById('booking-confirm');
+  var backBtn = document.getElementById('booking-back');
+  var statusEl = document.getElementById('booking-status');
+  if (!daysEl || !timesEl) return;
+
+  var SLOT_TIMES = ['1600', '1630', '1700', '1730'];
+  var SLOT_LABELS = { '1600': '16:00', '1630': '16:30', '1700': '17:00', '1730': '17:30' };
+  var WEEKDAY_SHORT = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+  function pad(n){ return String(n).padStart(2, '0'); }
+  function dateKey(d){ return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+
+  var days = [];
+  var cursor = new Date();
+  cursor.setHours(0, 0, 0, 0);
+  while (days.length < 10) {
+    var wd = cursor.getDay();
+    if (wd !== 0 && wd !== 6) days.push(new Date(cursor));
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  var bookedSlotIds = [];
+  var selectedDayIndex = 0;
+  var selectedSlotId = null;
+
+  function isPast(day, timeCode){
+    var slotDate = new Date(day);
+    slotDate.setHours(parseInt(timeCode.slice(0, 2), 10), parseInt(timeCode.slice(2, 4), 10), 0, 0);
+    return slotDate.getTime() <= Date.now();
+  }
+
+  function renderDays(){
+    daysEl.innerHTML = '';
+    days.forEach(function(day, i){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', i === selectedDayIndex ? 'true' : 'false');
+      btn.className = 'booking-day' + (i === selectedDayIndex ? ' is-active' : '');
+      btn.textContent = WEEKDAY_SHORT[day.getDay()] + ' ' + pad(day.getDate()) + '.' + pad(day.getMonth() + 1) + '.';
+      btn.addEventListener('click', function(){
+        selectedDayIndex = i;
+        selectedSlotId = null;
+        confirmForm.hidden = true;
+        renderDays();
+        renderTimes();
+      });
+      daysEl.appendChild(btn);
+    });
+  }
+
+  function renderTimes(){
+    timesEl.innerHTML = '';
+    var day = days[selectedDayIndex];
+    SLOT_TIMES.forEach(function(timeCode){
+      var slotId = dateKey(day) + '_' + timeCode;
+      var booked = bookedSlotIds.indexOf(slotId) !== -1;
+      var past = isPast(day, timeCode);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('role', 'tab');
+      btn.disabled = booked || past;
+      btn.className = 'booking-time' + (btn.disabled ? ' is-booked' : '') + (slotId === selectedSlotId ? ' is-active' : '');
+      btn.textContent = SLOT_LABELS[timeCode] + (booked ? ' · belegt' : '');
+      if (!btn.disabled) {
+        btn.addEventListener('click', function(){
+          selectedSlotId = slotId;
+          renderTimes();
+          statusEl.hidden = true;
+          confirmForm.hidden = false;
+          document.getElementById('booking-name').focus();
+        });
+      }
+      timesEl.appendChild(btn);
+    });
+  }
+
+  backBtn.addEventListener('click', function(){
+    selectedSlotId = null;
+    confirmForm.hidden = true;
+    renderTimes();
+  });
+
+  confirmForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!selectedSlotId) return;
+    var submitBtn = confirmForm.querySelector('.kontakt-submit');
+    submitBtn.disabled = true;
+    statusEl.hidden = false;
+    statusEl.className = 'form-status';
+    statusEl.textContent = 'Wird angefragt…';
+
+    fetch('/.netlify/functions/book-slot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slotId: selectedSlotId,
+        name: document.getElementById('booking-name').value,
+        email: document.getElementById('booking-email').value,
+      }),
+    }).then(function(res){
+      if (res.ok) return res.json();
+      return res.json().catch(function(){ return {}; }).then(function(data){
+        throw new Error(data.error || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.');
+      });
+    }).then(function(){
+      confirmForm.hidden = true;
+      confirmForm.reset();
+      statusEl.className = 'form-status is-success';
+      statusEl.textContent = 'Termin angefragt! Klaus meldet sich zur Bestätigung bei Ihnen.';
+      selectedSlotId = null;
+      loadBookedSlots();
+    }).catch(function(err){
+      statusEl.className = 'form-status is-error';
+      statusEl.textContent = err.message || 'Das hat leider nicht geklappt. Bitte spaeter erneut versuchen.';
+      selectedSlotId = null;
+      loadBookedSlots();
+    }).finally(function(){
+      submitBtn.disabled = false;
+    });
+  });
+
+  function loadBookedSlots(){
+    fetch('/.netlify/functions/get-slots').then(function(res){
+      if (!res.ok) throw new Error();
+      return res.json();
+    }).then(function(data){
+      bookedSlotIds = data.bookedSlotIds || [];
+      renderTimes();
+    }).catch(function(){
+      // Stiller Fallback -- Kalender bleibt nutzbar, nur ohne bekannte
+      // Belegungen, statt den ganzen Bereich zu blockieren.
+    });
+  }
+
+  renderDays();
+  renderTimes();
+  loadBookedSlots();
 })();
 </script>

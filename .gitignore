@@ -4,3 +4,7 @@ Backups/
 # Alter Dateiname, wird lokal als Duplikat behalten (Preview-Server nutzt
 # ihn ggf. noch), index.html ist ab jetzt die eine Quelle der Wahrheit
 scroll-test.html
+
+# Node-Abhaengigkeiten fuer die Netlify Functions -- werden von Netlify
+# beim Deploy selbst installiert (package.json reicht), nicht einchecken
+node_modules/
