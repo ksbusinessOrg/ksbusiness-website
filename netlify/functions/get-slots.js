@@ -18,10 +18,12 @@ exports.handler = async function () {
       body: JSON.stringify({ bookedSlotIds: slotIds }),
     };
   } catch (err) {
+    // TEMPORAER: err.message mit ausliefern, um beim Erst-Setup den Fehler
+    // sehen zu koennen -- danach wieder auf generische Meldung zurueckstellen.
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Slots konnten nicht geladen werden.' }),
+      body: JSON.stringify({ error: 'Slots konnten nicht geladen werden.', debug: err && err.message }),
     };
   }
 };
