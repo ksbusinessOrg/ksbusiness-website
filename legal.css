@@ -49,7 +49,12 @@ body{
 .nav a:hover{color:var(--ink);}
 
 .bottom-nav{ display:none; }
-@media (max-width:900px){
+/* Breakpoint 1300px statt 900px -- an die Anpassung in site.css angeglichen
+   (siehe dort: die Desktop-Pille passte zwischen 900-1300px nicht mehr
+   sauber, Bottom-Nav uebernimmt jetzt frueher). Diese Datei ist eine
+   eigenstaendige Kopie der Nav (Legal-Seiten nutzen legal.css statt
+   site.css), muss also separat mitgezogen werden. */
+@media (max-width:1300px){
   .nav{ display:none; }
   body{ padding-bottom:64px; }
 
@@ -67,7 +72,7 @@ body{
     font-size:0.62rem; font-weight:600; letter-spacing:0.01em;
   }
   .bottom-nav a svg{ width:21px; height:21px; }
-  .bottom-nav a.bottom-nav-brand .logo-mark-short{ width:auto; height:37px; }
+  .bottom-nav a.bottom-nav-brand .logo-mark-short{ width:auto; height:26px; }
   .bottom-nav a.bottom-nav-brand{ flex:0 0 auto; padding-left:0.5rem; padding-right:0.5rem; font-size:0.66rem; font-weight:800; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
 }
 
