@@ -77,6 +77,36 @@ var SITE_STR = {
     refCards.forEach(function(c){ refObserver.observe(c); });
   }
 
+  // Karten mobil/tablet ECHT aus .ref-col-a/.ref-col-b loesen (statt per
+  // display:contents nur optisch), damit sie direkte Kinder von .ref-grid
+  // werden -- Safari hatte mit dem CSS-Trick mehrfach Probleme, Flex-
+  // Stretch/Sizing kam durch einen "aufgeloesten" Elternteil nicht
+  // zuverlaessig bei den echten Karten an (ungleiche Hoehen, teils sogar
+  // Layout-Kollisionen). Merkt sich beim ersten Aufruf, welche Karte
+  // urspruenglich zu welcher Spalte gehoerte, damit sie auf Desktop wieder
+  // an ihren Platz zurueckwandert.
+  (function(){
+    var refColA = document.querySelector('.ref-col-a');
+    var refColB = document.querySelector('.ref-col-b');
+    if (!refGrid || !refColA || !refColB) return;
+    var cardsA = Array.prototype.slice.call(refColA.children);
+    var cardsB = Array.prototype.slice.call(refColB.children);
+    var flattened = false;
+    function layout(){
+      var mobile = window.innerWidth <= 900;
+      if (mobile && !flattened){
+        cardsA.concat(cardsB).forEach(function(c){ refGrid.appendChild(c); });
+        flattened = true;
+      } else if (!mobile && flattened){
+        cardsA.forEach(function(c){ refColA.appendChild(c); });
+        cardsB.forEach(function(c){ refColB.appendChild(c); });
+        flattened = false;
+      }
+    }
+    layout();
+    window.addEventListener('resize', layout);
+  })();
+
   // Zitat-Slider per Maus ziehbar machen -- overflow-x:auto allein
   // reagiert nur auf Touch/Trackpad-Wischen, nicht auf Klicken+Ziehen mit
   // der Maus. Gleiches Muster wie bei der Tage-Leiste im Kalender (siehe

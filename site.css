@@ -720,11 +720,21 @@ h2 .word{
    wie überall sonst hier) — die Optik inkl. Hover-Lift sitzt auf einem
    inneren Wrapper. Ein CSS-Hover-transform direkt auf .ref-card würde vom
    Scroll-Scrub sonst jeden Frame zurücküberschrieben. */
+/* display:flex statt einer festen Höhe -- .ref-card-surface bekommt seine
+   Höhe dadurch über Flex-Stretch statt über height:100% auf .ref-card-
+   surface (siehe dort). Grund: .ref-card selbst hat nie eine eigene feste
+   Höhe (nur Content-Höhe innerhalb der Spalte), Safari hat einen bekannten
+   Bug, bei dem eine Prozent-Höhe auf ein Kind mit so einem "nur content-
+   hohen" Elternteil falsch berechnet wird (dort ca. 2x zu hoch, mit echten
+   Safari-DevTools-Werten verifiziert: 457px Content-Höhe statt korrekt
+   ~128px) -- Chrome/Firefox rechnen das schon immer richtig. Flex-Stretch
+   ist robuster, weil es nicht über Prozentrechnung läuft. */
+.ref-card{ display:flex; }
 /* Kein Rahmen mehr -- Kartenwirkung jetzt rein über Schatten (Elevation)
    statt Outline. Hover invertiert vollflächig statt nur die Randfarbe zu
    wechseln (Rebeccas Wunsch: "vollflächig und dunkler"). */
 .ref-card-surface{
-  border:none; border-radius:8px; padding:2rem; height:100%;
+  border:none; border-radius:8px; padding:2rem; width:100%;
   background:var(--bg); color:var(--ink);
   box-shadow:0 2px 10px rgba(15,23,35,0.06);
   transition:background-color .3s ease, color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
@@ -814,7 +824,14 @@ h2 .word{
      sanft mitzulaufen. Nach Loslassen (is-dragging weg) greift der Snap
      wieder normal. */
   .ref-grid.is-dragging{ cursor:grabbing; user-select:none; scroll-snap-type:none; }
-  .ref-col{ display:contents; }
+  /* .ref-col{display:contents} ist bewusst raus -- Safari hat mehrere
+     bekannte Bugs, bei denen Flex-Stretch/Sizing durch einen
+     "aufgeloesten" display:contents-Elternteil hindurch nicht zuverlaessig
+     bei den echten Kindern ankommt (ungleiche Kartenhoehen, teils sogar
+     Layout-Kollisionen). Die Karten werden jetzt stattdessen per JS aus
+     .ref-col-a/.ref-col-b direkt zu Kindern von .ref-grid gemacht (siehe
+     layoutRefCards() in site.js) -- echte DOM-Umstrukturierung statt
+     CSS-Trick, funktioniert dadurch browserunabhaengig gleich. */
   .ref-card{ flex:0 0 85%; scroll-snap-align:center; scroll-snap-stop:always; }
   .ref-pagination{ display:flex; margin-top:0.4rem; }
 }
