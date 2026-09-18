@@ -77,6 +77,36 @@ var SITE_STR = {
     refCards.forEach(function(c){ refObserver.observe(c); });
   }
 
+  // Zitat-Slider per Maus ziehbar machen -- overflow-x:auto allein
+  // reagiert nur auf Touch/Trackpad-Wischen, nicht auf Klicken+Ziehen mit
+  // der Maus. Gleiches Muster wie bei der Tage-Leiste im Kalender (siehe
+  // dort): Pointer Events, aber nur fuer pointerType "mouse" verdrahtet,
+  // damit natives Touch-/Trackpad-Scrollen unangetastet bleibt.
+  if (refGrid){
+    (function(){
+      var isDown = false, startX = 0, scrollStart = 0, moved = false;
+      refGrid.addEventListener('pointerdown', function(e){
+        if (e.pointerType !== 'mouse') return;
+        isDown = true; moved = false;
+        startX = e.clientX; scrollStart = refGrid.scrollLeft;
+        refGrid.classList.add('is-dragging');
+      });
+      window.addEventListener('pointermove', function(e){
+        if (!isDown) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        refGrid.scrollLeft = scrollStart - dx;
+      });
+      window.addEventListener('pointerup', function(){
+        isDown = false;
+        refGrid.classList.remove('is-dragging');
+      });
+      refGrid.addEventListener('click', function(e){
+        if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+      }, true);
+    })();
+  }
+
   // Kontakt-Tabs (nur mobil sichtbar, siehe CSS): Formular/Booking-Karte
   // sind jetzt zwei Panels IN einer gemeinsamen, nativ scrollenden Snap-
   // Spur (.kontakt-tab-track) -- swipen läuft über echtes Scrollen samt
@@ -212,15 +242,23 @@ var SITE_STR = {
     return isLight;
   }
   function updateNavTheme(){
+    // Ganz am Seitenende (Footer, immer hell) reicht der reine Geometrie-
+    // Check manchmal nicht -- am unteren Rand der Seite deshalb zusätzlich
+    // hart auf hell erzwingen, statt sich nur auf sectionIsLightAt zu
+    // verlassen. Gilt für BEIDE Navs: die schwebende Pill (Desktop/Tablet,
+    // >900px) genauso wie die Bottom-Nav (Mobile, <=900px) -- vorher war
+    // das nur bei der Bottom-Nav ergaenzt, wodurch das gleiche Problem auf
+    // Tablet-Breiten (Pill statt Bottom-Nav aktiv) weiter auftrat.
+    var atPageEnd = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2);
     if (nav){
       var navRect = nav.getBoundingClientRect();
       var cx = navRect.left + navRect.width / 2;
-      nav.classList.toggle('nav-on-light', sectionIsLightAt(cx, navRect.bottom + 4));
+      nav.classList.toggle('nav-on-light', atPageEnd || sectionIsLightAt(cx, navRect.bottom + 4));
     }
     if (bottomNav){
       var bnRect = bottomNav.getBoundingClientRect();
       var cx2 = bnRect.left + bnRect.width / 2;
-      bottomNav.classList.toggle('nav-on-light', sectionIsLightAt(cx2, bnRect.top - 4));
+      bottomNav.classList.toggle('nav-on-light', atPageEnd || sectionIsLightAt(cx2, bnRect.top - 4));
     }
   }
 

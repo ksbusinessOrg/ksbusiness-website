@@ -149,7 +149,13 @@ section[id]{scroll-margin-top:110px;}
    Gründen: liegt außerhalb aller .theme-light-Sections, erbt deren Tokens
    nie automatisch. */
 .bottom-nav{ display:none; }
-@media (max-width:900px){
+/* Umschaltpunkt bewusst auf 1300px angehoben (statt 900px): zwischen
+   900-1300px passte die volle Text-Pille (Logo + 5 Menüpunkte + EN) nie
+   wirklich in die schwebende Pille -- selbst mit reduziertem Gap/Padding/
+   Schriftgröße blieb sie über 85% der Viewport-Breite und wirkte
+   gestreckt. Die Bottom-Nav ist für schmale Breiten bereits fertig gebaut
+   und getestet, übernimmt diesen Bereich jetzt einfach mit. */
+@media (max-width:1300px){
   .nav{ display:none; } /* Logo lebt jetzt unten in der Bottom-Nav, oben braucht Mobile nichts mehr */
   .note{ display:none; } /* würde sich mit der Bottom-Nav am selben Rand überlappen */
   body{ padding-bottom:64px; } /* Platz, damit Footer nicht unter der Bottom-Nav verschwindet */
@@ -174,7 +180,7 @@ section[id]{scroll-margin-top:110px;}
      oben (21px) hätte sonst Vorrang vor der einfacheren .logo-mark-short-
      Klasse und das "größere" Logo unsichtbar wieder auf 21px zurück-
      gestutzt (genau das war der Bug: Größe stand im CSS, griff aber nie). */
-  .bottom-nav a.bottom-nav-brand .logo-mark-short{ width:auto; height:37px; }
+  .bottom-nav a.bottom-nav-brand .logo-mark-short{ width:auto; height:26px; }
   .bottom-nav a.is-active{ color:var(--accent); }
   .bottom-nav a.is-active svg{ transform:translateY(-2px); }
   /* flex:0 0 auto statt der geerbten flex:1 -- das Logo ist deutlich
@@ -328,7 +334,7 @@ section[id]{scroll-margin-top:110px;}
   }
   .hero-accent-a-inner, .hero-accent-far-inner{ animation:none !important; }
 }
-@media (max-width:1300px){ .hero-accent-far{ display:none; } }
+@media (max-width:1850px){ .hero-accent-far{ display:none; } }
 @media (max-width:1300px){ .hero-portrait-cluster{ display:none; } }
 /* Der einzelne kleine Deko-Punkt links bleibt bis 1650px ausgeblendet --
    er landete sonst unter dem Fließtext der Headline; für so ein kleines
@@ -337,32 +343,45 @@ section[id]{scroll-margin-top:110px;}
    Lösung statt nur Ausblenden). */
 @media (max-width:1650px){ .hero-accent-far{ display:none; } }
 
-.hero-inner{max-width:1400px; margin:0 auto; width:100%; position:relative; z-index:2;}
+/* pointer-events:none -- .hero-inner ist width:100% und liegt mit z-index:2
+   ueber dem Portrait-Cluster (z-index:1). Der Textblock selbst ist aber
+   viel schmaler als seine Box; der leere Rest der Box rechts blockierte
+   dadurch Klicks/Hover auf den Icons darunter, obwohl dort nichts sichtbar
+   ist -- wurde mit schmalerem Viewport schlimmer, weil der leere Bereich
+   sich weiter über die Icons schiebt. Interaktive Kinder (aktuell nur
+   .cta) bekommen pointer-events gezielt zurueck. */
+.hero-inner{max-width:1400px; margin:0 auto; width:100%; position:relative; z-index:2; pointer-events:none;}
+.hero-inner .cta{ pointer-events:auto; }
 .hero-eyebrow{
   display:inline-block; font-size:0.95rem; letter-spacing:0.12em; text-transform:uppercase;
   color:var(--accent); font-weight:700; margin-bottom:1.6rem;
   opacity:0; transform:translateY(16px); animation:riseIn .8s cubic-bezier(.16,1,.3,1) .1s forwards;
 }
 .hero h1{
-  font-size:clamp(3rem,8vw,7rem); line-height:0.98; letter-spacing:-0.02em;
+  font-size:clamp(3rem,8vw,7rem); line-height:1.1; letter-spacing:-0.02em;
   max-width:16ch;
   /* Größerer Weg + längere Dauer + späterer Start = deutlich mehr Drama
      beim Einflug, unabhängig von der zusätzlichen Scroll-Bewegung unten. */
   opacity:0; transform:translateY(95px); animation:riseIn 1.5s cubic-bezier(.16,1,.3,1) .32s forwards;
 }
-/* Schmalere Laptop-Breiten (MacBook & Co, z.B. 1383px): Bildcluster bleibt
-   sichtbar statt zu verschwinden, wird aber verkleinert statt mit der
-   Headline zu kollidieren. transform-origin:top right verankert die Ecke,
-   an der das Cluster ohnehin per top/right positioniert ist -- alles
-   (Portrait + Icons) schrumpft von dort nach innen, wodurch gleichzeitig
-   der Überstand nach rechts UND die Reichweite nach links (Richtung
-   Headline) kleiner werden. Zusätzlich die Headline selbst etwas kleiner,
-   als extra Sicherheitsabstand. Muss NACH der Basis-.hero h1-Regel stehen,
-   sonst gewinnt die spätere, unbedingte Basis-Regel bei gleicher
-   Spezifität (war der eigentliche Bug: die Verkleinerung griff nie). */
-@media (min-width:1301px) and (max-width:1650px){
+/* Schmalere Laptop-Breiten (MacBook & Co, z.B. 1383px, aber auch größere
+   Notebook-Panels bis ~1850px): Bildcluster bleibt sichtbar statt zu
+   verschwinden, wird aber verkleinert statt mit der Headline zu
+   kollidieren. transform-origin:top right verankert die Ecke, an der das
+   Cluster ohnehin per top/right positioniert ist -- alles (Portrait +
+   Icons) schrumpft von dort nach innen, wodurch gleichzeitig der Überstand
+   nach rechts UND die Reichweite nach links (Richtung Headline) kleiner
+   werden. Zusätzlich die Headline selbst kleiner und etwas schmaler, als
+   extra Sicherheitsabstand -- bricht dadurch eine Zeile früher um, statt
+   bis unters Bild zu laufen. Obere Grenze bewusst hoch (1850px statt vorher
+   1650px) angesetzt: reale MacBook-Breiten bei nativer Auflösung liegen
+   oft über 1650px, direkt danach kam die Kollision sonst zurück. Muss NACH
+   der Basis-.hero h1-Regel stehen, sonst gewinnt die spätere, unbedingte
+   Basis-Regel bei gleicher Spezifität (war der eigentliche Bug: die
+   Verkleinerung griff nie). */
+@media (min-width:1301px) and (max-width:1850px){
   .hero-portrait-cluster{ transform:scale(0.62); transform-origin:top right; }
-  .hero h1{ font-size:clamp(3rem,6.5vw,5.5rem); }
+  .hero h1{ font-size:clamp(3rem,6.5vw,5.5rem); max-width:13ch; }
 }
 .h1-parallax{display:inline-block; will-change:transform;}
 .hero .sub{
@@ -628,6 +647,14 @@ h2 .word{
      Punkt-Quadrate brauchen Platz, den es hier nicht gibt. */
   .arb-dot{ display:none; }
 }
+/* Gleiches Problem wie oben, nur eine Stufe weiter: zwischen 900px und
+   1300px läuft schon das Desktop-Layout (Foto bleedet -54% nach links),
+   aber die Section ist noch nicht breit genug, damit die verstreuten
+   Punkt-Quadrate sicher außerhalb des sichtbaren Karten-Inhalts landen --
+   sie schweben dann mitten im Text/Foto. Analog zum Hero-Deko-Punkt
+   (.hero-accent-far, siehe oben) hier ebenfalls bis zu einer größeren
+   Notebook-Breite ausblenden statt nur bis 900px. */
+@media (min-width:901px) and (max-width:1300px){ .arb-dot{ display:none; } }
 /* Tablet-Stufe (601-900px): 3rem statt 1.5rem Seitenpolster in der Karte
    -- gleicher Wert, den .layers (Leistungen) in diesem Bereich schon
    automatisch hat (Desktop-Wert, dort nie extra reduziert). Sonst wirkt
@@ -697,6 +724,11 @@ h2 .word{
   transition:color .3s ease, border-color .3s ease;
 }
 .ref-card-surface p{font-size:1rem; color:var(--ink); line-height:1.6; font-weight:300; transition:color .3s ease;}
+/* Explizit 800 statt dem Browser-Default für <strong> (rechnerisch 700) --
+   bei Manrope als Variable Font war der Sprung von 300 auf 700 kaum
+   wahrnehmbar, erst der obere Rand der eingebetteten Gewichts-Bandbreite
+   (200-800, siehe fonts.css) erzeugt genug Kontrast zum leichten Fließtext. */
+.ref-card-surface p strong{font-weight:800;}
 .ref-card-surface .who{margin-top:1rem; font-size:0.82rem; color:var(--muted); font-weight:600; transition:color .3s ease;}
 /* Pagination-Punkte unter dem mobilen Slider -- auf Desktop unsichtbar,
    dort bleibt das zweispaltige Masonry-Grid bestehen. */
@@ -710,7 +742,13 @@ h2 .word{
      -1.5rem-Margin auf .ref-grid (für den Karten-Bleed) wird für den
      Tablet-Bereich separat auf -3rem korrigiert, siehe Tablet-Stufe unten
      -- sonst bliebe dort wieder ein ungewolltes Polster stehen. */
-  .referenzen-inner{grid-template-columns:1fr;}
+  /* gap:0 -- das geerbte gap:4rem der Desktop-Zweispalten-Regel (Headline
+     links, Karten rechts) wirkt sonst bei einer Spalte plötzlich vertikal
+     zwischen Headline/Karten/Punkten und erzeugt dort ungewollt viel Luft.
+     Die Abstände dafür kommen jetzt bewusst nur noch aus den einzelnen
+     Elementen selbst (.referenzen-head margin-bottom, .ref-grid
+     padding, .ref-pagination margin-top). */
+  .referenzen-inner{grid-template-columns:1fr; gap:0;}
   .referenzen-head{max-width:none; margin-bottom:0.8rem;}
   /* Statt zweispaltigem Masonry-Grid: horizontaler Swipe-Slider mit
      Scroll-Snap (nativ, ohne eigene Touch-/Drag-Logik) -- passt zu
@@ -719,22 +757,34 @@ h2 .word{
      von .ref-grid werden (sonst wäre pro Spalte ein eigener, ungewollter
      Slide nötig). */
   .ref-grid{
-    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:1rem;
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:1rem; cursor:grab;
     /* Seitliches Padding (1.5rem, gleicher Wert wie das restliche Mobile-
        Seitenpolster) -- erste/letzte Karte bekommen dadurch beim Einrasten
        sauberen Randabstand statt bündig an der Kante zu kleben; die 85%-
        Kartenbreite lässt trotzdem noch genug Platz für den Peek der
-       nächsten Karte rechts. Oben/unten großzügig Padding (2rem/3rem) --
+       nächsten Karte rechts. Oben/unten bewusst bei 2rem/3rem belassen --
        overflow-x:auto zwingt (CSS-Spec, gepaarte Achsen) overflow-y
        ebenfalls auf "auto", ein Scroll-Container clippt also IMMER exakt
-       an seiner Padding-Box. Der einzige Weg, den Spotlight-/Hover-
-       Schatten (bis zu 0 24px 48px) trotzdem nicht abzuschneiden, ist
-       genug Padding als Sicherheitszone -- reines overflow:visible geht
-       hier nicht, das wird vom Browser ignoriert/zurück auf auto gezwungen. */
+       an seiner Padding-Box. Der einzige Weg, den automatisch
+       durchlaufenden Spotlight-Schatten (.ref-card-surface.is-lit,
+       box-shadow:0 16px 32px) trotzdem nicht abzuschneiden, ist genug
+       Padding als Sicherheitszone -- reines overflow:visible geht hier
+       nicht, das wird vom Browser ignoriert/zurück auf auto gezwungen.
+       War hier kurzzeitig auf 1rem/1.5rem reduziert (für kleineren
+       Kopf-Abstand), hat dabei aber genau diesen Schatten abgeschnitten --
+       der Kopf-Abstand kommt jetzt stattdessen ausschließlich aus dem
+       gap:0 auf .referenzen-inner oben, das lässt diese Sicherheitszone
+       unangetastet. */
     margin:0 -1.5rem; padding:2rem 1.5rem 3rem;
     scrollbar-width:none; -ms-overflow-style:none;
   }
   .ref-grid::-webkit-scrollbar{ display:none; }
+  /* scroll-snap-type waehrend des aktiven Ziehens aus -- sonst zieht der
+     Snap-Mechanismus die Position bei jedem Frame zurueck zum naechsten
+     Snap-Punkt, wodurch das Ziehen selbst unsichtbar/ruckartig wirkt statt
+     sanft mitzulaufen. Nach Loslassen (is-dragging weg) greift der Snap
+     wieder normal. */
+  .ref-grid.is-dragging{ cursor:grabbing; user-select:none; scroll-snap-type:none; }
   .ref-col{ display:contents; }
   .ref-card{ flex:0 0 85%; scroll-snap-align:center; scroll-snap-stop:always; }
   .ref-pagination{ display:flex; margin-top:0.4rem; }
@@ -813,21 +863,33 @@ h2 .word{
   transform:translateY(-4px) scale(1.015);
   box-shadow:0 28px 56px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
 }
+/* Angleichung an .booking-card h3 (1.3rem) -- damit beide Boxen im
+   Kontakt-Bereich strukturell gleich aufgebaut sind: Headline zuerst,
+   dann Inhalt. */
+/* 1.8rem = .booking-copy-Gap (0.6rem, Headline zu Fließtext rechts) plus
+   .booking-card-Gap (1.2rem, Fließtext-Block zu Kalender-Widget rechts) --
+   der Vergleichswert rechts von Headline bis zum eigentlichen Inhalt. */
+.kontakt-form h3{font-size:1.3rem; margin-bottom:1.8rem;}
 .field{margin-bottom:1.2rem;}
-/* Kein sichtbarer Rahmen mehr -- Feldgrenze stattdessen über einen inset-
-   Box-Shadow (schafft auf --bg auf beiden Themes >3:1, erfüllt WCAG 1.4.11
-   Non-text Contrast genau wie vorher der --muted-Rahmen, nur ohne Outline-
-   Optik). Fokus/Hover heben den Ring zusätzlich an statt die Randfarbe zu
-   wechseln. */
+/* Feldgrenze über einen sichtbar helleren Flächenton (--bg2) statt Rahmen/
+   Schatten -- Kontrast kommt aus der Fläche selbst (WCAG 1.4.11). Hover/
+   Fokus zeigen stattdessen einen Accent-Rahmen (gleiches System-Signal wie
+   bei den Kalender-Chips) statt eines kaum sichtbaren Flächen-Mixes.
+   Tastatur-Fokus bleibt zusätzlich über die globale :focus-visible-Regel
+   oben sichtbar. */
 .field input, .field textarea{
-  width:100%; background:var(--bg); border:none; border-radius:6px;
+  width:100%; background:var(--bg); border:1px solid transparent; border-radius:6px;
   padding:0.8rem 1rem; color:var(--ink); font-family:var(--font); font-size:0.98rem;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 4px rgba(0,0,0,0.2);
-  transition:box-shadow .2s ease;
+  transition:border-color .2s ease;
 }
-.field input:hover, .field textarea:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.28), inset 0 1px 4px rgba(0,0,0,0.2);}
-.field input:focus, .field textarea:focus{box-shadow:inset 0 0 0 2px var(--accent);}
+.field input:hover, .field textarea:hover{border-color:var(--accent);}
+.field input:focus, .field textarea:focus{border-color:var(--accent);}
 .field textarea{resize:vertical; min-height:110px;}
+/* Ohne diese Regel griff der Browser-Standard fuer Placeholder -- auf dem
+   dunklen Feld-Hintergrund wirkte das leicht braeunlich statt neutral
+   gedimmt. --muted ist im System bereits die etablierte Farbe fuer
+   sekundaeren/gedimmten Text. */
+.field input::placeholder, .field textarea::placeholder{ color:var(--muted); opacity:1; }
 /* Wenn die Box durch den Kalender rechts hoeher wird (Grid-Stretch, siehe
    .kontakt-grid), soll der zusaetzliche Platz nicht als Leerraum vor dem
    Button liegen, sondern das Nachricht-Feld selbst waechst. Eigenes
@@ -855,16 +917,19 @@ h2 .word{
    damals flex:1 + vertikal zentriert -- das brauchte es mit dem Kalender
    darunter nicht mehr). */
 .booking-copy{display:flex; flex-direction:column; gap:0.6rem;}
-.booking-icon{
-  width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  background:var(--accent); color:#fff; margin-bottom:0.2rem;
-}
-.booking-icon svg{width:20px; height:20px;}
 .booking-card h3{font-size:1.3rem;}
 .booking-card p{color:var(--muted); font-size:0.98rem; font-weight:300;}
 
 /* ---------- Booking-Kalender ---------- */
-.booking-cal{flex:1; display:flex; flex-direction:column; gap:1rem; min-height:0;}
+.booking-cal{flex:1; display:flex; flex-direction:column; min-height:0;}
+/* Statt eines einzigen einheitlichen gap (vorher 1rem für alles) jetzt
+   gezielt pro Übergang, angeglichen an die Abstände im Formular links:
+   Chips zu Zeiten = doppelter Feld-Abstand links (.field margin-bottom:
+   1.2rem), Zeiten zu Button = derselbe Abstand wie Nachrichtenfeld zu
+   "Nachricht senden" links (.field-grow margin-bottom: 3rem). */
+.booking-days{ margin-bottom:2.4rem; }
+.booking-times{ margin-bottom:3rem; }
+.booking-confirm, #booking-status{ margin-top:1rem; }
 /* Kein sichtbarer Scrollbalken -- stattdessen ein Ausfaden an den Raendern
    als Hinweis, dass da noch mehr Tage kommen (per Mask, nicht Overlay --
    faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). Das Mask-Image
@@ -879,29 +944,44 @@ h2 .word{
 .booking-days::-webkit-scrollbar{ display:none; }
 .booking-days.is-dragging{ cursor:grabbing; user-select:none; }
 .booking-day{
-  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid var(--line);
+  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid transparent;
   background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
   white-space:nowrap; cursor:pointer;
-  transition:background-color .2s ease, color .2s ease, border-color .2s ease;
+  transition:border-color .2s ease, color .2s ease;
 }
-.booking-day:hover{color:var(--ink); border-color:var(--muted);}
-.booking-day.is-active{background:var(--ink); color:var(--bg); border-color:var(--ink);}
-.booking-times{display:flex; flex-wrap:wrap; gap:0.6rem;}
+/* Border statt Flächen-Mix als Hover -- der Flächen-Mix (bg+15% ink) war
+   auf der ohnehin schon dunklen Chip-Fläche kaum vom Ruhezustand zu
+   unterscheiden. Accent-Farbe ist im System bereits das etablierte
+   Interaktions-Signal (Links, aktiver Nav-Punkt, Fokus-Ring). */
+.booking-day:hover{color:var(--ink); border-color:var(--accent);}
+.booking-day.is-active{background:var(--ink); color:var(--bg); border-color:transparent;}
+/* flex:1 -- einziges wachsendes Element in der .booking-cal-Spalte (Tage
+   und Button bleiben bei ihrer natuerlichen Groesse). Zieht man das
+   Nachrichtenfeld links groesser und wird die rechte Karte dadurch per
+   Grid-Stretch hoeher, waechst der Freiraum jetzt in dieses Zeitraster
+   hinein (align-content:stretch verteilt ihn auf beide Zeilen, die
+   einzelnen Buttons stretchen mit) statt als Leerraum vor dem Button
+   liegen zu bleiben -- der Button bleibt dadurch organisch ganz unten. */
+.booking-times{display:flex; flex-wrap:wrap; align-content:stretch; gap:0.6rem; flex:1;}
 .booking-time{
   flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:0.7rem 0.8rem; border-radius:8px;
-  border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:var(--font);
+  border:1px solid transparent; background:var(--bg); color:var(--ink); font-family:var(--font);
   font-size:0.92rem; font-weight:600; cursor:pointer; text-align:center;
-  transition:background-color .2s ease, border-color .2s ease, opacity .2s ease;
+  transition:border-color .2s ease, opacity .2s ease;
 }
+/* Border statt Flächen-Mix als Hover -- gleicher Grund wie bei .booking-day
+   oben, dieselbe Accent-Farbe als Signal. */
 .booking-time:hover{border-color:var(--accent);}
-.booking-time.is-active{background:var(--accent); border-color:var(--accent); color:#fff;}
+.booking-time.is-active{background:var(--accent); border-color:transparent; color:#fff;}
 .booking-time.is-booked{opacity:0.4; cursor:not-allowed; color:var(--muted);}
-.booking-time.is-booked:hover{border-color:var(--line);}
+.booking-time.is-booked:hover{background:var(--bg); border-color:transparent;}
 /* .kontakt-submit bringt margin-top:auto mit (fuer den Fall, dass es das
    letzte Element in einer Flex-Column-Karte ist) -- hier sitzt der Button
    aber MITTEN im Ablauf von .booking-cal, das haette sonst den ganzen
-   Freiraum vor sich aufgesaugt und alles Folgende nach unten gedrueckt. */
-#booking-select-confirm{margin-top:1.8rem;}
+   Freiraum vor sich aufgesaugt und alles Folgende nach unten gedrueckt.
+   Der Abstand nach oben kommt jetzt stattdessen von .booking-times'
+   eigenem margin-bottom (siehe oben), deshalb hier auf 0 statt 1.8rem. */
+#booking-select-confirm{margin-top:0;}
 #booking-select-confirm[hidden]{display:none;}
 .booking-confirm{display:flex; flex-direction:column; gap:0.8rem;}
 /* Eigene display:flex-Regel oben schlaegt sonst per Cascade-Reihenfolge
@@ -974,9 +1054,7 @@ h2 .word{
     font-weight:700; font-size:0.9rem; cursor:pointer;
     transition:background-color .25s ease, color .25s ease, border-color .25s ease;
   }
-  /* Outline-Stil statt Vollfläche -- gleiche Optik wie der Hero-Button
-     (.hero .cta): Rahmen statt Farbfüllung. */
-  .kontakt-tab.is-active{ background:transparent; color:var(--ink); border-color:var(--ink); }
+  .kontakt-tab.is-active{ background:var(--ink); color:var(--bg); border-color:transparent; }
   /* CSS Grid statt Flex für die Spur: Grids Default-Stretch über
      Spalten hinweg ist der exakt gleiche, bereits bewährte Mechanismus
      wie beim Desktop-.kontakt-grid (display:grid) -- damit landen beide
