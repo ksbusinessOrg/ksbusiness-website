@@ -47,6 +47,18 @@ body{
 }
 .nav a{font-size:0.95rem; font-weight:600; letter-spacing:0.02em; color:var(--muted); transition:color .2s ease; white-space:nowrap;}
 .nav a:hover{color:var(--ink);}
+/* Sprachumschalter (DE/EN) -- 1:1 aus site.css uebernommen (dortiger
+   Dark-Theme-Grundzustand, kein nav-on-light noetig, siehe Kommentar oben
+   zum immer-dunklen Hintergrund dieser Seiten). Nur auf den *-en.html-
+   Rechtsseiten sowie neu auch auf impressum.html/datenschutz.html selbst
+   verwendet (Rueckweg zur englischen Fassung). */
+.nav .lang-switch{
+  font-size:0.82rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
+  padding:0.35rem 0.7rem; border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  transition:color .2s ease, border-color .2s ease;
+}
+.nav .lang-switch:hover{ color:var(--ink); border-color:var(--muted); }
 
 .bottom-nav{ display:none; }
 /* Breakpoint 1300px statt 900px -- an die Anpassung in site.css angeglichen
