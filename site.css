@@ -7,6 +7,10 @@
   --red:#C4453D;
   --line:#232E3F;
   --font:'Manrope','Segoe UI',Arial,sans-serif;
+  --radius-8:8px; --radius-16:16px; --radius-28:28px; --radius-999:999px;
+  --spacing-4:0.25rem; --spacing-8:0.5rem; --spacing-12:0.75rem; --spacing-16:1rem;
+  --spacing-24:1.5rem; --spacing-32:2rem; --spacing-48:3rem; --spacing-64:4rem;
+  --spacing-96:6rem; --spacing-144:9rem;
 }
 /* Echter Hell-Dunkel-Wechsel pro Section (wie hut8.com: fast Schwarz vs.
    fast Weiß, kein Ton-in-Ton) — überschreibt die Tokens lokal, alle
@@ -83,7 +87,7 @@ section[id]{scroll-margin-top:110px;}
   position:fixed; top:1.5rem; left:50%; transform:translateX(-50%); z-index:50;
   display:flex; align-items:center; gap:2.6rem;
   padding:0.95rem 2.3rem;
-  border-radius:999px;
+  border-radius:var(--radius-999);
   background:color-mix(in srgb, var(--bg) 60%, transparent);
   backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
   border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
@@ -115,7 +119,7 @@ section[id]{scroll-margin-top:110px;}
    1:1 auf die jeweils andere Sprachdatei (index.html <-> index-en.html). */
 .nav .lang-switch{
   font-size:0.82rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
-  padding:0.35rem 0.7rem; border-radius:999px;
+  padding:0.35rem 0.7rem; border-radius:var(--radius-999);
   border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
   transition:color .2s ease, border-color .2s ease;
 }
@@ -170,7 +174,7 @@ section[id]{scroll-margin-top:110px;}
     transition:background .35s ease, border-color .35s ease;
   }
   .bottom-nav a{
-    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.25rem;
+    flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:var(--spacing-4);
     padding:0.35rem 0.1rem; color:var(--muted);
     font-size:0.62rem; font-weight:600; letter-spacing:0.01em;
     transition:color .15s ease;
@@ -186,7 +190,7 @@ section[id]{scroll-margin-top:110px;}
   /* flex:0 0 auto statt der geerbten flex:1 -- das Logo ist deutlich
      breiter als ein quadratisches Icon; mit flex:1 (gleicher Anteil wie
      die anderen 4 Items) hätte es sich sonst zusammenquetschen können. */
-  .bottom-nav a.bottom-nav-brand{ flex:0 0 auto; padding-left:0.5rem; padding-right:0.5rem; font-size:0.66rem; font-weight:800; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
+  .bottom-nav a.bottom-nav-brand{ flex:0 0 auto; padding-left:var(--spacing-8); padding-right:var(--spacing-8); font-size:0.66rem; font-weight:800; letter-spacing:0.005em; color:var(--ink); white-space:nowrap; }
   /* Helle Section unter der Bottom-Nav: Werte 1:1 aus .theme-light
      übernommen (auch --accent, da dessen hellere Dark-Mode-Variante auf
      hellem Grund zu wenig Kontrast hätte). */
@@ -206,7 +210,7 @@ section[id]{scroll-margin-top:110px;}
 /* ---------- Hero ---------- */
 .hero{
   min-height:100vh; min-height:100svh; display:flex; align-items:center; position:relative;
-  padding:0 3rem; background:
+  padding:0 var(--spacing-48); background:
     radial-gradient(ellipse 80% 60% at 50% 20%, rgba(76,126,255,0.08), transparent),
     linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
   overflow:hidden;
@@ -267,7 +271,7 @@ section[id]{scroll-margin-top:110px;}
   animation:riseIn 1s cubic-bezier(.16,1,.3,1) .9s forwards;
 }
 .hero-portrait-surface{
-  display:block; width:100%; height:100%; border-radius:28px; overflow:hidden;
+  display:block; width:100%; height:100%; border-radius:var(--radius-28); overflow:hidden;
   background:#F4F6F8; box-shadow:0 28px 56px rgba(0,0,0,0.32);
   transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
 }
@@ -312,7 +316,7 @@ section[id]{scroll-margin-top:110px;}
   animation:riseIn 1s cubic-bezier(.16,1,.3,1) 1.2s forwards;
 }
 .hero-accent-a-inner{
-  display:block; width:100%; height:100%; border-radius:8px; background:#fff;
+  display:block; width:100%; height:100%; border-radius:var(--radius-8); background:#fff;
   box-shadow:0 10px 22px rgba(0,0,0,0.2);
   animation:arbDotFloat 7.5s ease-in-out infinite;
 }
@@ -385,12 +389,12 @@ section[id]{scroll-margin-top:110px;}
 }
 .h1-parallax{display:inline-block; will-change:transform;}
 .hero .sub{
-  margin-top:2rem; font-size:1.2rem; color:var(--muted); max-width:52ch; font-weight:300;
+  margin-top:var(--spacing-32); font-size:1.2rem; color:var(--muted); max-width:52ch; font-weight:300;
   opacity:0; transform:translateY(24px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .55s forwards;
 }
 .hero .cta{
   margin-top:2.6rem; display:inline-flex; align-items:center; gap:0.6rem;
-  padding:1rem 2rem; border:1px solid var(--ink); border-radius:999px;
+  padding:var(--spacing-16) var(--spacing-32); border:1px solid var(--ink); border-radius:var(--radius-999);
   font-size:1rem; font-weight:700; letter-spacing:0.02em;
   opacity:0; transform:translateY(20px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .75s forwards;
   transition:background .25s ease, color .25s ease;
@@ -440,7 +444,7 @@ section[id]{scroll-margin-top:110px;}
 @keyframes scrollLine{ 50%{left:0;} 100%{left:100%;} }
 
 /* ---------- Section 2: Three Layers ---------- */
-.layers{padding:9rem 3rem; background:var(--bg2);}
+.layers{padding:var(--spacing-144) var(--spacing-48); background:var(--bg2);}
 /* Kein Raster-Hintergrund hier: das Raster-Gestaltungsmuster gilt bewusst
    nur für dunkle Sections (Hero, später Arbeitsweise/Kontakt) -- auf
    hellen Sections wie dieser hier weggelassen. Der Spotlight-Umlauf durch
@@ -476,9 +480,9 @@ h2 .word{
    (Elevation), genau wie bei .ref-card-surface. Hover invertiert
    vollflächig (dunkel, heller Text) statt eines hellblauen Farbtons --
    Rebeccas Wunsch: kein "hellblaues Highlighting" mehr. */
-.layer-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem;}
+.layer-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--spacing-24);}
 .layer{
-  padding:2.5rem 2.2rem; border-radius:8px;
+  padding:2.5rem 2.2rem; border-radius:var(--radius-8);
   background:var(--bg); color:var(--ink);
   box-shadow:0 2px 10px rgba(15,23,35,0.06);
   /* Kein CSS-transition auf transform/opacity: die werden pro Frame direkt
@@ -505,7 +509,7 @@ h2 .word{
 .layer.is-lit{ box-shadow:0 20px 40px rgba(15,23,35,0.16); }
 .layer.is-lit .tag{ color:var(--red); }
 .layer .tag{font-size:1.1rem; color:var(--accent); letter-spacing:0.06em; text-transform:uppercase; font-weight:700; transition:color .3s ease;}
-.layer h3{font-size:1.9rem; margin:1rem 0 1.1rem; letter-spacing:-0.01em;}
+.layer h3{font-size:1.9rem; margin:var(--spacing-16) 0 1.1rem; letter-spacing:-0.01em;}
 .layer p{color:var(--muted); font-size:0.98rem; line-height:1.6; font-weight:300; transition:color .3s ease;}
 @media (max-width:900px){
   .layer-grid{grid-template-columns:1fr; gap:1.25rem;}
@@ -523,7 +527,7 @@ h2 .word{
 /* Gleicher Ton wie Leistungen/Referenzen (--bg2, nicht --bg) und keine
    Section-Divider mehr davor/danach -- die drei hellen Sections sollen
    nahtlos ineinander übergehen, kein sichtbarer Bruch mehr. */
-.arbeitsweise{ padding:9rem 3rem; background:var(--bg2); }
+.arbeitsweise{ padding:var(--spacing-144) var(--spacing-48); background:var(--bg2); }
 .arbeitsweise-inner{ max-width:1400px; margin:0 auto; position:relative; }
 /* Kleine "Punkt"-Quadrate verstreut um das Karten-Cluster, gleiches Motiv
    wie im Hero, hier aber ruhig (kein Erscheinen/Verschwinden) -- nur ein
@@ -539,7 +543,7 @@ h2 .word{
    Element wie der Scroll-Scrub würde sich sonst gegenseitig
    überschreiben. */
 .arb-dot{ position:absolute; z-index:3; }
-.arb-dot-inner{ display:block; width:100%; height:100%; border-radius:8px; animation:arbDotFloat 8s ease-in-out infinite; }
+.arb-dot-inner{ display:block; width:100%; height:100%; border-radius:var(--radius-8); animation:arbDotFloat 8s ease-in-out infinite; }
 @keyframes arbDotFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-8px); } }
 /* Deutlich mehr Abstand zu beiden Karten: 1+2 oben in der Lücke vor dem
    Cluster, 3+4 rechts im freien Rand (Karte endet bei 24%+64%=88%). */
@@ -564,7 +568,7 @@ h2 .word{
   /* Links etwas mehr Platz lassen als die Foto-Karte hineinragt (siehe
      .arbeitsweise-photo-card: rechte Kante bei -54%+63%=9%) -- sonst
      überlappt das Foto den Text statt nur die leere Ecke der Karte. */
-  padding:6rem 5.5rem 6rem 20%;
+  padding:var(--spacing-96) 5.5rem var(--spacing-96) 20%;
   background:var(--bg); color:var(--ink);
   box-shadow:0 32px 64px rgba(11,15,23,0.18);
 }
@@ -601,7 +605,7 @@ h2 .word{
    sichtbar (kürzer als das Foto, unten/seitlich als Rahmen erkennbar). */
 .arbeitsweise-photo-card{
   position:absolute; z-index:2; left:-54%; width:63%; top:12%; bottom:-6%;
-  background:#C4453D; border-radius:28px;
+  background:#C4453D; border-radius:var(--radius-28);
   box-shadow:0 28px 56px rgba(0,0,0,0.3);
 }
 /* Randlos, kein Innenabstand -- und oben deutlich über die rote Fläche
@@ -618,7 +622,7 @@ h2 .word{
    einfach zu 100% mit object-fit:cover. */
 .arbeitsweise-photo{
   position:absolute; z-index:3; left:-54%; width:63%; top:1%; bottom:-6%;
-  border-radius:28px; overflow:hidden;
+  border-radius:var(--radius-28); overflow:hidden;
 }
 .arbeitsweise-photo img{ display:block; width:100%; height:100%; object-fit:cover; }
 @media (max-width:900px){
@@ -639,7 +643,7 @@ h2 .word{
      restliche Mobile-Seitenpolster (Leistungen etc.), .arbeitsweise selbst
      hat ja bewusst kein eigenes Section-Padding mehr (Karte läuft randlos),
      die Karte muss den Textabstand also komplett allein tragen. */
-  .arbeitsweise-card{ padding:2.5rem 1.5rem 17rem 1.5rem; border-radius:0; }
+  .arbeitsweise-card{ padding:2.5rem var(--spacing-24) 17rem var(--spacing-24); border-radius:0; }
   /* Rote Fläche + Freisteller wieder als zwei separate, überlappende
      Ebenen (wie am Desktop) statt einer verschmolzenen Fläche.
      Bleedet jetzt wieder LINKS aus der Seite (wie ursprünglich), rechts
@@ -690,7 +694,7 @@ h2 .word{
    der Text in der Arbeitsweise-Karte auf Tablet-Breite enger eingerückt
    als bei Leistungen/Referenzen daneben. */
 @media (min-width:601px) and (max-width:900px){
-  .arbeitsweise-card{ padding-left:3rem; padding-right:3rem; }
+  .arbeitsweise-card{ padding-left:var(--spacing-48); padding-right:var(--spacing-48); }
 }
 
 /* ---------- Section 4: Referenzen ---------- */
@@ -702,18 +706,18 @@ h2 .word{
    Fake-Scroll nicht zuverlässig vertragen — der Tempo-Unterschied kommt
    stattdessen komplett aus JS (updateReveals -> .ref-col-Transform),
    konsistent mit allem anderen in diesem Script. */
-.referenzen{padding:9rem 3rem; background:var(--bg2); overflow:hidden;}
+.referenzen{padding:var(--spacing-144) var(--spacing-48); background:var(--bg2); overflow:hidden;}
 .referenzen-inner{
   max-width:1400px; margin:0 auto; display:grid;
-  grid-template-columns:0.44fr 1fr; gap:4rem; align-items:start;
+  grid-template-columns:0.44fr 1fr; gap:var(--spacing-64); align-items:start;
   position:relative;
 }
 .referenzen-head{max-width:38ch;}
-.ref-grid{display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;}
+.ref-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--spacing-24);}
 /* Kein Raster-Hintergrund hier (siehe .layers-inner-Kommentar -- gilt
    bewusst nur für dunkle Sections). Tempo-Unterschied zwischen den Spalten
    und der Spotlight-Umlauf (.ref-card-surface.is-lit) bleiben bestehen. */
-.ref-col{display:flex; flex-direction:column; gap:1.5rem; will-change:transform;}
+.ref-col{display:flex; flex-direction:column; gap:var(--spacing-24); will-change:transform;}
 /* Zweite Spalte startet tiefer versetzt -> Masonry-Look statt Reihen-Raster. */
 .ref-col-b{margin-top:3.5rem;}
 /* .ref-card bleibt der reine JS-Reveal-Träger (opacity/transform pro Frame,
@@ -734,7 +738,7 @@ h2 .word{
    statt Outline. Hover invertiert vollflächig statt nur die Randfarbe zu
    wechseln (Rebeccas Wunsch: "vollflächig und dunkler"). */
 .ref-card-surface{
-  border:none; border-radius:8px; padding:2rem; width:100%;
+  border:none; border-radius:var(--radius-8); padding:var(--spacing-32); width:100%;
   background:var(--bg); color:var(--ink);
   box-shadow:0 2px 10px rgba(15,23,35,0.06);
   transition:background-color .3s ease, color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.16,1,.3,1);
@@ -759,7 +763,7 @@ h2 .word{
 .ref-card-surface .ref-tag{
   display:inline-block; font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase;
   color:var(--muted); border:1px dashed var(--line); border-radius:3px;
-  padding:0.15rem 0.5rem; margin-bottom:1rem;
+  padding:0.15rem var(--spacing-8); margin-bottom:var(--spacing-16);
   transition:color .3s ease, border-color .3s ease;
 }
 .ref-card-surface p{font-size:1rem; color:var(--ink); line-height:1.6; font-weight:300; transition:color .3s ease;}
@@ -768,10 +772,10 @@ h2 .word{
    wahrnehmbar, erst der obere Rand der eingebetteten Gewichts-Bandbreite
    (200-800, siehe fonts.css) erzeugt genug Kontrast zum leichten Fließtext. */
 .ref-card-surface p strong{font-weight:800;}
-.ref-card-surface .who{margin-top:1rem; font-size:0.82rem; color:var(--muted); font-weight:600; transition:color .3s ease;}
+.ref-card-surface .who{margin-top:var(--spacing-16); font-size:0.82rem; color:var(--muted); font-weight:600; transition:color .3s ease;}
 /* Pagination-Punkte unter dem mobilen Slider -- auf Desktop unsichtbar,
    dort bleibt das zweispaltige Masonry-Grid bestehen. */
-.ref-pagination{ display:none; justify-content:center; gap:0.5rem; margin-top:1.5rem; }
+.ref-pagination{ display:none; justify-content:center; gap:var(--spacing-8); margin-top:var(--spacing-24); }
 .ref-dot{ width:8px; height:8px; border-radius:50%; background:var(--line); transition:background-color .25s ease, transform .25s ease; }
 .ref-dot.is-active{ background:var(--accent); transform:scale(1.3); }
 @media (max-width:900px){
@@ -796,7 +800,7 @@ h2 .word{
      von .ref-grid werden (sonst wäre pro Spalte ein eigener, ungewollter
      Slide nötig). */
   .ref-grid{
-    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:1rem; cursor:grab;
+    display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:var(--spacing-16); cursor:grab;
     /* Seitliches Padding (1.5rem, gleicher Wert wie das restliche Mobile-
        Seitenpolster) -- erste/letzte Karte bekommen dadurch beim Einrasten
        sauberen Randabstand statt bündig an der Kante zu kleben; die 85%-
@@ -814,7 +818,7 @@ h2 .word{
        der Kopf-Abstand kommt jetzt stattdessen ausschließlich aus dem
        gap:0 auf .referenzen-inner oben, das lässt diese Sicherheitszone
        unangetastet. */
-    margin:0 -1.5rem; padding:2rem 1.5rem 3rem;
+    margin:0 -var(--spacing-24); padding:var(--spacing-32) var(--spacing-24) var(--spacing-48);
     scrollbar-width:none; -ms-overflow-style:none;
   }
   .ref-grid::-webkit-scrollbar{ display:none; }
@@ -852,7 +856,7 @@ h2 .word{
      Bereich jetzt (wie .layers) wieder 3rem Section-Padding, das muss die
      Bleed-Margin exakt ausgleichen, sonst bleibt erneut ein Rest-Polster
      stehen (siehe Notiz weiter oben bei .referenzen). */
-  .ref-grid{ margin:0 -3rem; padding-left:18vw; padding-right:18vw; }
+  .ref-grid{ margin:0 -var(--spacing-48); padding-left:18vw; padding-right:18vw; }
   .ref-card{ flex:0 0 64vw; width:64vw; }
 }
 
@@ -860,7 +864,7 @@ h2 .word{
 /* Bewusst NICHT nur ein weißes/neutrales Formular — farbig getönter
    Verlauf im Hintergrund, wie im ursprünglichen Entwurf gefordert. */
 .kontakt{
-  padding:9rem 3rem; position:relative; overflow:hidden;
+  padding:var(--spacing-144) var(--spacing-48); position:relative; overflow:hidden;
   background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 16%, var(--bg)) 0%, var(--bg) 60%);
 }
 /* Gleiches Raster-Gestaltungsmuster wie Hero/Arbeitsweise. */
@@ -874,8 +878,8 @@ h2 .word{
 }
 @media (prefers-reduced-motion: reduce){ .kontakt::after{ animation:none !important; } }
 .kontakt-inner{max-width:1400px; margin:0 auto; position:relative; z-index:1;}
-.kontakt-head{max-width:46ch; margin-bottom:3rem;}
-.kontakt-grid{display:grid; grid-template-columns:1fr 1fr; gap:3rem;}
+.kontakt-head{max-width:46ch; margin-bottom:var(--spacing-48);}
+.kontakt-grid{display:grid; grid-template-columns:1fr 1fr; gap:var(--spacing-48);}
 /* .kontakt-tab-track ist auf Desktop unsichtbar für das Layout
    (display:contents) -- Formular/Booking-Karte bleiben direkte Grid-Items
    von .kontakt-grid, genau wie vorher ohne den Wrapper. Erst mobil (siehe
@@ -883,7 +887,7 @@ h2 .word{
 .kontakt-tab-track{ display:contents; }
 .kontakt-tabs{ display:none; }
 .kontakt-form, .booking-card{
-  height:100%; box-sizing:border-box; border-radius:8px; padding:2.2rem;
+  height:100%; box-sizing:border-box; border-radius:var(--radius-8); padding:2.2rem;
   /* min-width:0 -- Grid-Items haben per Default min-width:auto, das
      verhindert das Schrumpfen unter die eigene Inhaltsbreite. Die
      Tages-Chips-Reihe (10 Stueck, white-space:nowrap) hat dadurch die
@@ -925,7 +929,7 @@ h2 .word{
    oben sichtbar. */
 .field input, .field textarea{
   width:100%; background:var(--bg); border:1px solid transparent; border-radius:6px;
-  padding:0.8rem 1rem; color:var(--ink); font-family:var(--font); font-size:0.98rem;
+  padding:0.8rem var(--spacing-16); color:var(--ink); font-family:var(--font); font-size:0.98rem;
   transition:border-color .2s ease;
 }
 .field input:hover, .field textarea:hover{border-color:var(--accent);}
@@ -941,10 +945,10 @@ h2 .word{
    Button liegen, sondern das Nachricht-Feld selbst waechst. Eigenes
    Sub-Flex auf dem Feld-Wrapper, damit auch die Textarea (sonst nur
    min-height) den vollen Wrapper ausfuellt. */
-.field-grow{flex:1; display:flex; margin-bottom:3rem;}
+.field-grow{flex:1; display:flex; margin-bottom:var(--spacing-48);}
 .field-grow textarea{flex:1; min-height:110px;}
 .kontakt-submit{
-  display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:999px;
+  display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:var(--radius-999);
   border:1px solid var(--ink); text-align:center; text-decoration:none;
   background:var(--ink); color:var(--bg); font-weight:700; font-size:1.05rem; line-height:1.2; cursor:pointer;
   margin-top:auto; font-family:var(--font);
@@ -974,8 +978,8 @@ h2 .word{
    1.2rem), Zeiten zu Button = derselbe Abstand wie Nachrichtenfeld zu
    "Nachricht senden" links (.field-grow margin-bottom: 3rem). */
 .booking-days{ margin-bottom:2.4rem; }
-.booking-times{ margin-bottom:3rem; }
-.booking-confirm, #booking-status{ margin-top:1rem; }
+.booking-times{ margin-bottom:var(--spacing-48); }
+.booking-confirm, #booking-status{ margin-top:var(--spacing-16); }
 /* Kein sichtbarer Scrollbalken -- stattdessen ein Ausfaden an den Raendern
    als Hinweis, dass da noch mehr Tage kommen (per Mask, nicht Overlay --
    faerbt dadurch korrekt auf den jeweiligen Hintergrund ab). Das Mask-Image
@@ -984,13 +988,13 @@ h2 .word{
    wurde, rechts nur, solange noch was folgt -- der erste/letzte Eintrag
    soll nie im Fade stehen. */
 .booking-days{
-  display:flex; gap:0.5rem; overflow-x:auto; cursor:grab;
+  display:flex; gap:var(--spacing-8); overflow-x:auto; cursor:grab;
   scrollbar-width:none; -ms-overflow-style:none;
 }
 .booking-days::-webkit-scrollbar{ display:none; }
 .booking-days.is-dragging{ cursor:grabbing; user-select:none; }
 .booking-day{
-  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:999px; border:1px solid transparent;
+  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:var(--radius-999); border:1px solid transparent;
   background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
   white-space:nowrap; cursor:pointer;
   transition:border-color .2s ease, color .2s ease;
@@ -1010,7 +1014,7 @@ h2 .word{
    liegen zu bleiben -- der Button bleibt dadurch organisch ganz unten. */
 .booking-times{display:flex; flex-wrap:wrap; align-content:stretch; gap:0.6rem; flex:1;}
 .booking-time{
-  flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:0.7rem 0.8rem; border-radius:8px;
+  flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:0.7rem 0.8rem; border-radius:var(--radius-8);
   border:1px solid transparent; background:var(--bg); color:var(--ink); font-family:var(--font);
   font-size:0.92rem; font-weight:600; cursor:pointer; text-align:center;
   transition:border-color .2s ease, opacity .2s ease;
@@ -1053,8 +1057,8 @@ h2 .word{
    zu versuchen) -- nur die "fertig, alles gut"-Meldung passt als Pop-up. */
 .kontakt-form, .booking-card{ position:relative; }
 .toast{
-  position:absolute; inset:0; z-index:20; border-radius:8px;
-  display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  position:absolute; inset:0; z-index:20; border-radius:var(--radius-8);
+  display:flex; align-items:center; justify-content:center; padding:var(--spacing-24);
   background:rgba(11,15,23,0.6);
   opacity:0; pointer-events:none;
   transition:opacity .25s ease;
@@ -1091,11 +1095,11 @@ h2 .word{
      und scrollen den Track programmatisch zum jeweiligen Panel. */
   .kontakt-grid{ display:block; }
   .kontakt-tabs{
-    display:flex; gap:0.4rem; margin-bottom:1.5rem;
-    background:var(--bg2); border-radius:999px; padding:0.3rem;
+    display:flex; gap:0.4rem; margin-bottom:var(--spacing-24);
+    background:var(--bg2); border-radius:var(--radius-999); padding:0.3rem;
   }
   .kontakt-tab{
-    flex:1; padding:0.7rem 1rem; border:1px solid transparent; border-radius:999px;
+    flex:1; padding:0.7rem var(--spacing-16); border:1px solid transparent; border-radius:var(--radius-999);
     background:transparent; color:var(--muted); font-family:var(--font);
     font-weight:700; font-size:0.9rem; cursor:pointer;
     transition:background-color .25s ease, color .25s ease, border-color .25s ease;
@@ -1114,7 +1118,7 @@ h2 .word{
        schalten (CSS-Overflow-Spec-Regel für gepaarte Achsen), wodurch die
        Box zusätzlich vertikal scrollbar wurde, obwohl das nie gewollt war. */
     overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; width:100%;
-    border-radius:8px;
+    border-radius:var(--radius-8);
     background:color-mix(in srgb, color-mix(in srgb, var(--bg2) 88%, var(--accent) 12%) 80%, transparent);
     box-shadow:0 20px 44px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
     scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch;
@@ -1139,22 +1143,22 @@ h2 .word{
    Seite übernommen statt neu erfunden. */
 .footer-main{
   background:var(--bg); color:var(--muted); position:relative; overflow:hidden;
-  padding:6rem 3rem 2.5rem;
+  padding:var(--spacing-96) var(--spacing-48) 2.5rem;
 }
-.footer-dot{position:absolute; border-radius:16px; background:var(--accent); opacity:0.12; pointer-events:none;}
+.footer-dot{position:absolute; border-radius:var(--radius-16); background:var(--accent); opacity:0.12; pointer-events:none;}
 /* Eigener kleiner Punkt pro Spalte statt Seiten-relativer Deko-Blobs --
    so sitzt er zuverlässig mittig über der jeweiligen Überschrift, unabhängig
    von Viewport-Breite (Rebeccas Korrektur: vorher zufällig positioniert,
    nicht auf "Navigation" ausgerichtet). */
 .footer-inner{max-width:1400px; margin:0 auto; position:relative; z-index:1;}
 .footer-top{
-  display:grid; grid-template-columns:1.4fr 1fr; gap:3rem;
+  display:grid; grid-template-columns:1.4fr 1fr; gap:var(--spacing-48);
   padding-bottom:3.5rem; border-bottom:1px solid var(--line);
 }
 .footer-brand{max-width:34ch;}
-.footer-brand .brand{font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:1rem; display:block;}
+.footer-brand .brand{font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:var(--spacing-16); display:block;}
 .footer-brand p{font-size:0.95rem; line-height:1.6; font-weight:300;}
-.footer-social{display:flex; gap:0.8rem; margin-top:1.5rem;}
+.footer-social{display:flex; gap:0.8rem; margin-top:var(--spacing-24);}
 .footer-social a{
   width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
   background:var(--bg2); color:var(--muted);
@@ -1170,7 +1174,7 @@ h2 .word{
 .footer-col a{color:var(--muted); text-decoration:none; font-size:0.92rem; transition:color .2s ease;}
 .footer-col a:hover{color:var(--ink);}
 .footer-bottom{
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:var(--spacing-16);
   padding-top:1.8rem; font-size:0.82rem;
 }
 .footer-bottom a{color:var(--muted); margin-left:1.2rem; text-decoration:none;}
@@ -1184,7 +1188,7 @@ h2 .word{
    und die Deko-Punkte über den Rand hinausliefen. */
 @media (max-width:900px){
   .footer-top{grid-template-columns:1fr;}
-  .footer-main{padding:4.5rem 1.5rem 2rem;}
+  .footer-main{padding:4.5rem var(--spacing-24) var(--spacing-32);}
   /* Die Deko-Punkte sind für die Desktop-Zweispalten-Position getunt --
      im einspaltigen Mobile-Layout landet der kleine blaue eher mal hinter
      dem Fließtext statt frei daneben. Einfacher/robuster, sie hier
@@ -1205,19 +1209,19 @@ h2 .word{
    zweite, engere Stufe für Abstände/Typografie. */
 @media (max-width:600px){
   .nav .brand{font-size:1.05rem;}
-  .hero{padding:0 1.5rem;}
+  .hero{padding:0 var(--spacing-24);}
   .hero h1{font-size:clamp(2.3rem,11vw,3.2rem); max-width:14ch;}
-  .hero .sub{font-size:1.05rem; margin-top:1.5rem;}
+  .hero .sub{font-size:1.05rem; margin-top:var(--spacing-24);}
   .hero .cta{padding:0.85rem 1.6rem; font-size:0.85rem;}
   .scroll-cue{left:1.5rem; bottom:1.5rem;}
-  .layers, .arbeitsweise, .referenzen, .kontakt{padding:5.5rem 1.5rem;}
-  .layers-head, .referenzen-head, .kontakt-head{margin-bottom:3rem;}
+  .layers, .arbeitsweise, .referenzen, .kontakt{padding:5.5rem var(--spacing-24);}
+  .layers-head, .referenzen-head, .kontakt-head{margin-bottom:var(--spacing-48);}
   .layer{padding-top:1.6rem; padding-bottom:1.6rem;}
   .layer h3{font-size:1.6rem;}
   .arbeitsweise-inner{gap:2.5rem;}
-  .kontakt-grid{gap:2rem;}
+  .kontakt-grid{gap:var(--spacing-32);}
   .kontakt-form, .booking-card{padding:1.6rem;}
-  footer{padding:2rem 1.5rem;}
+  footer{padding:var(--spacing-32) var(--spacing-24);}
 }
 
 /* Muss NACH dem gemeinsamen 600px-Block oben stehen: dessen Sammel-Regel
