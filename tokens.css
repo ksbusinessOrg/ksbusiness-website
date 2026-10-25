@@ -3,11 +3,15 @@
   --accent: #4c7eff;
   --bg: #0b0f17;
   --bg2: #131a26;
+  --glass: #0b0f1799;
+  --glass-bar: #0b0f17f0;
+  --glass-line: #232e3fb3;
   --ink: #f4f6f8;
   --line: #232e3f;
   --muted: #9aa7b8;
   --on-accent: #ffffff;
   --red: #c4453d;
+  --tile: #1a2640cc;
   --radius-16: 16px;
   --radius-28: 28px;
   --radius-8: 8px;
@@ -18,6 +22,7 @@
   --spacing-24: 1.5rem;
   --spacing-32: 2rem;
   --spacing-4: 0.25rem;
+  --spacing-40: 2.5rem;
   --spacing-48: 3rem;
   --spacing-64: 4rem;
   --spacing-8: 0.5rem;

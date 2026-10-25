@@ -156,6 +156,55 @@
         }
       }
     },
+    "Glass": {
+      "$type": "color",
+      "$value": "#0b0f1799",
+      "$extensions": {
+        "figma": {
+          "kind": "variable",
+          "collection": "Colors",
+          "scopes": [
+            "FRAME_FILL"
+          ],
+          "codeSyntax": {
+            "WEB": "var(--glass)"
+          }
+        }
+      }
+    },
+    "Glass Bar": {
+      "$type": "color",
+      "$value": "#0b0f17f0",
+      "$extensions": {
+        "figma": {
+          "kind": "variable",
+          "collection": "Colors",
+          "scopes": [
+            "FRAME_FILL"
+          ],
+          "codeSyntax": {
+            "WEB": "var(--glass-bar)"
+          }
+        }
+      }
+    },
+    "Glass Line": {
+      "$type": "color",
+      "$value": "#232e3fb3",
+      "$extensions": {
+        "figma": {
+          "kind": "variable",
+          "collection": "Colors",
+          "scopes": [
+            "STROKE_COLOR",
+            "SHAPE_FILL"
+          ],
+          "codeSyntax": {
+            "WEB": "var(--glass-line)"
+          }
+        }
+      }
+    },
     "Ink": {
       "$type": "color",
       "$value": "{Palette.White}",
@@ -250,7 +299,10 @@
           "collection": "Colors",
           "scopes": [
             "FRAME_FILL"
-          ]
+          ],
+          "codeSyntax": {
+            "WEB": "var(--tile)"
+          }
         }
       }
     }
@@ -264,6 +316,23 @@
         "fontSize": "15px",
         "lineHeight": "normal",
         "letterSpacing": "0.12em"
+      },
+      "$extensions": {
+        "figma": {
+          "kind": "textStyle",
+          "fontStyle": "Bold",
+          "textCase": "UPPER"
+        }
+      }
+    },
+    "Number": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "Manrope",
+        "fontWeight": 700,
+        "fontSize": "17.6px",
+        "lineHeight": "normal",
+        "letterSpacing": "0.06em"
       },
       "$extensions": {
         "figma": {
@@ -335,7 +404,7 @@
         "fontWeight": 700,
         "fontSize": "30px",
         "lineHeight": "normal",
-        "letterSpacing": "0em"
+        "letterSpacing": "-0.01em"
       },
       "$extensions": {
         "figma": {
@@ -771,7 +840,7 @@
     },
     "Tile Dark": {
       "$type": "color",
-      "$value": "#172137",
+      "$value": "#1a2640cc",
       "$extensions": {
         "figma": {
           "kind": "variable",
@@ -1050,6 +1119,22 @@
           ],
           "codeSyntax": {
             "WEB": "var(--spacing-4)"
+          }
+        }
+      }
+    },
+    "40": {
+      "$type": "dimension",
+      "$value": "40px",
+      "$extensions": {
+        "figma": {
+          "kind": "variable",
+          "collection": "Spacings",
+          "scopes": [
+            "GAP"
+          ],
+          "codeSyntax": {
+            "WEB": "var(--spacing-40)"
           }
         }
       }

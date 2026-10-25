@@ -2,15 +2,12 @@
    dieselben Farb-Tokens wie index.html, aber ohne das ganze Scroll-/
    Reveal-System (hier reicht ein normal scrollender, statischer Text). */
 :root{
-  --bg:#0B0F17; --bg2:#131A26; --ink:#F4F6F8; --muted:#9AA7B8;
-  --accent:#4C7EFF; --red:#C4453D; --line:#232E3F;
+  /* Farben, Radien, Abstaende kommen aus tokens.css und components.css (Quelle Figma). */
   --font:'Manrope', system-ui, sans-serif;
 }
 /* Fuer den echten Footer unten, der wie auf index.html als helle
    .theme-light-Section laeuft -- Werte 1:1 von dort uebernommen. */
 .theme-light{
-  --bg:#F3F5F8; --bg2:#E7EBF1; --ink:#0B0F17; --muted:#525C6B; --line:#D6DCE4;
-  --accent:#2952CC; --red:#A93830;
   color:var(--ink);
 }
 *{box-sizing:border-box;}
@@ -28,12 +25,12 @@ body{
    zu den Sections auf index.html, da es diese hier nicht gibt. */
 .nav{
   position:fixed; top:1.5rem; left:50%; transform:translateX(-50%); z-index:50;
-  display:flex; align-items:center; gap:2.6rem;
-  padding:0.95rem 2.3rem;
-  border-radius:999px;
-  background:color-mix(in srgb, var(--bg) 60%, transparent);
+  display:flex; align-items:center; gap:var(--nav-pill-gap);
+  padding:var(--nav-pill-padding);
+  border-radius:var(--nav-pill-radius);
+  background:var(--nav-pill-bg);
   backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border:1px solid var(--nav-pill-border);
   box-shadow:0 10px 30px rgba(0,0,0,0.16);
 }
 .nav .brand{font-weight:800; font-size:1.3rem; letter-spacing:0.02em; color:var(--ink); white-space:nowrap; display:flex; align-items:center;}
@@ -42,8 +39,8 @@ body{
 .logo-mark-short{ display:block; height:42px; width:auto; }
 .nav .brand:hover .logo-mark-long rect{ fill:var(--red); }
 .nav ul{
-  display:flex; gap:2.2rem; list-style:none; margin:0; padding-left:2.6rem;
-  border-left:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  display:flex; gap:var(--nav-pill-nav-menu-gap); list-style:none; margin:0; padding-left:var(--nav-pill-gap);
+  border-left:1px solid var(--nav-pill-divider-bg);
 }
 .nav a{font-size:0.95rem; font-weight:600; letter-spacing:0.02em; color:var(--muted); transition:color .2s ease; white-space:nowrap;}
 .nav a:hover{color:var(--ink);}
@@ -53,9 +50,9 @@ body{
    Rechtsseiten sowie neu auch auf impressum.html/datenschutz.html selbst
    verwendet (Rueckweg zur englischen Fassung). */
 .nav .lang-switch{
-  font-size:0.82rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
-  padding:0.35rem 0.7rem; border-radius:999px;
-  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  font-size:0.875rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
+  padding:var(--lang-switch-padding); border-radius:var(--lang-switch-radius);
+  border:1px solid var(--lang-switch-border);
   transition:color .2s ease, border-color .2s ease;
 }
 .nav .lang-switch:hover{ color:var(--ink); border-color:var(--muted); }
@@ -73,15 +70,15 @@ body{
   .bottom-nav{
     display:flex; align-items:stretch; justify-content:space-around;
     position:fixed; bottom:0; left:0; right:0; z-index:50;
-    padding:0.3rem 0.2rem calc(0.3rem + env(safe-area-inset-bottom));
-    background:color-mix(in srgb, var(--bg) 94%, transparent);
+    padding:var(--spacing-4) var(--spacing-4) calc(var(--spacing-4) + env(safe-area-inset-bottom));
+    background:var(--bottom-nav-bg);
     backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
     border-top:1px solid var(--line);
   }
   .bottom-nav a{
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.25rem;
-    padding:0.35rem 0.1rem; color:var(--muted);
-    font-size:0.62rem; font-weight:600; letter-spacing:0.01em;
+    padding:var(--bottom-nav-item-padding); color:var(--bottom-nav-item-label-color);
+    font-size:0.625rem; font-weight:600; letter-spacing:0.01em;
   }
   .bottom-nav a svg{ width:21px; height:21px; }
   .bottom-nav a.bottom-nav-brand .logo-mark-short{ width:auto; height:26px; }
@@ -102,13 +99,13 @@ body{
   background:var(--bg2); border-radius:999px; padding:0.3rem;
 }
 .legal-tabs .legal-tab{
-  flex:1; text-align:center; padding:0.7rem 1rem; border:1px solid transparent; border-radius:999px;
-  background:transparent; color:var(--muted); font-family:var(--font);
-  font-weight:700; font-size:0.9rem; text-decoration:none;
+  flex:1; text-align:center; padding:var(--legal-tab-padding); border:1px solid transparent; border-radius:var(--legal-tab-radius);
+  background:transparent; color:var(--legal-tab-label-color); font-family:var(--font);
+  font-weight:700; font-size:0.875rem; letter-spacing:0.03em; text-decoration:none;
   transition:background-color .25s ease, color .25s ease, border-color .25s ease;
 }
 .legal-tabs .legal-tab:hover{ color:var(--ink); }
-.legal-tabs .legal-tab.is-active{ background:transparent; color:var(--ink); border-color:var(--ink); }
+.legal-tabs .legal-tab.is-active{ background:transparent; color:var(--legal-tab-selected-label-color); border-color:var(--legal-tab-selected-border); }
 
 /* ---------- Head (Hero-Hintergrund fuer Impressum/Datenschutz) ---------- */
 /* 1:1 der Hintergrund von .hero auf index.html (Gradient + driftendes
@@ -166,7 +163,7 @@ body{
    Startseite statt einer Mini-Variante. */
 .footer-main{
   background:var(--bg); color:var(--muted); position:relative; overflow:hidden;
-  padding:6rem 3rem 2.5rem; margin-top:6rem;
+  padding:var(--footer-padding); margin-top:6rem;
 }
 .footer-dot{position:absolute; border-radius:16px; background:var(--accent); opacity:0.12; pointer-events:none;}
 .footer-inner{max-width:1400px; margin:0 auto; position:relative; z-index:1;}
@@ -176,10 +173,10 @@ body{
 }
 .footer-brand{max-width:34ch;}
 .footer-brand .brand{font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:1rem; display:block;}
-.footer-brand p{font-size:0.95rem; line-height:1.6; font-weight:300;}
-.footer-social{display:flex; gap:0.8rem; margin-top:1.5rem;}
+.footer-brand p{font-size:1rem; line-height:1.6; font-weight:300;}
+.footer-social{display:flex; gap:var(--footer-footer-top-footer-brand-footer-social-gap); margin-top:1.5rem;}
 .footer-social a{
-  width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:var(--social-button-radius); display:flex; align-items:center; justify-content:center;
   background:var(--bg2); color:var(--muted);
   transition:background-color .25s ease, color .25s ease, transform .25s ease;
 }
@@ -187,7 +184,7 @@ body{
 .footer-social svg{width:18px; height:18px;}
 .footer-col h4{font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink); font-weight:700; margin-bottom:1.2rem;}
 .footer-col ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7rem;}
-.footer-col a{color:var(--muted); text-decoration:none; font-size:0.92rem; transition:color .2s ease;}
+.footer-col a{color:var(--muted); text-decoration:none; font-size:1rem; transition:color .2s ease;}
 .footer-col a:hover{color:var(--ink);}
 .footer-bottom{
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem;

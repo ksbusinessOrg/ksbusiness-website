@@ -585,7 +585,7 @@
           ],
           "radius": "Radius/999",
           "stroke": [
-            "Darkmode/Line"
+            "Darkmode/Glass Line"
           ],
           "@children": [
             "label (TEXT)"
@@ -1440,9 +1440,9 @@
           "layout.direction": "VERTICAL",
           "layout.spacing": "Spacing/16",
           "layout.padding": [
-            "Spacing/48",
+            "Spacing/40",
             "Spacing/32",
-            "Spacing/48",
+            "Spacing/40",
             "Spacing/32"
           ],
           "layout.align": [
@@ -1466,7 +1466,7 @@
         },
         "tag": {
           "type": "TEXT",
-          "textStyle": "Eyebrow/Label",
+          "textStyle": "Eyebrow/Number",
           "fill": [
             "Lightmode/Accent"
           ],
@@ -3092,12 +3092,12 @@
         "": {
           "type": "COMPONENT",
           "layout.direction": "HORIZONTAL",
-          "layout.spacing": "Spacing/48",
+          "layout.spacing": "Spacing/40",
           "layout.padding": [
             "Spacing/16",
-            "Spacing/32",
+            "Spacing/40",
             "Spacing/16",
-            "Spacing/32"
+            "Spacing/40"
           ],
           "layout.align": [
             "MIN",
@@ -3109,10 +3109,10 @@
           ],
           "radius": "Radius/999",
           "fill": [
-            "Darkmode/Bg"
+            "Darkmode/Glass"
           ],
           "stroke": [
-            "Darkmode/Line"
+            "Darkmode/Glass Line"
           ],
           "effect": "Shadow/Nav",
           "@children": [
@@ -3137,7 +3137,7 @@
             "FIXED 20"
           ],
           "fill": [
-            "Darkmode/Line"
+            "Darkmode/Glass Line"
           ]
         },
         "nav-menu": {
@@ -3245,7 +3245,7 @@
             "HUG"
           ],
           "fill": [
-            "Darkmode/Bg"
+            "Darkmode/Glass Bar"
           ],
           "stroke": [
             "Darkmode/Line"
@@ -3264,9 +3264,9 @@
           "layout.direction": "HORIZONTAL",
           "layout.spacing": 0,
           "layout.padding": [
-            0,
+            "Spacing/4",
             "Spacing/8",
-            0,
+            "Spacing/4",
             "Spacing/8"
           ],
           "layout.align": [
@@ -3363,7 +3363,7 @@
           "layout.padding": [
             "Spacing/96",
             "Spacing/48",
-            "Spacing/48",
+            "Spacing/40",
             "Spacing/48"
           ],
           "layout.align": [

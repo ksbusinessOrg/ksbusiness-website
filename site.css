@@ -74,12 +74,12 @@ section[id]{scroll-margin-top:110px;}
    derselben Pill, per dünner Trennlinie optisch gruppiert. */
 .nav{
   position:fixed; top:1.5rem; left:50%; transform:translateX(-50%); z-index:50;
-  display:flex; align-items:center; gap:2.6rem;
-  padding:0.95rem 2.3rem;
+  display:flex; align-items:center; gap:var(--nav-pill-gap);
+  padding:var(--nav-pill-padding);
   border-radius:var(--radius-999);
-  background:color-mix(in srgb, var(--bg) 60%, transparent);
+  background:var(--nav-pill-bg);
   backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  border:1px solid var(--nav-pill-border);
   box-shadow:0 10px 30px rgba(0,0,0,0.16);
   transition:background .35s ease, border-color .35s ease, box-shadow .35s ease;
 }
@@ -97,8 +97,8 @@ section[id]{scroll-margin-top:110px;}
 .nav .brand .brand-dot{color:var(--accent); transition:color .3s ease;}
 .nav .brand:hover .brand-dot{color:var(--red);}
 .nav ul{
-  display:flex; gap:2.2rem; list-style:none; margin:0; padding-left:2.6rem;
-  border-left:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  display:flex; gap:var(--nav-pill-nav-menu-gap); list-style:none; margin:0; padding-left:var(--nav-pill-gap);
+  border-left:1px solid var(--nav-pill-divider-bg);
   transition:border-color .35s ease;
 }
 .nav a{font-size:0.95rem; font-weight:600; letter-spacing:0.02em; color:var(--muted); transition:color .2s ease; white-space:nowrap;}
@@ -107,9 +107,9 @@ section[id]{scroll-margin-top:110px;}
    sie sich sichtbar vom Seiten-Navigationslink unterscheidet. Verlinkt
    1:1 auf die jeweils andere Sprachdatei (index.html <-> index-en.html). */
 .nav .lang-switch{
-  font-size:0.82rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
-  padding:0.35rem 0.7rem; border-radius:var(--radius-999);
-  border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  font-size:0.875rem; font-weight:700; letter-spacing:0.03em; color:var(--muted);
+  padding:var(--lang-switch-padding); border-radius:var(--radius-999);
+  border:1px solid var(--lang-switch-border);
   transition:color .2s ease, border-color .2s ease;
 }
 .nav .lang-switch:hover{ color:var(--ink); border-color:var(--muted); }
@@ -156,16 +156,16 @@ section[id]{scroll-margin-top:110px;}
   .bottom-nav{
     display:flex; align-items:stretch; justify-content:space-around;
     position:fixed; bottom:0; left:0; right:0; z-index:50;
-    padding:0.3rem 0.2rem calc(0.3rem + env(safe-area-inset-bottom));
-    background:color-mix(in srgb, var(--bg) 94%, transparent);
+    padding:var(--spacing-4) var(--spacing-4) calc(var(--spacing-4) + env(safe-area-inset-bottom));
+    background:var(--bottom-nav-bg);
     backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
     border-top:1px solid var(--line);
     transition:background .35s ease, border-color .35s ease;
   }
   .bottom-nav a{
     flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:var(--spacing-4);
-    padding:0.35rem 0.1rem; color:var(--muted);
-    font-size:0.62rem; font-weight:600; letter-spacing:0.01em;
+    padding:var(--bottom-nav-item-padding); color:var(--bottom-nav-item-label-color);
+    font-size:0.625rem; font-weight:600; letter-spacing:0.01em;
     transition:color .15s ease;
   }
   .bottom-nav a svg{ width:21px; height:21px; transition:transform .15s ease; }
@@ -382,7 +382,7 @@ section[id]{scroll-margin-top:110px;}
   opacity:0; transform:translateY(24px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .55s forwards;
 }
 .hero .cta{
-  margin-top:2.6rem; display:inline-flex; align-items:center; gap:0.6rem;
+  margin-top:2.6rem; display:inline-flex; align-items:center; gap:var(--button-outline-gap);
   padding:var(--button-outline-padding); border:1px solid var(--button-outline-border); border-radius:var(--button-outline-radius);
   font-size:1rem; font-weight:700; letter-spacing:0.02em;
   opacity:0; transform:translateY(20px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .75s forwards;
@@ -471,7 +471,7 @@ h2 .word{
    Rebeccas Wunsch: kein "hellblaues Highlighting" mehr. */
 .layer-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--spacing-24);}
 .layer{
-  padding:2.5rem 2.2rem; border-radius:var(--radius-8);
+  padding:var(--service-tile-padding); border-radius:var(--radius-8);
   background:var(--bg); color:var(--ink);
   box-shadow:0 2px 10px rgba(15,23,35,0.06);
   /* Kein CSS-transition auf transform/opacity: die werden pro Frame direkt
@@ -576,7 +576,7 @@ h2 .word{
   color:var(--accent); font-weight:700; margin-bottom:1.2rem;
 }
 .arbeitsweise-card h2{
-  font-size:clamp(1.8rem,3.4vw,2.6rem); line-height:1.2; letter-spacing:-0.01em;
+  font-size:clamp(2rem,3.4vw,2.6rem); line-height:1.2; letter-spacing:-0.01em;
   max-width:22ch; margin-bottom:1.6rem;
 }
 .arbeitsweise-card p{
@@ -876,7 +876,7 @@ h2 .word{
 .kontakt-tab-track{ display:contents; }
 .kontakt-tabs{ display:none; }
 .kontakt-form, .booking-card{
-  height:100%; box-sizing:border-box; border-radius:var(--radius-8); padding:2.2rem;
+  height:100%; box-sizing:border-box; border-radius:var(--radius-8); padding:var(--contact-tile-padding);
   /* min-width:0 -- Grid-Items haben per Default min-width:auto, das
      verhindert das Schrumpfen unter die eigene Inhaltsbreite. Die
      Tages-Chips-Reihe (10 Stueck, white-space:nowrap) hat dadurch die
@@ -894,7 +894,7 @@ h2 .word{
      reinem --bg2-Grauton gemischt (erst bg2+accent, dann das Ganze gegen
      transparent) -- wirkt dadurch heller UND sichtbar blauer statt nur
      grau, ohne den dunklen Look zu verlieren. */
-  background:color-mix(in srgb, color-mix(in srgb, var(--bg2) 88%, var(--accent) 12%) 80%, transparent);
+  background:var(--contact-tile-bg);
   box-shadow:0 20px 44px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
   transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
 }
@@ -917,8 +917,8 @@ h2 .word{
    Tastatur-Fokus bleibt zusätzlich über die globale :focus-visible-Regel
    oben sichtbar. */
 .field input, .field textarea{
-  width:100%; background:var(--bg); border:1px solid transparent; border-radius:6px;
-  padding:0.8rem var(--spacing-16); color:var(--ink); font-family:var(--font); font-size:0.98rem;
+  width:100%; background:var(--bg); border:1px solid transparent; border-radius:var(--input-radius);
+  padding:var(--input-padding); color:var(--ink); font-family:var(--font); font-size:0.98rem;
   transition:border-color .2s ease;
 }
 .field input:hover, .field textarea:hover{border-color:var(--accent);}
@@ -937,9 +937,9 @@ h2 .word{
 .field-grow{flex:1; display:flex; margin-bottom:var(--spacing-48);}
 .field-grow textarea{flex:1; min-height:110px;}
 .kontakt-submit{
-  display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:var(--button-solid-radius);
+  display:inline-block; width:100%; box-sizing:border-box; padding:var(--button-solid-padding); border-radius:var(--button-solid-radius);
   border:1px solid var(--button-solid-border); text-align:center; text-decoration:none;
-  background:var(--button-solid-bg); color:var(--button-solid-label-color); font-weight:700; font-size:1.05rem; line-height:1.2; cursor:pointer;
+  background:var(--button-solid-bg); color:var(--button-solid-label-color); font-weight:700; font-size:1rem; letter-spacing:0.02em; line-height:1.2; cursor:pointer;
   margin-top:auto; font-family:var(--font);
   transition:background-color .25s ease, color .25s ease, border-color .25s ease;
 }
@@ -955,7 +955,7 @@ h2 .word{
    Slot-Kalender (frueher: einziger Inhalt neben dem Buchen-Button, daher
    damals flex:1 + vertikal zentriert -- das brauchte es mit dem Kalender
    darunter nicht mehr). */
-.booking-copy{display:flex; flex-direction:column; gap:0.6rem;}
+.booking-copy{display:flex; flex-direction:column; gap:var(--booking-tile-booking-copy-gap);}
 .booking-card h3{font-size:1.3rem;}
 .booking-card p{color:var(--muted); font-size:0.98rem; font-weight:300;}
 
@@ -983,7 +983,7 @@ h2 .word{
 .booking-days::-webkit-scrollbar{ display:none; }
 .booking-days.is-dragging{ cursor:grabbing; user-select:none; }
 .booking-day{
-  flex:0 0 auto; padding:0.55rem 0.9rem; border-radius:var(--radius-999); border:1px solid transparent;
+  flex:0 0 auto; padding:var(--chip-padding); border-radius:var(--radius-999); border:1px solid transparent;
   background:var(--bg); color:var(--muted); font-family:var(--font); font-size:0.82rem; font-weight:600;
   white-space:nowrap; cursor:pointer;
   transition:border-color .2s ease, color .2s ease;
@@ -1003,7 +1003,7 @@ h2 .word{
    liegen zu bleiben -- der Button bleibt dadurch organisch ganz unten. */
 .booking-times{display:flex; flex-wrap:wrap; align-content:stretch; gap:0.6rem; flex:1;}
 .booking-time{
-  flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:0.7rem 0.8rem; border-radius:var(--radius-8);
+  flex:1 1 calc(50% - 0.3rem); min-width:100px; padding:var(--time-slot-padding); border-radius:var(--radius-8);
   border:1px solid transparent; background:var(--bg); color:var(--ink); font-family:var(--font);
   font-size:0.92rem; font-weight:600; cursor:pointer; text-align:center;
   transition:border-color .2s ease, opacity .2s ease;
@@ -1095,12 +1095,12 @@ h2 .word{
     background:var(--bg2); border-radius:var(--radius-999); padding:0.3rem;
   }
   .kontakt-tab{
-    flex:1; padding:0.7rem var(--spacing-16); border:1px solid transparent; border-radius:var(--radius-999);
-    background:transparent; color:var(--muted); font-family:var(--font);
-    font-weight:700; font-size:0.9rem; cursor:pointer;
+    flex:1; padding:var(--tab-padding); border:1px solid transparent; border-radius:var(--tab-radius);
+    background:transparent; color:var(--tab-label-color); font-family:var(--font);
+    font-weight:700; font-size:0.875rem; letter-spacing:0.03em; cursor:pointer;
     transition:background-color .25s ease, color .25s ease, border-color .25s ease;
   }
-  .kontakt-tab.is-active{ background:var(--ink); color:var(--bg); border-color:transparent; }
+  .kontakt-tab.is-active{ background:var(--tab-selected-bg); color:var(--tab-selected-label-color); border-color:transparent; }
   /* CSS Grid statt Flex für die Spur: Grids Default-Stretch über
      Spalten hinweg ist der exakt gleiche, bereits bewährte Mechanismus
      wie beim Desktop-.kontakt-grid (display:grid) -- damit landen beide
@@ -1115,7 +1115,7 @@ h2 .word{
        Box zusätzlich vertikal scrollbar wurde, obwohl das nie gewollt war. */
     overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; width:100%;
     border-radius:var(--radius-8);
-    background:color-mix(in srgb, color-mix(in srgb, var(--bg2) 88%, var(--accent) 12%) 80%, transparent);
+    background:var(--contact-tile-bg);
     box-shadow:0 20px 44px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
     scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch;
   }
@@ -1139,7 +1139,7 @@ h2 .word{
    Seite übernommen statt neu erfunden. */
 .footer-main{
   background:var(--bg); color:var(--muted); position:relative; overflow:hidden;
-  padding:var(--spacing-96) var(--spacing-48) 2.5rem;
+  padding:var(--footer-padding);
 }
 .footer-dot{position:absolute; border-radius:var(--radius-16); background:var(--accent); opacity:0.12; pointer-events:none;}
 /* Eigener kleiner Punkt pro Spalte statt Seiten-relativer Deko-Blobs --
@@ -1153,10 +1153,10 @@ h2 .word{
 }
 .footer-brand{max-width:34ch;}
 .footer-brand .brand{font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:var(--spacing-16); display:block;}
-.footer-brand p{font-size:0.95rem; line-height:1.6; font-weight:300;}
-.footer-social{display:flex; gap:0.8rem; margin-top:var(--spacing-24);}
+.footer-brand p{font-size:1rem; line-height:1.6; font-weight:300;}
+.footer-social{display:flex; gap:var(--footer-footer-top-footer-brand-footer-social-gap); margin-top:var(--spacing-24);}
 .footer-social a{
-  width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:var(--social-button-radius); display:flex; align-items:center; justify-content:center;
   background:var(--bg2); color:var(--muted);
   transition:background-color .25s ease, color .25s ease, transform .25s ease;
 }
@@ -1167,7 +1167,7 @@ h2 .word{
    mit list-style:none bestehen, dadurch standen die Links sichtbar weiter
    rechts eingerückt als die "Navigation"-Überschrift darüber. */
 .footer-col ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.7rem;}
-.footer-col a{color:var(--muted); text-decoration:none; font-size:0.92rem; transition:color .2s ease;}
+.footer-col a{color:var(--muted); text-decoration:none; font-size:1rem; transition:color .2s ease;}
 .footer-col a:hover{color:var(--ink);}
 .footer-bottom{
   display:flex; justify-content:space-between; flex-wrap:wrap; gap:var(--spacing-16);
