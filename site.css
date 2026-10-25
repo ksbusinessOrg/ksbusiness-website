@@ -1,25 +1,14 @@
+/* Farben, Radien, Abstaende kommen aus tokens.css (erzeugt aus design/tokens.json,
+   Quelle Figma) - hier nicht doppelt pflegen. */
 :root{
-  --bg:#0B0F17;
-  --bg2:#131A26;
-  --ink:#F4F6F8;
-  --muted:#9AA7B8;
-  --accent:#4C7EFF;
-  --red:#C4453D;
-  --line:#232E3F;
   --font:'Manrope','Segoe UI',Arial,sans-serif;
-  --radius-8:8px; --radius-16:16px; --radius-28:28px; --radius-999:999px;
-  --spacing-4:0.25rem; --spacing-8:0.5rem; --spacing-12:0.75rem; --spacing-16:1rem;
-  --spacing-24:1.5rem; --spacing-32:2rem; --spacing-48:3rem; --spacing-64:4rem;
-  --spacing-96:6rem; --spacing-144:9rem;
 }
 /* Echter Hell-Dunkel-Wechsel pro Section (wie hut8.com: fast Schwarz vs.
    fast Weiß, kein Ton-in-Ton) — überschreibt die Tokens lokal, alle
    Kind-Elemente greifen weiterhin auf dieselben var()-Namen zu. */
 .theme-light{
-  --bg:#F3F5F8; --bg2:#E7EBF1; --ink:#0B0F17; --muted:#525C6B; --line:#D6DCE4;
-  /* Blau/Rot müssen auf hellem Grund dunkler sein, sonst reicht der
-     Kontrast nicht (WCAG AA) — auf Dunkel sind die helleren Grundtöne ok. */
-  --accent:#2952CC; --red:#A93830;
+  /* Die hellen Werte (--bg, --ink, --accent …) setzt tokens.css. Blau/Rot sind
+     auf hellem Grund dunkler, sonst reicht der Kontrast nicht (WCAG AA). */
   /* WICHTIG: color hier explizit setzen, nicht nur die Variable. Reine
      CSS-Vererbung gibt an Kind-Elemente die bereits FERTIG BERECHNETE
      Body-Farbe weiter, nicht die Variable selbst — Kinder ohne eigene
@@ -394,12 +383,12 @@ section[id]{scroll-margin-top:110px;}
 }
 .hero .cta{
   margin-top:2.6rem; display:inline-flex; align-items:center; gap:0.6rem;
-  padding:var(--spacing-16) var(--spacing-32); border:1px solid var(--ink); border-radius:var(--radius-999);
+  padding:var(--button-outline-padding); border:1px solid var(--button-outline-border); border-radius:var(--button-outline-radius);
   font-size:1rem; font-weight:700; letter-spacing:0.02em;
   opacity:0; transform:translateY(20px); animation:riseIn 1s cubic-bezier(.16,1,.3,1) .75s forwards;
   transition:background .25s ease, color .25s ease;
 }
-.hero .cta:hover{background:var(--ink); color:var(--bg);}
+.hero .cta:hover{background:var(--button-outline-hover-bg); color:var(--button-outline-hover-label-color);}
 /* Oben rechts im Hero statt unten -- unten laeuft in diesem ganzen Bereich
    (<=1300px) schon die fixierte Bottom-Nav, zusaetzlich schwebende Icons
    dort wirkten ueberladen (Rebeccas Beobachtung). Oben ist die Ecke frei
@@ -948,9 +937,9 @@ h2 .word{
 .field-grow{flex:1; display:flex; margin-bottom:var(--spacing-48);}
 .field-grow textarea{flex:1; min-height:110px;}
 .kontakt-submit{
-  display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:var(--radius-999);
-  border:1px solid var(--ink); text-align:center; text-decoration:none;
-  background:var(--ink); color:var(--bg); font-weight:700; font-size:1.05rem; line-height:1.2; cursor:pointer;
+  display:inline-block; width:100%; box-sizing:border-box; padding:0.9rem; border-radius:var(--button-solid-radius);
+  border:1px solid var(--button-solid-border); text-align:center; text-decoration:none;
+  background:var(--button-solid-bg); color:var(--button-solid-label-color); font-weight:700; font-size:1.05rem; line-height:1.2; cursor:pointer;
   margin-top:auto; font-family:var(--font);
   transition:background-color .25s ease, color .25s ease, border-color .25s ease;
 }
@@ -958,7 +947,7 @@ h2 .word{
    mit weißer statt dunkler Schrift, deutlich sichtbarer als das alte
    Abdimmen. */
 .kontakt-submit:hover{
-  background:#4C7EFF; border-color:#4C7EFF; color:#fff;
+  background:var(--button-solid-hover-bg); border-color:var(--button-solid-hover-border); color:var(--button-solid-hover-label-color);
 }
 .kontakt-submit:disabled{ opacity:0.4; cursor:not-allowed; background:var(--ink); border-color:var(--ink); color:var(--bg); }
 .booking-card{gap:1.2rem;}
@@ -1045,6 +1034,13 @@ h2 .word{
 .booking-back:hover{color:var(--ink);}
 .form-status{font-size:0.88rem; margin:0; font-family:var(--font);}
 .form-status.is-error{color:var(--red);}
+/* Datenschutz-Hinweis unter beiden Formularen (Information nach Art. 13 DSGVO, keine Einwilligung --
+   Rechtsgrundlage laut Datenschutzerklaerung Art. 6 Abs. 1 lit. b/f). Steht in beiden Karten ganz unten,
+   gleicher Abstand zum Button, damit Buttons und Hinweise auf einer Linie liegen (Figma: form-note). */
+.kontakt-form .form-note, .booking-card .form-note{font-size:0.82rem; line-height:1.5; color:var(--muted); font-weight:300; margin:var(--spacing-32) 0 0;} /* .booking-card p wuerde sonst greifen */
+.booking-card > p.form-note{margin-top:calc(var(--spacing-32) - 1.2rem);} /* .booking-card hat schon gap:1.2rem */
+.form-note a{color:inherit; text-decoration:underline; text-underline-offset:2px;}
+.form-note a:hover{color:var(--ink);}
 
 /* ---------- Toast (Erfolgs-Hinweis) ---------- */
 /* Ersetzt den frueheren blauen Inline-Text bei Erfolg (schlecht lesbar).

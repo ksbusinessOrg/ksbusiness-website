@@ -1,0 +1,35 @@
+/* Automatisch erzeugt aus design/tokens.json (core/dtcg.py) - nicht von Hand aendern. */
+:root {
+  --accent: #4c7eff;
+  --bg: #0b0f17;
+  --bg2: #131a26;
+  --ink: #f4f6f8;
+  --line: #232e3f;
+  --muted: #9aa7b8;
+  --on-accent: #ffffff;
+  --red: #c4453d;
+  --radius-16: 16px;
+  --radius-28: 28px;
+  --radius-8: 8px;
+  --radius-999: 999px;
+  --spacing-12: 0.75rem;
+  --spacing-144: 9rem;
+  --spacing-16: 1rem;
+  --spacing-24: 1.5rem;
+  --spacing-32: 2rem;
+  --spacing-4: 0.25rem;
+  --spacing-48: 3rem;
+  --spacing-64: 4rem;
+  --spacing-8: 0.5rem;
+  --spacing-96: 6rem;
+}
+.theme-light {
+  --accent: #2952cc;
+  --bg: #f3f5f8;
+  --bg2: #e7ebf1;
+  --ink: #0b0f17;
+  --line: #d6dce4;
+  --muted: #525c6b;
+  --on-accent: #ffffff;
+  --red: #a93830;
+}

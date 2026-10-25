@@ -1,0 +1,3702 @@
+{
+  "Button": {
+    "usage": "",
+    "variants": {
+      "Type=Outline, State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            "Spacing/16",
+            "Spacing/32",
+            "Spacing/16",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Button/CTA",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen ansehen →"
+        }
+      },
+      "Type=Outline, State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            "Spacing/16",
+            "Spacing/32",
+            "Spacing/16",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Button/CTA",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen ansehen →"
+        }
+      },
+      "Type=Solid, State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            "Spacing/16",
+            "Spacing/16",
+            "Spacing/16",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 320",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Button/CTA",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Nachricht senden"
+        }
+      },
+      "Type=Solid, State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            "Spacing/16",
+            "Spacing/16",
+            "Spacing/16",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 320",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Accent"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "fill": [
+            "Darkmode/Accent"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Button/CTA",
+          "fill": [
+            "Darkmode/On Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Nachricht senden"
+        }
+      },
+      "Type=Solid, State=Disabled": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            "Spacing/16",
+            "Spacing/16",
+            "Spacing/16",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 320",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "opacity": 0.4
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Button/CTA",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Nachricht senden"
+        }
+      }
+    }
+  },
+  "Chip": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/8",
+            "Spacing/16",
+            "Spacing/8",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "stroke": [
+            "Darkmode/Bg"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Caption",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mo 26.10."
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/8",
+            "Spacing/16",
+            "Spacing/8",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "stroke": [
+            "Darkmode/Accent"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Caption",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mo 26.10."
+        }
+      },
+      "State=Selected": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/8",
+            "Spacing/16",
+            "Spacing/8",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "stroke": [
+            "Darkmode/Ink"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Caption",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mo 26.10."
+        }
+      }
+    }
+  },
+  "Input": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 320",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Bg"
+          ],
+          "@children": [
+            "placeholder (TEXT)"
+          ]
+        },
+        "placeholder": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Ihr Name"
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 320",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Accent"
+          ],
+          "@children": [
+            "placeholder (TEXT)"
+          ]
+        },
+        "placeholder": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Ihr Name"
+        }
+      },
+      "State=Focus": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 320",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Accent"
+          ],
+          "@children": [
+            "placeholder (TEXT)"
+          ]
+        },
+        "placeholder": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Ihr Name"
+        }
+      }
+    }
+  },
+  "Lang Switch": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/4",
+            "Spacing/12",
+            "Spacing/4",
+            "Spacing/12"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Line"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label Strong",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "EN"
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/4",
+            "Spacing/12",
+            "Spacing/4",
+            "Spacing/12"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Muted"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label Strong",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "EN"
+        }
+      }
+    }
+  },
+  "Tab": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Bg2"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label Strong",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Direkt sprechen"
+        }
+      },
+      "State=Selected": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label Strong",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Formular"
+        }
+      }
+    }
+  },
+  "Time Slot": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 160",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Bg"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "10:30"
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 160",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Accent"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "10:30"
+        }
+      },
+      "State=Selected": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 160",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Accent"
+          ],
+          "stroke": [
+            "Darkmode/Accent"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label",
+          "fill": [
+            "Darkmode/On Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "10:30"
+        }
+      },
+      "State=Booked": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12",
+            "Spacing/12"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 160",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Bg"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ],
+          "opacity": 0.4
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "10:30"
+        }
+      }
+    }
+  },
+  "Icon": {
+    "usage": "",
+    "variants": {
+      "Name=Grid": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 18",
+            "FIXED 18"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=List": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 19",
+            "FIXED 15"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=Star": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 17",
+            "FIXED 16"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=Mail": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 20",
+            "FIXED 16"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=Globe": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 20",
+            "FIXED 20"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=LinkedIn": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 22",
+            "FIXED 22"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=Mail Outline": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 18",
+            "FIXED 12"
+          ],
+          "stroke": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=Check": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 14",
+            "FIXED 10"
+          ],
+          "stroke": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      },
+      "Name=Close": {
+        "glyph": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 12",
+            "FIXED 12"
+          ],
+          "stroke": [
+            "Darkmode/Ink"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 24",
+            "FIXED 24"
+          ],
+          "@children": [
+            "glyph (VECTOR)"
+          ]
+        }
+      }
+    }
+  },
+  "Logo": {
+    "usage": "",
+    "variants": {
+      "Type=Long": {
+        "wordmark": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 636",
+            "FIXED 87"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "mark": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 83",
+            "FIXED 83"
+          ],
+          "fill": [
+            "Darkmode/Red"
+          ]
+        },
+        "dot": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 15",
+            "FIXED 15"
+          ],
+          "fill": [
+            "Darkmode/Accent"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 662",
+            "FIXED 87"
+          ],
+          "@children": [
+            "wordmark (VECTOR)",
+            "mark (VECTOR)",
+            "dot (VECTOR)"
+          ]
+        }
+      },
+      "Type=Short": {
+        "wordmark": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 198",
+            "FIXED 83"
+          ],
+          "fill": [
+            "Darkmode/Ink"
+          ]
+        },
+        "mark": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 83",
+            "FIXED 83"
+          ],
+          "fill": [
+            "Darkmode/Red"
+          ]
+        },
+        "dot": {
+          "type": "VECTOR",
+          "size": [
+            "FIXED 15",
+            "FIXED 15"
+          ],
+          "fill": [
+            "Darkmode/Accent"
+          ]
+        },
+        "": {
+          "type": "COMPONENT",
+          "size": [
+            "FIXED 221",
+            "FIXED 84"
+          ],
+          "@children": [
+            "mark (VECTOR)",
+            "dot (VECTOR)",
+            "wordmark (VECTOR)"
+          ]
+        }
+      }
+    }
+  },
+  "Bottom Nav Item": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/4",
+          "layout.padding": [
+            "Spacing/4",
+            0,
+            "Spacing/4",
+            0
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "icon (INSTANCE)",
+            "label (TEXT)"
+          ]
+        },
+        "icon": {
+          "type": "INSTANCE",
+          "instance": "Icon/Name=Grid",
+          "size": [
+            "FIXED 21",
+            "FIXED 21"
+          ],
+          "color": "Darkmode/Muted"
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Bottom-Nav Label",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        }
+      },
+      "State=Active": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/4",
+          "layout.padding": [
+            "Spacing/4",
+            0,
+            "Spacing/4",
+            0
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "icon (INSTANCE)",
+            "label (TEXT)"
+          ]
+        },
+        "icon": {
+          "type": "INSTANCE",
+          "instance": "Icon/Name=Grid",
+          "size": [
+            "FIXED 21",
+            "FIXED 21"
+          ],
+          "color": "Darkmode/Accent"
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Bottom-Nav Label",
+          "fill": [
+            "Darkmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        }
+      }
+    }
+  },
+  "Nav Link": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Nav Link",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Nav Link",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        }
+      },
+      "State=Active": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Nav Link",
+          "fill": [
+            "Darkmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        }
+      }
+    }
+  },
+  "Quote Tile": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 560",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Lightmode/Bg"
+          ],
+          "effect": "Shadow/Tile",
+          "@children": [
+            "quote (TEXT)"
+          ]
+        },
+        "quote": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "„Am Ende sitzen bei Klaus immer zwei Gewinner am Tisch — auch nach Geschäftsabschluss kann man sich noch in die Augen schauen.“"
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 560",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Red"
+          ],
+          "effect": "Shadow/Tile Hover",
+          "@children": [
+            "quote (TEXT)"
+          ]
+        },
+        "quote": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/On Accent"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "„Am Ende sitzen bei Klaus immer zwei Gewinner am Tisch — auch nach Geschäftsabschluss kann man sich noch in die Augen schauen.“"
+        }
+      }
+    }
+  },
+  "Social Button": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 40",
+            "FIXED 40"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Lightmode/Bg2"
+          ],
+          "@children": [
+            "icon (INSTANCE)"
+          ]
+        },
+        "icon": {
+          "type": "INSTANCE",
+          "instance": "Icon/Name=LinkedIn",
+          "size": [
+            "FIXED 18",
+            "FIXED 18"
+          ],
+          "color": "Lightmode/Muted"
+        }
+      },
+      "State=Hover": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 40",
+            "FIXED 40"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Lightmode/Accent"
+          ],
+          "@children": [
+            "icon (INSTANCE)"
+          ]
+        },
+        "icon": {
+          "type": "INSTANCE",
+          "instance": "Icon/Name=LinkedIn",
+          "size": [
+            "FIXED 18",
+            "FIXED 18"
+          ],
+          "color": "Lightmode/On Accent"
+        }
+      }
+    }
+  },
+  "Bottom Nav": {
+    "usage": "",
+    "variants": {
+      "_": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/4",
+            "Spacing/4",
+            "Spacing/4",
+            "Spacing/4"
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FIXED 390",
+            "HUG"
+          ],
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Line"
+          ],
+          "@children": [
+            "bottom-nav-brand (FRAME)",
+            "bottom-nav-link (INSTANCE)",
+            "bottom-nav-link#2 (INSTANCE)",
+            "bottom-nav-link#3 (INSTANCE)",
+            "bottom-nav-link#4 (INSTANCE)",
+            "bottom-nav-link#5 (INSTANCE)"
+          ]
+        },
+        "bottom-nav-brand": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            0,
+            "Spacing/8",
+            0,
+            "Spacing/8"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "brand (INSTANCE)"
+          ]
+        },
+        "bottom-nav-brand/brand": {
+          "type": "INSTANCE",
+          "instance": "Logo/Type=Short",
+          "size": [
+            "FIXED 68",
+            "FIXED 26"
+          ]
+        },
+        "bottom-nav-link": {
+          "type": "INSTANCE",
+          "instance": "Bottom Nav Item/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Leistungen",
+          "swap": {
+            "icon": "Icon/Name=Grid"
+          }
+        },
+        "bottom-nav-link#2": {
+          "type": "INSTANCE",
+          "instance": "Bottom Nav Item/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Ablauf",
+          "swap": {
+            "icon": "Icon/Name=List"
+          }
+        },
+        "bottom-nav-link#3": {
+          "type": "INSTANCE",
+          "instance": "Bottom Nav Item/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Referenzen",
+          "swap": {
+            "icon": "Icon/Name=Star"
+          }
+        },
+        "bottom-nav-link#4": {
+          "type": "INSTANCE",
+          "instance": "Bottom Nav Item/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Kontakt",
+          "swap": {
+            "icon": "Icon/Name=Mail"
+          }
+        },
+        "bottom-nav-link#5": {
+          "type": "INSTANCE",
+          "instance": "Bottom Nav Item/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "EN",
+          "swap": {
+            "icon": "Icon/Name=Globe"
+          }
+        }
+      }
+    }
+  },
+  "Footer": {
+    "usage": "",
+    "variants": {
+      "_": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/96",
+            "Spacing/48",
+            "Spacing/48",
+            "Spacing/48"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 1440",
+            "HUG"
+          ],
+          "fill": [
+            "Lightmode/Bg"
+          ],
+          "@children": [
+            "footer-top (FRAME)",
+            "divider (RECTANGLE)",
+            "footer-bottom (FRAME)"
+          ]
+        },
+        "footer-top": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/48",
+          "layout.padding": [
+            0,
+            0,
+            "Spacing/48",
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "footer-brand (FRAME)",
+            "footer-col (FRAME)"
+          ]
+        },
+        "footer-top/footer-brand": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "brand (TEXT)",
+            "text (TEXT)",
+            "footer-social (FRAME)"
+          ]
+        },
+        "footer-top/footer-brand/brand": {
+          "type": "TEXT",
+          "textStyle": "Brand/Logo",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "KSBusiness."
+        },
+        "footer-top/footer-brand/text": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "FIXED 330",
+            "HUG"
+          ],
+          "content": "Vertrieb, der wirkt — Beratung, Training und Coaching für nachhaltigen Erfolg im Kundenkontakt."
+        },
+        "footer-top/footer-brand/footer-social": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/12",
+          "layout.padding": [
+            "Spacing/8",
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "social (INSTANCE)",
+            "social#2 (INSTANCE)"
+          ]
+        },
+        "footer-top/footer-brand/footer-social/social": {
+          "type": "INSTANCE",
+          "instance": "Social Button/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ]
+        },
+        "footer-top/footer-brand/footer-social/social#2": {
+          "type": "INSTANCE",
+          "instance": "Social Button/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "swap": {
+            "icon": "Icon/Name=Mail Outline"
+          }
+        },
+        "footer-top/footer-col": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 560",
+            "HUG"
+          ],
+          "@children": [
+            "heading (TEXT)",
+            "links (FRAME)"
+          ]
+        },
+        "footer-top/footer-col/heading": {
+          "type": "TEXT",
+          "textStyle": "Overline",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Navigation"
+        },
+        "footer-top/footer-col/links": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/12",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "link (TEXT)",
+            "link#2 (TEXT)",
+            "link#3 (TEXT)",
+            "link#4 (TEXT)"
+          ]
+        },
+        "divider": {
+          "type": "RECTANGLE",
+          "size": [
+            "FILL",
+            "FIXED 1"
+          ],
+          "fill": [
+            "Lightmode/Line"
+          ]
+        },
+        "footer-bottom": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            "Spacing/32",
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "SPACE_BETWEEN",
+            "CENTER"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "copyright (TEXT)",
+            "legal (FRAME)"
+          ]
+        },
+        "footer-bottom/copyright": {
+          "type": "TEXT",
+          "textStyle": "Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "© 2026 KSBusiness — Klaus Schipper"
+        },
+        "footer-bottom/legal": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "link (TEXT)",
+            "link#2 (TEXT)"
+          ]
+        },
+        "footer-bottom/legal/link": {
+          "type": "TEXT",
+          "textStyle": "Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Impressum"
+        },
+        "footer-bottom/legal/link#2": {
+          "type": "TEXT",
+          "textStyle": "Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Datenschutz"
+        },
+        "footer-top/footer-col/links/link": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "footer-top/footer-col/links/link#2": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Arbeitsweise"
+        },
+        "footer-top/footer-col/links/link#3": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Referenzen"
+        },
+        "footer-top/footer-col/links/link#4": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Kontakt"
+        }
+      }
+    }
+  },
+  "Nav Pill": {
+    "usage": "",
+    "variants": {
+      "_": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/48",
+          "layout.padding": [
+            "Spacing/16",
+            "Spacing/32",
+            "Spacing/16",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Line"
+          ],
+          "effect": "Shadow/Nav",
+          "@children": [
+            "brand (INSTANCE)",
+            "divider (RECTANGLE)",
+            "nav-menu (FRAME)",
+            "lang-switch (INSTANCE)"
+          ]
+        },
+        "brand": {
+          "type": "INSTANCE",
+          "instance": "Logo/Type=Long",
+          "size": [
+            "FIXED 167",
+            "FIXED 22"
+          ]
+        },
+        "divider": {
+          "type": "RECTANGLE",
+          "size": [
+            "FIXED 1",
+            "FIXED 20"
+          ],
+          "fill": [
+            "Darkmode/Line"
+          ]
+        },
+        "nav-menu": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "@children": [
+            "nav-link (INSTANCE)",
+            "nav-link#2 (INSTANCE)",
+            "nav-link#3 (INSTANCE)",
+            "nav-link#4 (INSTANCE)",
+            "nav-link#5 (INSTANCE)"
+          ]
+        },
+        "lang-switch": {
+          "type": "INSTANCE",
+          "instance": "Lang Switch/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ]
+        },
+        "nav-menu/nav-link": {
+          "type": "INSTANCE",
+          "instance": "Nav Link/State=Active",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Start"
+        },
+        "nav-menu/nav-link#2": {
+          "type": "INSTANCE",
+          "instance": "Nav Link/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "nav-menu/nav-link#3": {
+          "type": "INSTANCE",
+          "instance": "Nav Link/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Arbeitsweise"
+        },
+        "nav-menu/nav-link#4": {
+          "type": "INSTANCE",
+          "instance": "Nav Link/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Referenzen"
+        },
+        "nav-menu/nav-link#5": {
+          "type": "INSTANCE",
+          "instance": "Nav Link/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Kontakt"
+        }
+      }
+    }
+  },
+  "Booking Tile": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 640",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Tile"
+          ],
+          "effect": "Shadow/Tile Dark",
+          "@children": [
+            "booking-copy (FRAME)",
+            "booking-cal (FRAME)",
+            "form-note (TEXT)"
+          ]
+        },
+        "booking-copy": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "title (TEXT)",
+            "text (TEXT)"
+          ]
+        },
+        "booking-copy/title": {
+          "type": "TEXT",
+          "textStyle": "H4/Tile",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Lassen Sie uns direkt sprechen"
+        },
+        "booking-copy/text": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Buchen Sie ein unverbindliches Erstgespräch, 30 Minuten, Mo bis Fr von 16 bis 18 Uhr."
+        },
+        "booking-cal": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "booking-days (FRAME)",
+            "booking-times (FRAME)",
+            "submit (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-days": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "day (INSTANCE)",
+            "day#2 (INSTANCE)",
+            "day#3 (INSTANCE)",
+            "day#4 (INSTANCE)",
+            "day#5 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "row (FRAME)",
+            "row#2 (FRAME)"
+          ]
+        },
+        "booking-cal/booking-days/day": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Selected",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mo 26.10."
+        },
+        "booking-cal/booking-days/day#2": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Di 27.10."
+        },
+        "booking-cal/booking-days/day#3": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mi 28.10."
+        },
+        "booking-cal/booking-days/day#4": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Do 29.10."
+        },
+        "booking-cal/booking-days/day#5": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Fr 30.10."
+        },
+        "booking-cal/booking-times/row": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "slot (INSTANCE)",
+            "slot#2 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times/row/slot": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "16:00"
+        },
+        "booking-cal/booking-times/row/slot#2": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Booked",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "16:30"
+        },
+        "booking-cal/booking-times/row#2": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "slot (INSTANCE)",
+            "slot#2 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times/row#2/slot": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "17:00"
+        },
+        "booking-cal/booking-times/row#2/slot#2": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "17:30"
+        },
+        "booking-cal/submit": {
+          "type": "INSTANCE",
+          "instance": "Button/Type=Solid, State=Disabled",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Diesen Termin auswählen"
+        },
+        "form-note": {
+          "type": "TEXT",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "textStyle": "Small"
+        }
+      },
+      "State=Time Selected": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 640",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Tile"
+          ],
+          "effect": "Shadow/Tile Dark",
+          "@children": [
+            "booking-copy (FRAME)",
+            "booking-cal (FRAME)",
+            "form-note (TEXT)"
+          ]
+        },
+        "booking-copy": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "title (TEXT)",
+            "text (TEXT)"
+          ]
+        },
+        "booking-copy/title": {
+          "type": "TEXT",
+          "textStyle": "H4/Tile",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Lassen Sie uns direkt sprechen"
+        },
+        "booking-copy/text": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Buchen Sie ein unverbindliches Erstgespräch, 30 Minuten, Mo bis Fr von 16 bis 18 Uhr."
+        },
+        "booking-cal": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "booking-days (FRAME)",
+            "booking-times (FRAME)",
+            "submit (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-days": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "day (INSTANCE)",
+            "day#2 (INSTANCE)",
+            "day#3 (INSTANCE)",
+            "day#4 (INSTANCE)",
+            "day#5 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "row (FRAME)",
+            "row#2 (FRAME)"
+          ]
+        },
+        "booking-cal/booking-days/day": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Selected",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mo 26.10."
+        },
+        "booking-cal/booking-days/day#2": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Di 27.10."
+        },
+        "booking-cal/booking-days/day#3": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mi 28.10."
+        },
+        "booking-cal/booking-days/day#4": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Do 29.10."
+        },
+        "booking-cal/booking-days/day#5": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Fr 30.10."
+        },
+        "booking-cal/booking-times/row": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "slot (INSTANCE)",
+            "slot#2 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times/row/slot": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "16:00"
+        },
+        "booking-cal/booking-times/row/slot#2": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Booked",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "16:30"
+        },
+        "booking-cal/booking-times/row#2": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "slot (INSTANCE)",
+            "slot#2 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times/row#2/slot": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Selected",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "17:00"
+        },
+        "booking-cal/booking-times/row#2/slot#2": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "17:30"
+        },
+        "booking-cal/submit": {
+          "type": "INSTANCE",
+          "instance": "Button/Type=Solid, State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Diesen Termin auswählen"
+        },
+        "form-note": {
+          "type": "TEXT",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "textStyle": "Small"
+        }
+      },
+      "State=Confirm": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 640",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Tile"
+          ],
+          "effect": "Shadow/Tile Dark",
+          "@children": [
+            "booking-copy (FRAME)",
+            "booking-cal (FRAME)",
+            "form-note (TEXT)"
+          ]
+        },
+        "booking-copy": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "title (TEXT)",
+            "text (TEXT)"
+          ]
+        },
+        "booking-copy/title": {
+          "type": "TEXT",
+          "textStyle": "H4/Tile",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Lassen Sie uns direkt sprechen"
+        },
+        "booking-copy/text": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Buchen Sie ein unverbindliches Erstgespräch, 30 Minuten, Mo bis Fr von 16 bis 18 Uhr."
+        },
+        "booking-cal": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "booking-days (FRAME)",
+            "booking-times (FRAME)",
+            "booking-confirm (FRAME)"
+          ]
+        },
+        "booking-cal/booking-days": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "CENTER"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "day (INSTANCE)",
+            "day#2 (INSTANCE)",
+            "day#3 (INSTANCE)",
+            "day#4 (INSTANCE)",
+            "day#5 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "row (FRAME)",
+            "row#2 (FRAME)"
+          ]
+        },
+        "booking-cal/booking-days/day": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Selected",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mo 26.10."
+        },
+        "booking-cal/booking-days/day#2": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Di 27.10."
+        },
+        "booking-cal/booking-days/day#3": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Mi 28.10."
+        },
+        "booking-cal/booking-days/day#4": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Do 29.10."
+        },
+        "booking-cal/booking-days/day#5": {
+          "type": "INSTANCE",
+          "instance": "Chip/State=Default",
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Fr 30.10."
+        },
+        "booking-cal/booking-times/row": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "slot (INSTANCE)",
+            "slot#2 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times/row/slot": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "16:00"
+        },
+        "booking-cal/booking-times/row/slot#2": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Booked",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "16:30"
+        },
+        "booking-cal/booking-times/row#2": {
+          "type": "FRAME",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": "Spacing/8",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "slot (INSTANCE)",
+            "slot#2 (INSTANCE)"
+          ]
+        },
+        "booking-cal/booking-times/row#2/slot": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Selected",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "17:00"
+        },
+        "booking-cal/booking-times/row#2/slot#2": {
+          "type": "INSTANCE",
+          "instance": "Time Slot/State=Default",
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "content": "17:30"
+        },
+        "booking-cal/booking-confirm": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/12",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "@children": [
+            "name (INSTANCE)",
+            "email (INSTANCE)",
+            "submit (INSTANCE)",
+            "booking-back (TEXT)"
+          ]
+        },
+        "booking-cal/booking-confirm/name": {
+          "type": "INSTANCE",
+          "instance": "Input/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Ihr Name"
+        },
+        "booking-cal/booking-confirm/email": {
+          "type": "INSTANCE",
+          "instance": "Input/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "ihre@email.de"
+        },
+        "booking-cal/booking-confirm/submit": {
+          "type": "INSTANCE",
+          "instance": "Button/Type=Solid, State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Termin anfragen →"
+        },
+        "booking-cal/booking-confirm/booking-back": {
+          "type": "TEXT",
+          "textStyle": "Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "← anderen Termin wählen"
+        },
+        "form-note": {
+          "type": "TEXT",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "textStyle": "Small"
+        }
+      }
+    }
+  },
+  "Contact Tile": {
+    "usage": "",
+    "variants": {
+      "_": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/32",
+          "layout.padding": [
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 640",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Tile"
+          ],
+          "effect": "Shadow/Tile Dark",
+          "@children": [
+            "title (TEXT)",
+            "fields (FRAME)",
+            "submit (INSTANCE)",
+            "form-note (TEXT)"
+          ]
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H4/Tile",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Schreiben Sie mir Ihr Anliegen"
+        },
+        "fields": {
+          "type": "FRAME",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            "Spacing/16",
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FILL",
+            "FILL"
+          ],
+          "@children": [
+            "name (INSTANCE)",
+            "email (INSTANCE)",
+            "message (INSTANCE)"
+          ]
+        },
+        "fields/name": {
+          "type": "INSTANCE",
+          "instance": "Input/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Ihr Name"
+        },
+        "fields/email": {
+          "type": "INSTANCE",
+          "instance": "Input/State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "ihre@email.de"
+        },
+        "fields/message": {
+          "type": "INSTANCE",
+          "instance": "Text Area",
+          "size": [
+            "FILL",
+            "FILL"
+          ]
+        },
+        "submit": {
+          "type": "INSTANCE",
+          "instance": "Button/Type=Solid, State=Default",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Nachricht senden"
+        },
+        "form-note": {
+          "type": "TEXT",
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "textStyle": "Small"
+        }
+      }
+    }
+  },
+  "Text Area": {
+    "usage": "",
+    "variants": {
+      "_": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 320",
+            "FIXED 110"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Darkmode/Bg"
+          ],
+          "stroke": [
+            "Darkmode/Bg"
+          ],
+          "@children": [
+            "placeholder (TEXT)"
+          ]
+        },
+        "placeholder": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Worum geht es?"
+        }
+      }
+    }
+  },
+  "Section Head": {
+    "usage": "",
+    "variants": {
+      "Type=Light, Size=Large": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 760",
+            "HUG"
+          ],
+          "@children": [
+            "kicker (TEXT)",
+            "title (TEXT)"
+          ]
+        },
+        "kicker": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Lightmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H2/Section",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Drei Wege, Vertrieb wirksamer zu machen."
+        }
+      },
+      "Type=Dark, Size=Large": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 760",
+            "HUG"
+          ],
+          "@children": [
+            "kicker (TEXT)",
+            "title (TEXT)"
+          ]
+        },
+        "kicker": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Darkmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H2/Section",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Drei Wege, Vertrieb wirksamer zu machen."
+        }
+      },
+      "Type=Light, Size=Compact": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 760",
+            "HUG"
+          ],
+          "@children": [
+            "kicker (TEXT)",
+            "title (TEXT)"
+          ]
+        },
+        "kicker": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Lightmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H2/Compact",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Drei Wege, Vertrieb wirksamer zu machen."
+        }
+      },
+      "Type=Dark, Size=Compact": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 760",
+            "HUG"
+          ],
+          "@children": [
+            "kicker (TEXT)",
+            "title (TEXT)"
+          ]
+        },
+        "kicker": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Darkmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H2/Compact",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Drei Wege, Vertrieb wirksamer zu machen."
+        }
+      },
+      "Type=Light, Size=Mobile": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 342",
+            "HUG"
+          ],
+          "@children": [
+            "kicker (TEXT)",
+            "title (TEXT)"
+          ]
+        },
+        "kicker": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Lightmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H2/Mobile",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Drei Wege, Vertrieb wirksamer zu machen."
+        }
+      },
+      "Type=Dark, Size=Mobile": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 342",
+            "HUG"
+          ],
+          "@children": [
+            "kicker (TEXT)",
+            "title (TEXT)"
+          ]
+        },
+        "kicker": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Darkmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Leistungen"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H2/Mobile",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Drei Wege, Vertrieb wirksamer zu machen."
+        }
+      }
+    }
+  },
+  "Service Tile": {
+    "usage": "",
+    "variants": {
+      "_": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "VERTICAL",
+          "layout.spacing": "Spacing/16",
+          "layout.padding": [
+            "Spacing/48",
+            "Spacing/32",
+            "Spacing/48",
+            "Spacing/32"
+          ],
+          "layout.align": [
+            "MIN",
+            "MIN"
+          ],
+          "size": [
+            "FIXED 432",
+            "HUG"
+          ],
+          "radius": "Radius/8",
+          "fill": [
+            "Lightmode/Bg"
+          ],
+          "effect": "Shadow/Tile",
+          "@children": [
+            "tag (TEXT)",
+            "title (TEXT)",
+            "text (TEXT)"
+          ]
+        },
+        "tag": {
+          "type": "TEXT",
+          "textStyle": "Eyebrow/Label",
+          "fill": [
+            "Lightmode/Accent"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "01"
+        },
+        "title": {
+          "type": "TEXT",
+          "textStyle": "H3/Card",
+          "fill": [
+            "Lightmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Beratung"
+        },
+        "text": {
+          "type": "TEXT",
+          "textStyle": "Body Small",
+          "fill": [
+            "Lightmode/Muted"
+          ],
+          "size": [
+            "FILL",
+            "HUG"
+          ],
+          "content": "Wie Sie beraten, statt nur verkaufen — Struktur und Haltung für belastbare Kundenbeziehungen."
+        }
+      }
+    }
+  },
+  "Legal Tab": {
+    "usage": "",
+    "variants": {
+      "State=Default": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Bg2"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label Strong",
+          "fill": [
+            "Darkmode/Muted"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Impressum"
+        }
+      },
+      "State=Selected": {
+        "": {
+          "type": "COMPONENT",
+          "layout.direction": "HORIZONTAL",
+          "layout.spacing": 0,
+          "layout.padding": [
+            "Spacing/12",
+            "Spacing/16",
+            "Spacing/12",
+            "Spacing/16"
+          ],
+          "layout.align": [
+            "CENTER",
+            "CENTER"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "radius": "Radius/999",
+          "stroke": [
+            "Darkmode/Ink"
+          ],
+          "@children": [
+            "label (TEXT)"
+          ]
+        },
+        "label": {
+          "type": "TEXT",
+          "textStyle": "Label Strong",
+          "fill": [
+            "Darkmode/Ink"
+          ],
+          "size": [
+            "HUG",
+            "HUG"
+          ],
+          "content": "Impressum"
+        }
+      }
+    }
+  }
+}
